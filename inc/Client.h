@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <boost/asio.hpp>
+#include <string>
 
 namespace shaan97 {
 
@@ -11,12 +12,20 @@ namespace sync {
 typedef unsigned long GROUP_ID;
 
 class Client {
+	/* CLASS INVARIANTS
+		
+		TODO : Establish class invariants.
+		(i) A zero value for GROUP_ID means that the Client is part of no group.
+	*/
 	private:
 		// Group ID
 		GROUP_ID gid;
 
 		// Keeps track of whether we have a valid connection
 		bool connectedToGroup = false;
+
+
+		/* SOCKET RELATED MEMBERS (using library boost::asio) */
 
 		// Main object for conducting I/O in boost::asio
 		std::shared_ptr<boost::asio::io_service> io_service;
@@ -36,24 +45,28 @@ class Client {
 		// Can be used to read what failed if error occurred for I/O
 		boost::system::error_code error;
 		
-		
+		// Keep track of current server name and service name
+		std::string server_name, service_name;
+
+		//bool syncGroup(std::string server_name, std::string service_name);
+		bool syncGroup(std::string server_name, std::string service_name, GROUP_ID gid);
 	public:
-		Client(GROUP_ID gid = 0);
+		Client(std::string server_name, std::string service_name = "daytime", GROUP_ID gid = 0);
 		Client(const Client& c);
 		virtual ~Client();
 
-		void setGroup(GROUP_ID gid) {
-			this->gid = gid;
-		}
+		bool setGroup(GROUP_ID gid);
 
 		GROUP_ID getGroup() const {
-			return this->gid;
+			if(isConnected())
+				return this->gid;
+			else
+				return 0;
 		}
 
-		bool syncGroup();
-		bool syncGroup(GROUP_ID gid);
+		
 
-		bool isConnected() {
+		bool isConnected() const{
 			return this->connectedToGroup;
 		}
 
