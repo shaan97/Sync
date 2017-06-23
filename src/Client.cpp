@@ -59,8 +59,10 @@ bool Client::syncGroup(std::string server_name, std::string service_name, GROUP_
 	
 
 	// Connect and try the various endpoints
-	boost::asio::connect(*sock, *itr, *(this->error));
-	if( *(this->error) ) {
+	boost::asio::connect(*sock, *itr,[] (const boost::system::error_code& ec, boost::asio::ip::tcp::resolver::iterator next) {
+		return next;
+	}, error);
+	if( (this->error) ) {
 		this->connectedToGroup = false;
 	} else {
 		// Only update member variables if connection is made
