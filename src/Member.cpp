@@ -8,6 +8,10 @@ Member::Member(const std::string& name, const std::shared_ptr<boost::asio::ip::t
 	groups.emplace(group);
 }
 
+Member::Member(const Member& mem) : name(mem.name), client_socket(mem.client_socket) {
+	// Intentionally blank
+}
+
 Member::~Member() {
 	// Intentionally blank
 }
