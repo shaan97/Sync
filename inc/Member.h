@@ -22,6 +22,7 @@ class Member {
 		std::unordered_set<std::shared_ptr<Group>> groups;
 	public:
 		Member(const std::string& name, const std::shared_ptr<boost::asio::ip::tcp::socket>& socket, const std::shared_ptr<Group>& group);
+		Member(const Member& m);
 		virtual ~Member();
 
 		std::string getName() const {
