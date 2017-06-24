@@ -4,6 +4,11 @@
 #include <string>
 #include <memory>
 #include <boost/asio.hpp>
+#include <unordered_set>
+
+
+
+class Group;
 
 namespace shaan97 {
 
@@ -12,10 +17,11 @@ namespace sync {
 class Member {
 	private:
 		std::string name;
-		std::shared_ptr<boost::asio::ip::tcp::socket> socket;
+		std::shared_ptr<boost::asio::ip::tcp::socket> client_socket;
 		boost::system::error_code error;
+		std::unordered_set<std::shared_ptr<Group>> groups;
 	public:
-		Member(const std::string& name, const std::shared_ptr<boost::asio::ip::tcp::socket>& socket);
+		Member(const std::string& name, const std::shared_ptr<boost::asio::ip::tcp::socket>& socket, const std::shared_ptr<Group>& group);
 		virtual ~Member();
 
 		std::string getName() const {
@@ -26,14 +32,14 @@ class Member {
 			this->name = name;
 		}
 
-		template <class Iterator>
-		void write(Iterator itr, std::size_t len);
+		template <class Buffer>
+		std::size_t write(Buffer b, std::size_t len);
 
-		template <class Iterator>
-		std::size_t read(Iterator itr, size_t len);
+		template <class Buffer>
+		std::size_t read(Buffer b, size_t len) const;
 
-		template <class Iterator>
-		std::size_t read(Iterator itr);
+		template <class Buffer>
+		std::size_t read(Buffer b) const;
 
 		void swap(Member& m);
 		
