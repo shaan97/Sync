@@ -9,13 +9,13 @@ namespace shaan97 {
 
 namespace sync {
 
-typedef unsigned long GROUP_ID;
+typedef std::string GROUP_ID;
 
 class Client {
 	/* CLASS INVARIANTS
 		
 		TODO : Establish class invariants.
-		(i) A zero value for GROUP_ID means that the Client is part of no group.
+		(i) An empty string value for GROUP_ID means that the Client is part of no group.
 	*/
 	private:
 		// Group ID
@@ -51,7 +51,7 @@ class Client {
 		//bool syncGroup(std::string server_name, std::string service_name);
 		bool syncGroup(std::string server_name, std::string service_name, GROUP_ID gid);
 	public:
-		Client(std::string server_name, std::string service_name = "daytime", GROUP_ID gid = 0);
+		Client(std::string server_name, std::string service_name = "daytime", GROUP_ID gid = "");
 		Client(const Client& c);
 		virtual ~Client();
 
@@ -61,7 +61,7 @@ class Client {
 			if(isConnected())
 				return this->gid;
 			else
-				return 0;
+				return "";
 		}
 
 		
