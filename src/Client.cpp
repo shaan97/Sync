@@ -28,15 +28,7 @@ Client::~Client() {
 	// No resources yet
 }
 
-// Plays music in group queue. Blocks until queue is empty
-void Client::play() {
 
-}
-
-// Plays music in group queue. Asynchronous, returns after requesting to play
-void Client::async_play() {
-	//std::async(std::launch::async, Client::play);
-}
 
 bool Client::setGroup(GROUP_ID gid) {
 	GROUP_ID tmp = gid;
