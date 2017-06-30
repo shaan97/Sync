@@ -70,11 +70,7 @@ class Client {
 			return this->connectedToGroup;
 		}
 
-		// Plays music in group queue. Blocks until queue is empty
-		void play();
-
-		// Plays music in group queue. Asynchronous, returns after requesting to play
-		void async_play();
+		
 		
 		void swap(Client& c);
 		Client& operator=(const Client& c);
