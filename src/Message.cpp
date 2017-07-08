@@ -26,7 +26,7 @@ std::ostream& operator<<(std::ostream& out, const Message& message) {
 	printMessageType(out, message);
 	out << " Member name: " << message.member.getName();
 	out << " GROUP ID " << message.gid;	
-	
+	out << " Referencing Member: " << message.other.getName();
 	
 
 	return out;

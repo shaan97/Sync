@@ -9,7 +9,7 @@
 namespace shaan97 {
 
 namespace sync {
-	enum MessageType { GROUP_JOIN = 0, GROUP_CREATE, HEARTBEAT, GROUP_EXIT };
+	enum MessageType { GROUP_JOIN = 0, GROUP_CREATE, HEARTBEAT, GROUP_EXIT, PROMOTE };
 
 	/// Message data to be sent over socket
 	/// @note 	This is the 'deserialized' version of the data. This will be serialized via
@@ -18,6 +18,8 @@ namespace sync {
 		MessageType type;
 		Member member;
 		GROUP_ID gid;
+
+		Member other;
 
 		friend std::ostream& operator<<(std::ostream& out, const Message& message);
 	};
