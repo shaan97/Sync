@@ -54,7 +54,7 @@ class Member {
 		/// @param Buffer		Reference to the first space in the buffer
 		/// @param e			Set to an boost::system::error_code value in case it occurs
 		/// @return std::size_t	Number of elements in buffer after reading the socket
-		/// @note In this overload, the Buffer must behave like a container which has a size() method
+		/// @note In this overload, the Buffer must behave like a boost::asio::buffer
 		template <class Buffer>
 		std::size_t read(Buffer b, Error& e) const;
 		

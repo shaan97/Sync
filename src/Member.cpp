@@ -8,39 +8,55 @@ Member::Member(const std::string& name, const std::shared_ptr<boost::asio::ip::t
 	groups.emplace(group);
 }
 
-Member::Member(const Member& mem) : name(mem.name), client_socket(mem.client_socket) {
-	// Intentionally blank
+Member::Member(Member&& mem)  {
+	this->name = std::move(mem.name);
+	this->client_socket = std::move(mem.client_socket);
+	this->groups = std::move(mem.groups);
 }
+
+
 
 Member::~Member() {
 	// Intentionally blank
 }
 
 template <class Buffer>
-std::size_t Member::write(Buffer b, std::size_t len) {
-	return boost::asio::write(*(this->client_socket), boost::asio::buffer(b, len), this->error);
+std::size_t Member::write(Buffer b, std::size_t len, Error& e) {
+	boost::system::error_code error;
+	std::size_t size = boost::asio::write(*(this->client_socket), boost::asio::buffer(b, len), error);
+	
+	e = error;
+	return size;
 }
 
 template <class Buffer>
-std::size_t Member::read(Buffer b, size_t len) const {
-	return boost::asio::read(boost::asio::buffer(b, len), this->error);
+std::size_t Member::read(Buffer b, size_t len, Error& e) const {
+	boost::system::error_code error;
+	std::size_t size = boost::asio::read(boost::asio::buffer(b, len), error);
+	
+	e = error;
+	return size;
 }
 
 template <class Buffer>
-std::size_t Member::read(Buffer b) const {
-	return boost::asio::read(boost::asio::buffer(b), this->error);
+std::size_t Member::read(Buffer b, Error& e) const {
+	boost::system::error_code error;
+	std::size_t size = boost::asio::read(boost::asio::buffer(b), error);
+	
+	e = error;
+	return size;
 }
 
-void Member::swap(Member &m) {
-	std::swap(this->name, m.name);
-	std::swap(this->client_socket, m.client_socket);
-	std::swap(this->error, m.error);
-	std::swap(this->groups, m.groups);
+MemberName Member::getName() const {
+	return this->name;
 }
 
-Member& Member::operator=(const Member &m) {
-	// Copy and Swap Idiom
-	Member copy(m);
-	swap(copy);
-	return *this;
+void Member::setName(const MemberName& name) {
+	this->name = name;
+}
+
+
+
+bool Member::operator==(const Member& m) const {
+	return name == m.name;
 }
