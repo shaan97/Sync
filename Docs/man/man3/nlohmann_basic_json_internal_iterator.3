@@ -1,0 +1,73 @@
+.TH "nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::internal_iterator" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::internal_iterator \- an iterator value  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBinternal_iterator\fP () noexcept"
+.br
+.RI "create an uninitialized \fBinternal_iterator\fP "
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "object_t::iterator \fBobject_iterator\fP"
+.br
+.RI "iterator for JSON objects "
+.ti -1c
+.RI "array_t::iterator \fBarray_iterator\fP"
+.br
+.RI "iterator for JSON arrays "
+.ti -1c
+.RI "\fBprimitive_iterator_t\fP \fBprimitive_iterator\fP"
+.br
+.RI "generic iterator for all other types "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType = std::string, class BooleanType = bool, class NumberIntegerType = std::int64_t, class NumberUnsignedType = std::uint64_t, class NumberFloatType = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer>
+.br
+struct nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::internal_iterator"
+an iterator value 
+
+
+.PP
+\fBNote:\fP
+.RS 4
+This structure could easily be a union, but MSVC currently does not allow unions members with complex constructors, see https://github.com/nlohmann/json/pull/105\&. 
+.RE
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::internal_iterator::internal_iterator ()\fC [inline]\fP, \fC [noexcept]\fP"
+
+.PP
+create an uninitialized \fBinternal_iterator\fP 
+.SH "Member Data Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> array_t::iterator \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::internal_iterator::array_iterator"
+
+.PP
+iterator for JSON arrays 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> object_t::iterator \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::internal_iterator::object_iterator"
+
+.PP
+iterator for JSON objects 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> \fBprimitive_iterator_t\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::internal_iterator::primitive_iterator"
+
+.PP
+generic iterator for all other types 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

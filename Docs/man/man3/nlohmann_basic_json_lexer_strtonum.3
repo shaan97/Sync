@@ -1,0 +1,122 @@
+.TH "nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum \- parse string into a built-in arithmetic type as if the current locale is POSIX\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBstrtonum\fP (const char *start, const char *\fBend\fP)"
+.br
+.ti -1c
+.RI "template<typename T , typename  = typename std::enable_if<std::is_arithmetic<T>::value>::type> bool \fBto\fP (T &val) const"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename T > bool \fBparse\fP (T &\fBvalue\fP, std::false_type) const"
+.br
+.ti -1c
+.RI "signed long long \fBparse_integral\fP (char **endptr, std::true_type) const"
+.br
+.ti -1c
+.RI "unsigned long long \fBparse_integral\fP (char **endptr, std::false_type) const"
+.br
+.ti -1c
+.RI "template<typename T > bool \fBparse\fP (T &\fBvalue\fP, std::true_type) const"
+.br
+.in -1c
+.SS "Static Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static void \fBstrtof\fP (float &f, const char *str, char **endptr)"
+.br
+.ti -1c
+.RI "static void \fBstrtof\fP (double &f, const char *str, char **endptr)"
+.br
+.ti -1c
+.RI "static void \fBstrtof\fP (long double &f, const char *str, char **endptr)"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "const char *const \fBm_start\fP = nullptr"
+.br
+.ti -1c
+.RI "const char *const \fBm_end\fP = nullptr"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType = std::string, class BooleanType = bool, class NumberIntegerType = std::int64_t, class NumberUnsignedType = std::uint64_t, class NumberFloatType = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer>
+.br
+struct nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum"
+parse string into a built-in arithmetic type as if the current locale is POSIX\&. 
+
+
+.PP
+\fBNote:\fP
+.RS 4
+in floating-point case strtod may parse past the token's end - this is not an error
+.PP
+any leading blanks are not handled 
+.RE
+.PP
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::strtonum (const char * start, const char * end)\fC [inline]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename T > bool \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::parse (T & value, std::false_type) const\fC [inline]\fP, \fC [private]\fP"
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename T > bool \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::parse (T & value, std::true_type) const\fC [inline]\fP, \fC [private]\fP"
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> signed long long \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::parse_integral (char ** endptr, std::true_type) const\fC [inline]\fP, \fC [private]\fP"
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> unsigned long long \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::parse_integral (char ** endptr, std::false_type) const\fC [inline]\fP, \fC [private]\fP"
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> static void \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::strtof (float & f, const char * str, char ** endptr)\fC [inline]\fP, \fC [static]\fP, \fC [private]\fP"
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> static void \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::strtof (double & f, const char * str, char ** endptr)\fC [inline]\fP, \fC [static]\fP, \fC [private]\fP"
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> static void \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::strtof (long double & f, const char * str, char ** endptr)\fC [inline]\fP, \fC [static]\fP, \fC [private]\fP"
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename T , typename  = typename std::enable_if<std::is_arithmetic<T>::value>::type> bool \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::to (T & val) const\fC [inline]\fP"
+
+.PP
+\fBReturns:\fP
+.RS 4
+true iff parsed successfully as number of type T
+.RE
+.PP
+\fBParameters:\fP
+.RS 4
+\fIval\fP shall contain parsed value, or undefined value if could not parse 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> const char* const \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::m_end = nullptr\fC [private]\fP"
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> const char* const \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum::m_start = nullptr\fC [private]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

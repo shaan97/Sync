@@ -1,0 +1,76 @@
+.TH "nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iteration_proxy< IteratorType >" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iteration_proxy< IteratorType > \- proxy class for the iterator_wrapper functions  
+
+.SH SYNOPSIS
+.br
+.PP
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBiteration_proxy_internal\fP"
+.br
+.RI "helper class for iteration "
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBiteration_proxy\fP (typename IteratorType::reference cont)"
+.br
+.RI "construct iteration proxy from a container "
+.ti -1c
+.RI "\fBiteration_proxy_internal\fP \fBbegin\fP () noexcept"
+.br
+.RI "return iterator begin (needed for range-based for) "
+.ti -1c
+.RI "\fBiteration_proxy_internal\fP \fBend\fP () noexcept"
+.br
+.RI "return iterator end (needed for range-based for) "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "IteratorType::reference \fBcontainer\fP"
+.br
+.RI "the container to iterate "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType = std::string, class BooleanType = bool, class NumberIntegerType = std::int64_t, class NumberUnsignedType = std::uint64_t, class NumberFloatType = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer>
+.br
+template<typename IteratorType>
+.br
+class nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iteration_proxy< IteratorType >"
+proxy class for the iterator_wrapper functions 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename IteratorType > \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiteration_proxy\fP< IteratorType >::\fBiteration_proxy\fP (typename IteratorType::reference cont)\fC [inline]\fP, \fC [explicit]\fP"
+
+.PP
+construct iteration proxy from a container 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename IteratorType > \fBiteration_proxy_internal\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiteration_proxy\fP< IteratorType >::begin ()\fC [inline]\fP, \fC [noexcept]\fP"
+
+.PP
+return iterator begin (needed for range-based for) 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename IteratorType > \fBiteration_proxy_internal\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiteration_proxy\fP< IteratorType >::end ()\fC [inline]\fP, \fC [noexcept]\fP"
+
+.PP
+return iterator end (needed for range-based for) 
+.SH "Member Data Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename IteratorType > IteratorType::reference \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiteration_proxy\fP< IteratorType >::container\fC [private]\fP"
+
+.PP
+the container to iterate 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

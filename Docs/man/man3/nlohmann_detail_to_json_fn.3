@@ -1,0 +1,40 @@
+.TH "nlohmann::detail::to_json_fn" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+nlohmann::detail::to_json_fn
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json\&.hpp>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename BasicJsonType , typename T > void \fBoperator()\fP (BasicJsonType &j, T &&val) const noexcept(noexcept(std::declval< \fBto_json_fn\fP >()\&.\fBcall\fP(j, std::forward< T >(val), \fBpriority_tag\fP< 1 > {})))"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename BasicJsonType , typename T > auto \fBcall\fP (BasicJsonType &j, T &&val, \fBpriority_tag\fP< 1 >) const noexcept(noexcept(\fBto_json\fP(j, std::forward< T >(val)))) \-> decltype(\fBto_json\fP(j, std::forward< T >(val)), void())"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename T > void \fBcall\fP (BasicJsonType &, T &&, \fBpriority_tag\fP< 0 >) const noexcept"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename BasicJsonType , typename T > auto nlohmann::detail::to_json_fn::call (BasicJsonType & j, T && val, \fBpriority_tag\fP< 1 >) const \-> decltype(\fBto_json\fP(j, std::forward<T>(val)), void())
+    \fC [inline]\fP, \fC [private]\fP, \fC [noexcept]\fP"
+
+.SS "template<typename BasicJsonType , typename T > void nlohmann::detail::to_json_fn::call (BasicJsonType &, T &&, \fBpriority_tag\fP< 0 >) const\fC [inline]\fP, \fC [private]\fP, \fC [noexcept]\fP"
+
+.SS "template<typename BasicJsonType , typename T > void nlohmann::detail::to_json_fn::operator() (BasicJsonType & j, T && val) const\fC [inline]\fP, \fC [noexcept]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

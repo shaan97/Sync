@@ -1,0 +1,251 @@
+\hypertarget{classshaan97_1_1sync_1_1_client}{}\section{shaan97\+:\+:sync\+:\+:Client Class Reference}
+\label{classshaan97_1_1sync_1_1_client}\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+
+
+{\ttfamily \#include $<$Client.\+h$>$}
+
+
+
+Collaboration diagram for shaan97\+:\+:sync\+:\+:Client\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=298pt]{classshaan97_1_1sync_1_1_client__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classshaan97_1_1sync_1_1_client_aa9620e6828907c167babfc66a2926510}{Client} (std\+::string \hyperlink{classshaan97_1_1sync_1_1_client_a8edca95d3206d3c71bf851ad2dea7ec7}{server\+\_\+name}, std\+::string \hyperlink{classshaan97_1_1sync_1_1_client_a80e8c87abf08c599948d6464caa148e7}{service\+\_\+name}=\char`\"{}daytime\char`\"{}, G\+R\+O\+U\+P\+\_\+\+ID \hyperlink{classshaan97_1_1sync_1_1_client_a2708c76151616ac36af4aedecee5beb1}{gid}=\char`\"{}\char`\"{})
+\item 
+\hyperlink{classshaan97_1_1sync_1_1_client_a89f86d3ee0c7d60930276ff1a49fb203}{Client} (const \hyperlink{classshaan97_1_1sync_1_1_client}{Client} \&c)
+\item 
+virtual \hyperlink{classshaan97_1_1sync_1_1_client_a840e519ca781888cbd54181572ebe3a7}{$\sim$\+Client} ()
+\item 
+bool \hyperlink{classshaan97_1_1sync_1_1_client_afa6eb46eb9710b7ee9bbfaec0f70249b}{join\+Group} (\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID} \hyperlink{classshaan97_1_1sync_1_1_client_a2708c76151616ac36af4aedecee5beb1}{gid})
+\item 
+void \hyperlink{classshaan97_1_1sync_1_1_client_a9822f9f083442f323a8eda5cbe530523}{leave\+Group} ()
+\item 
+bool \hyperlink{classshaan97_1_1sync_1_1_client_a6afcf79c9a70dc1dee1e357f39343f91}{change\+Group} (\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID} \hyperlink{classshaan97_1_1sync_1_1_client_a2708c76151616ac36af4aedecee5beb1}{gid})
+\item 
+\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID} \hyperlink{classshaan97_1_1sync_1_1_client_abf8af45f2a8b6bf674357b6fc44fe3cc}{get\+Group} () const
+\item 
+std\+::pair$<$ \hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID}, bool $>$ \hyperlink{classshaan97_1_1sync_1_1_client_a94a60773fd7d212132f44661acac59c7}{make\+Group} (\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID} \hyperlink{classshaan97_1_1sync_1_1_client_a2708c76151616ac36af4aedecee5beb1}{gid}=\char`\"{}\char`\"{})
+\item 
+bool \hyperlink{classshaan97_1_1sync_1_1_client_a4367779edf080f835087e07b35fa6a38}{is\+Connected} () const
+\item 
+bool \hyperlink{classshaan97_1_1sync_1_1_client_a603ec6160f76f97fcfb41d099fdea6ab}{propose\+Song} ()
+\item 
+void \hyperlink{classshaan97_1_1sync_1_1_client_a6429d2c4549c9fd3074f3181923c5906}{swap} (\hyperlink{classshaan97_1_1sync_1_1_client}{Client} \&c)
+\item 
+\hyperlink{classshaan97_1_1sync_1_1_client}{Client} \& \hyperlink{classshaan97_1_1sync_1_1_client_a807d5ec3cc4cc0bcc3d5dec72fc3af06}{operator=} (const \hyperlink{classshaan97_1_1sync_1_1_client}{Client} \&c)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classshaan97_1_1sync_1_1_client_ac3ae19ae773cf3fde376d1d984c10327}{sync\+Group} (std\+::string \hyperlink{classshaan97_1_1sync_1_1_client_a8edca95d3206d3c71bf851ad2dea7ec7}{server\+\_\+name}, std\+::string \hyperlink{classshaan97_1_1sync_1_1_client_a80e8c87abf08c599948d6464caa148e7}{service\+\_\+name}, \hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID} \hyperlink{classshaan97_1_1sync_1_1_client_a2708c76151616ac36af4aedecee5beb1}{gid})
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID} \hyperlink{classshaan97_1_1sync_1_1_client_a2708c76151616ac36af4aedecee5beb1}{gid}
+\item 
+bool \hyperlink{classshaan97_1_1sync_1_1_client_a8dc007c6e1c0fb4a20112e8cc10b8b7c}{connected\+To\+Group} = false
+\item 
+std\+::shared\+\_\+ptr$<$ boost\+::asio\+::io\+\_\+service $>$ \hyperlink{classshaan97_1_1sync_1_1_client_a3012a6e9540155af7245d898bfdd7986}{io\+\_\+service}
+\item 
+std\+::shared\+\_\+ptr$<$ boost\+::asio\+::ip\+::tcp\+::resolver $>$ \hyperlink{classshaan97_1_1sync_1_1_client_a6e2a1fef479966299280a231815ab6c9}{resolver}
+\item 
+std\+::shared\+\_\+ptr$<$ boost\+::asio\+::ip\+::tcp\+::resolver\+::query $>$ \hyperlink{classshaan97_1_1sync_1_1_client_a6c37abd3f312836146b4e140b0cf7680}{query}
+\item 
+std\+::shared\+\_\+ptr$<$ boost\+::asio\+::ip\+::tcp\+::resolver\+::iterator $>$ \hyperlink{classshaan97_1_1sync_1_1_client_a0afe11a920512355f1b23dfff1c42b08}{endpoint\+\_\+iterator}
+\item 
+std\+::shared\+\_\+ptr$<$ boost\+::asio\+::ip\+::tcp\+::socket $>$ \hyperlink{classshaan97_1_1sync_1_1_client_a55bfc26c9a8e09b61c9075198abd52a6}{socket}
+\item 
+\hyperlink{classshaan97_1_1sync_1_1_error}{Error} \hyperlink{classshaan97_1_1sync_1_1_client_a302a10619aece387dc9938196740f0c8}{error}
+\item 
+std\+::string \hyperlink{classshaan97_1_1sync_1_1_client_a8edca95d3206d3c71bf851ad2dea7ec7}{server\+\_\+name}
+\item 
+std\+::string \hyperlink{classshaan97_1_1sync_1_1_client_a80e8c87abf08c599948d6464caa148e7}{service\+\_\+name}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_aa9620e6828907c167babfc66a2926510}\label{classshaan97_1_1sync_1_1_client_aa9620e6828907c167babfc66a2926510}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!Client@{Client}}
+\index{Client@{Client}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{Client()}{Client()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Client\+::\+Client (\begin{DoxyParamCaption}\item[{std\+::string}]{server\+\_\+name,  }\item[{std\+::string}]{service\+\_\+name = {\ttfamily \char`\"{}daytime\char`\"{}},  }\item[{\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID}}]{gid = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{classshaan97_1_1sync_1_1_client_aa9620e6828907c167babfc66a2926510_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a89f86d3ee0c7d60930276ff1a49fb203}\label{classshaan97_1_1sync_1_1_client_a89f86d3ee0c7d60930276ff1a49fb203}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!Client@{Client}}
+\index{Client@{Client}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{Client()}{Client()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Client\+::\+Client (\begin{DoxyParamCaption}\item[{const \hyperlink{classshaan97_1_1sync_1_1_client}{Client} \&}]{c }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a840e519ca781888cbd54181572ebe3a7}\label{classshaan97_1_1sync_1_1_client_a840e519ca781888cbd54181572ebe3a7}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!````~Client@{$\sim$\+Client}}
+\index{````~Client@{$\sim$\+Client}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{$\sim$\+Client()}{~Client()}}
+{\footnotesize\ttfamily Client\+::$\sim$\+Client (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a6afcf79c9a70dc1dee1e357f39343f91}\label{classshaan97_1_1sync_1_1_client_a6afcf79c9a70dc1dee1e357f39343f91}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!change\+Group@{change\+Group}}
+\index{change\+Group@{change\+Group}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{change\+Group()}{changeGroup()}}
+{\footnotesize\ttfamily bool shaan97\+::sync\+::\+Client\+::change\+Group (\begin{DoxyParamCaption}\item[{\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID}}]{gid }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_abf8af45f2a8b6bf674357b6fc44fe3cc}\label{classshaan97_1_1sync_1_1_client_abf8af45f2a8b6bf674357b6fc44fe3cc}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!get\+Group@{get\+Group}}
+\index{get\+Group@{get\+Group}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{get\+Group()}{getGroup()}}
+{\footnotesize\ttfamily \hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID} shaan97\+::sync\+::\+Client\+::get\+Group (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classshaan97_1_1sync_1_1_client_abf8af45f2a8b6bf674357b6fc44fe3cc_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a4367779edf080f835087e07b35fa6a38}\label{classshaan97_1_1sync_1_1_client_a4367779edf080f835087e07b35fa6a38}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!is\+Connected@{is\+Connected}}
+\index{is\+Connected@{is\+Connected}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{is\+Connected()}{isConnected()}}
+{\footnotesize\ttfamily bool shaan97\+::sync\+::\+Client\+::is\+Connected (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classshaan97_1_1sync_1_1_client_a4367779edf080f835087e07b35fa6a38_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_afa6eb46eb9710b7ee9bbfaec0f70249b}\label{classshaan97_1_1sync_1_1_client_afa6eb46eb9710b7ee9bbfaec0f70249b}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!join\+Group@{join\+Group}}
+\index{join\+Group@{join\+Group}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{join\+Group()}{joinGroup()}}
+{\footnotesize\ttfamily bool shaan97\+::sync\+::\+Client\+::join\+Group (\begin{DoxyParamCaption}\item[{\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID}}]{gid }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a9822f9f083442f323a8eda5cbe530523}\label{classshaan97_1_1sync_1_1_client_a9822f9f083442f323a8eda5cbe530523}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!leave\+Group@{leave\+Group}}
+\index{leave\+Group@{leave\+Group}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{leave\+Group()}{leaveGroup()}}
+{\footnotesize\ttfamily void shaan97\+::sync\+::\+Client\+::leave\+Group (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a94a60773fd7d212132f44661acac59c7}\label{classshaan97_1_1sync_1_1_client_a94a60773fd7d212132f44661acac59c7}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!make\+Group@{make\+Group}}
+\index{make\+Group@{make\+Group}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{make\+Group()}{makeGroup()}}
+{\footnotesize\ttfamily std\+::pair$<$\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID}, bool$>$ shaan97\+::sync\+::\+Client\+::make\+Group (\begin{DoxyParamCaption}\item[{\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID}}]{gid = {\ttfamily \char`\"{}\char`\"{}} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a807d5ec3cc4cc0bcc3d5dec72fc3af06}\label{classshaan97_1_1sync_1_1_client_a807d5ec3cc4cc0bcc3d5dec72fc3af06}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!operator=@{operator=}}
+\index{operator=@{operator=}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily \hyperlink{classshaan97_1_1sync_1_1_client}{Client} \& Client\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classshaan97_1_1sync_1_1_client}{Client} \&}]{c }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=340pt]{classshaan97_1_1sync_1_1_client_a807d5ec3cc4cc0bcc3d5dec72fc3af06_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a603ec6160f76f97fcfb41d099fdea6ab}\label{classshaan97_1_1sync_1_1_client_a603ec6160f76f97fcfb41d099fdea6ab}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!propose\+Song@{propose\+Song}}
+\index{propose\+Song@{propose\+Song}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{propose\+Song()}{proposeSong()}}
+{\footnotesize\ttfamily bool shaan97\+::sync\+::\+Client\+::propose\+Song (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a6429d2c4549c9fd3074f3181923c5906}\label{classshaan97_1_1sync_1_1_client_a6429d2c4549c9fd3074f3181923c5906}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!swap@{swap}}
+\index{swap@{swap}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{swap()}{swap()}}
+{\footnotesize\ttfamily void Client\+::swap (\begin{DoxyParamCaption}\item[{\hyperlink{classshaan97_1_1sync_1_1_client}{Client} \&}]{c }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_ac3ae19ae773cf3fde376d1d984c10327}\label{classshaan97_1_1sync_1_1_client_ac3ae19ae773cf3fde376d1d984c10327}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!sync\+Group@{sync\+Group}}
+\index{sync\+Group@{sync\+Group}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{sync\+Group()}{syncGroup()}}
+{\footnotesize\ttfamily bool Client\+::sync\+Group (\begin{DoxyParamCaption}\item[{std\+::string}]{server\+\_\+name,  }\item[{std\+::string}]{service\+\_\+name,  }\item[{\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID}}]{gid }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a8dc007c6e1c0fb4a20112e8cc10b8b7c}\label{classshaan97_1_1sync_1_1_client_a8dc007c6e1c0fb4a20112e8cc10b8b7c}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!connected\+To\+Group@{connected\+To\+Group}}
+\index{connected\+To\+Group@{connected\+To\+Group}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{connected\+To\+Group}{connectedToGroup}}
+{\footnotesize\ttfamily bool shaan97\+::sync\+::\+Client\+::connected\+To\+Group = false\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a0afe11a920512355f1b23dfff1c42b08}\label{classshaan97_1_1sync_1_1_client_a0afe11a920512355f1b23dfff1c42b08}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!endpoint\+\_\+iterator@{endpoint\+\_\+iterator}}
+\index{endpoint\+\_\+iterator@{endpoint\+\_\+iterator}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{endpoint\+\_\+iterator}{endpoint\_iterator}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$boost\+::asio\+::ip\+::tcp\+::resolver\+::iterator$>$ shaan97\+::sync\+::\+Client\+::endpoint\+\_\+iterator\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a302a10619aece387dc9938196740f0c8}\label{classshaan97_1_1sync_1_1_client_a302a10619aece387dc9938196740f0c8}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!error@{error}}
+\index{error@{error}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{error}{error}}
+{\footnotesize\ttfamily \hyperlink{classshaan97_1_1sync_1_1_error}{Error} shaan97\+::sync\+::\+Client\+::error\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a2708c76151616ac36af4aedecee5beb1}\label{classshaan97_1_1sync_1_1_client_a2708c76151616ac36af4aedecee5beb1}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!gid@{gid}}
+\index{gid@{gid}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{gid}{gid}}
+{\footnotesize\ttfamily \hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID} shaan97\+::sync\+::\+Client\+::gid\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a3012a6e9540155af7245d898bfdd7986}\label{classshaan97_1_1sync_1_1_client_a3012a6e9540155af7245d898bfdd7986}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!io\+\_\+service@{io\+\_\+service}}
+\index{io\+\_\+service@{io\+\_\+service}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{io\+\_\+service}{io\_service}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$boost\+::asio\+::io\+\_\+service$>$ shaan97\+::sync\+::\+Client\+::io\+\_\+service\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a6c37abd3f312836146b4e140b0cf7680}\label{classshaan97_1_1sync_1_1_client_a6c37abd3f312836146b4e140b0cf7680}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!query@{query}}
+\index{query@{query}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{query}{query}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$boost\+::asio\+::ip\+::tcp\+::resolver\+::query$>$ shaan97\+::sync\+::\+Client\+::query\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a6e2a1fef479966299280a231815ab6c9}\label{classshaan97_1_1sync_1_1_client_a6e2a1fef479966299280a231815ab6c9}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!resolver@{resolver}}
+\index{resolver@{resolver}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{resolver}{resolver}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$boost\+::asio\+::ip\+::tcp\+::resolver$>$ shaan97\+::sync\+::\+Client\+::resolver\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a8edca95d3206d3c71bf851ad2dea7ec7}\label{classshaan97_1_1sync_1_1_client_a8edca95d3206d3c71bf851ad2dea7ec7}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!server\+\_\+name@{server\+\_\+name}}
+\index{server\+\_\+name@{server\+\_\+name}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{server\+\_\+name}{server\_name}}
+{\footnotesize\ttfamily std\+::string shaan97\+::sync\+::\+Client\+::server\+\_\+name\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a80e8c87abf08c599948d6464caa148e7}\label{classshaan97_1_1sync_1_1_client_a80e8c87abf08c599948d6464caa148e7}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!service\+\_\+name@{service\+\_\+name}}
+\index{service\+\_\+name@{service\+\_\+name}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{service\+\_\+name}{service\_name}}
+{\footnotesize\ttfamily std\+::string shaan97\+::sync\+::\+Client\+::service\+\_\+name\hspace{0.3cm}{\ttfamily [private]}}
+
+\mbox{\Hypertarget{classshaan97_1_1sync_1_1_client_a55bfc26c9a8e09b61c9075198abd52a6}\label{classshaan97_1_1sync_1_1_client_a55bfc26c9a8e09b61c9075198abd52a6}} 
+\index{shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}!socket@{socket}}
+\index{socket@{socket}!shaan97\+::sync\+::\+Client@{shaan97\+::sync\+::\+Client}}
+\subsubsection{\texorpdfstring{socket}{socket}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$boost\+::asio\+::ip\+::tcp\+::socket$>$ shaan97\+::sync\+::\+Client\+::socket\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/shaan/\+Desktop/\+Computer Science/\+Sync/inc/\hyperlink{_client_8h}{Client.\+h}\item 
+/home/shaan/\+Desktop/\+Computer Science/\+Sync/src/\hyperlink{_client_8cpp}{Client.\+cpp}\end{DoxyCompactItemize}

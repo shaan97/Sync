@@ -1,0 +1,64 @@
+.TH "nlohmann::adl_serializer< typename, typename >" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+nlohmann::adl_serializer< typename, typename > \- default JSONSerializer template argument  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json\&.hpp>\fP
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename BasicJsonType , typename ValueType > static void \fBfrom_json\fP (BasicJsonType &&j, ValueType &val) noexcept(noexcept(::nlohmann::from_json(std::forward< BasicJsonType >(j), val)))"
+.br
+.RI "convert a JSON value to any value type "
+.ti -1c
+.RI "template<typename BasicJsonType , typename ValueType > static void \fBto_json\fP (BasicJsonType &j, ValueType &&val) noexcept(noexcept(::nlohmann::to_json(j, std::forward< ValueType >(val))))"
+.br
+.RI "convert any value type to a JSON value "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<typename = void, typename = void>
+.br
+struct nlohmann::adl_serializer< typename, typename >"
+default JSONSerializer template argument 
+
+This serializer ignores the template arguments and uses ADL (\fCargument-dependent lookup\fP) for serialization\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename  = void, typename  = void> template<typename BasicJsonType , typename ValueType > static void \fBnlohmann::adl_serializer\fP< typename, typename >::from_json (BasicJsonType && j, ValueType & val)\fC [inline]\fP, \fC [static]\fP, \fC [noexcept]\fP"
+
+.PP
+convert a JSON value to any value type This function is usually called by the \fCget()\fP function of the \fBbasic_json\fP class (either explicit or via conversion operators)\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIj\fP JSON value to read from 
+.br
+\fIval\fP value to write to 
+.RE
+.PP
+
+.SS "template<typename  = void, typename  = void> template<typename BasicJsonType , typename ValueType > static void \fBnlohmann::adl_serializer\fP< typename, typename >::to_json (BasicJsonType & j, ValueType && val)\fC [inline]\fP, \fC [static]\fP, \fC [noexcept]\fP"
+
+.PP
+convert any value type to a JSON value This function is usually called by the constructors of the \fBbasic_json\fP class\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIj\fP JSON value to write to 
+.br
+\fIval\fP value to read from 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

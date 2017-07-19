@@ -1,0 +1,547 @@
+.TH "nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iter_impl< U >" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iter_impl< U > \- a template for a random access iterator for the \fBbasic_json\fP class  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json\&.hpp>\fP
+.PP
+Inherits iterator< std::random_access_iterator_tag, U >\&.
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBvalue_type\fP = typename \fBbasic_json::value_type\fP"
+.br
+.RI "the type of the values when the iterator is dereferenced "
+.ti -1c
+.RI "using \fBdifference_type\fP = typename \fBbasic_json::difference_type\fP"
+.br
+.RI "a type to represent differences between iterators "
+.ti -1c
+.RI "using \fBpointer\fP = typename std::conditional< std::is_const< U >::\fBvalue\fP, typename \fBbasic_json::const_pointer\fP, typename \fBbasic_json::pointer\fP >::\fBtype\fP"
+.br
+.RI "defines a pointer to the type iterated over (value_type) "
+.ti -1c
+.RI "using \fBreference\fP = typename std::conditional< std::is_const< U >::\fBvalue\fP, typename \fBbasic_json::const_reference\fP, typename \fBbasic_json::reference\fP >::\fBtype\fP"
+.br
+.RI "defines a reference to the type iterated over (value_type) "
+.ti -1c
+.RI "using \fBiterator_category\fP = std::bidirectional_iterator_tag"
+.br
+.RI "the category of the iterator "
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBiter_impl\fP ()=default"
+.br
+.RI "default constructor "
+.ti -1c
+.RI "\fBiter_impl\fP (\fBpointer\fP \fBobject\fP) noexcept"
+.br
+.RI "constructor for a given JSON instance "
+.ti -1c
+.RI "\fBoperator const_iterator\fP () const"
+.br
+.ti -1c
+.RI "\fBiter_impl\fP (const \fBiter_impl\fP &other) noexcept"
+.br
+.RI "copy constructor "
+.ti -1c
+.RI "\fBiter_impl\fP & \fBoperator=\fP (\fBiter_impl\fP other) noexcept(std::is_nothrow_move_constructible< \fBpointer\fP >::\fBvalue\fP and std::is_nothrow_move_assignable< \fBpointer\fP >::\fBvalue\fP and std::is_nothrow_move_constructible< \fBinternal_iterator\fP >::\fBvalue\fP and std::is_nothrow_move_assignable< \fBinternal_iterator\fP >::\fBvalue\fP)"
+.br
+.RI "copy assignment "
+.ti -1c
+.RI "\fBreference\fP \fBoperator*\fP () const"
+.br
+.RI "return a reference to the value pointed to by the iterator "
+.ti -1c
+.RI "\fBpointer\fP \fBoperator\->\fP () const"
+.br
+.RI "dereference the iterator "
+.ti -1c
+.RI "\fBiter_impl\fP \fBoperator++\fP (int)"
+.br
+.RI "post-increment (it++) "
+.ti -1c
+.RI "\fBiter_impl\fP & \fBoperator++\fP ()"
+.br
+.RI "pre-increment (++it) "
+.ti -1c
+.RI "\fBiter_impl\fP \fBoperator\-\-\fP (int)"
+.br
+.RI "post-decrement (it--) "
+.ti -1c
+.RI "\fBiter_impl\fP & \fBoperator\-\-\fP ()"
+.br
+.RI "pre-decrement (--it) "
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBiter_impl\fP &other) const"
+.br
+.RI "comparison: equal "
+.ti -1c
+.RI "bool \fBoperator!=\fP (const \fBiter_impl\fP &other) const"
+.br
+.RI "comparison: not equal "
+.ti -1c
+.RI "bool \fBoperator<\fP (const \fBiter_impl\fP &other) const"
+.br
+.RI "comparison: smaller "
+.ti -1c
+.RI "bool \fBoperator<=\fP (const \fBiter_impl\fP &other) const"
+.br
+.RI "comparison: less than or equal "
+.ti -1c
+.RI "bool \fBoperator>\fP (const \fBiter_impl\fP &other) const"
+.br
+.RI "comparison: greater than "
+.ti -1c
+.RI "bool \fBoperator>=\fP (const \fBiter_impl\fP &other) const"
+.br
+.RI "comparison: greater than or equal "
+.ti -1c
+.RI "\fBiter_impl\fP & \fBoperator+=\fP (\fBdifference_type\fP i)"
+.br
+.RI "add to iterator "
+.ti -1c
+.RI "\fBiter_impl\fP & \fBoperator\-=\fP (\fBdifference_type\fP i)"
+.br
+.RI "subtract from iterator "
+.ti -1c
+.RI "\fBiter_impl\fP \fBoperator+\fP (\fBdifference_type\fP i)"
+.br
+.RI "add to iterator "
+.ti -1c
+.RI "\fBiter_impl\fP \fBoperator\-\fP (\fBdifference_type\fP i)"
+.br
+.RI "subtract from iterator "
+.ti -1c
+.RI "\fBdifference_type\fP \fBoperator\-\fP (const \fBiter_impl\fP &other) const"
+.br
+.RI "return difference "
+.ti -1c
+.RI "\fBreference\fP \fBoperator[]\fP (\fBdifference_type\fP n) const"
+.br
+.RI "access to successor "
+.ti -1c
+.RI "object_t::key_type \fBkey\fP () const"
+.br
+.RI "return the key of an object iterator "
+.ti -1c
+.RI "\fBreference\fP \fBvalue\fP () const"
+.br
+.RI "return the value of an iterator "
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBset_begin\fP () noexcept"
+.br
+.RI "set the iterator to the first value "
+.ti -1c
+.RI "void \fBset_end\fP () noexcept"
+.br
+.RI "set the iterator past the last value "
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBpointer\fP \fBm_object\fP = nullptr"
+.br
+.RI "associated JSON instance "
+.ti -1c
+.RI "\fBinternal_iterator\fP \fBm_it\fP = \fBinternal_iterator\fP()"
+.br
+.RI "the actual iterator of the associated instance "
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "class \fBbasic_json\fP"
+.br
+.RI "allow \fBbasic_json\fP to access private members "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType = std::string, class BooleanType = bool, class NumberIntegerType = std::int64_t, class NumberUnsignedType = std::uint64_t, class NumberFloatType = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer>
+.br
+template<typename U>
+.br
+class nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iter_impl< U >"
+a template for a random access iterator for the \fBbasic_json\fP class 
+
+This class implements a both iterators (iterator and const_iterator) for the \fBbasic_json\fP class\&.
+.PP
+\fBNote:\fP
+.RS 4
+An iterator is called \fIinitialized\fP when a pointer to a JSON value has been set (e\&.g\&., by a constructor or a copy assignment)\&. If the iterator is default-constructed, it is \fIuninitialized\fP and most methods are undefined\&. \fBThe library uses assertions to detect calls on uninitialized iterators\&.\fP
+.RE
+.PP
+The class satisfies the following concept requirements:
+.IP "\(bu" 2
+\fCRandomAccessIterator\fP: The iterator that can be moved to point (forward and backward) to any element in constant time\&.
+.PP
+.PP
+\fBSince:\fP
+.RS 4
+version 1\&.0\&.0, simplified in version 2\&.0\&.9 
+.RE
+.PP
+
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > using \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::\fBdifference_type\fP =  typename \fBbasic_json::difference_type\fP"
+
+.PP
+a type to represent differences between iterators 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > using \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::\fBiterator_category\fP =  std::bidirectional_iterator_tag"
+
+.PP
+the category of the iterator 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > using \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::\fBpointer\fP =  typename std::conditional<std::is_const<U>::\fBvalue\fP, typename \fBbasic_json::const_pointer\fP, typename \fBbasic_json::pointer\fP>::\fBtype\fP"
+
+.PP
+defines a pointer to the type iterated over (value_type) 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > using \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::\fBreference\fP =  typename std::conditional<std::is_const<U>::\fBvalue\fP, typename \fBbasic_json::const_reference\fP, typename \fBbasic_json::reference\fP>::\fBtype\fP"
+
+.PP
+defines a reference to the type iterated over (value_type) 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > using \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::\fBvalue_type\fP =  typename \fBbasic_json::value_type\fP"
+
+.PP
+the type of the values when the iterator is dereferenced 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::\fBiter_impl\fP ()\fC [default]\fP"
+
+.PP
+default constructor 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::\fBiter_impl\fP (\fBpointer\fP object)\fC [inline]\fP, \fC [explicit]\fP, \fC [noexcept]\fP"
+
+.PP
+constructor for a given JSON instance 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobject\fP pointer to a JSON object for this iterator 
+.RE
+.PP
+\fBPrecondition:\fP
+.RS 4
+object != nullptr 
+.RE
+.PP
+\fBPostcondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::\fBiter_impl\fP (const \fBiter_impl\fP< U > & other)\fC [inline]\fP, \fC [noexcept]\fP"
+
+.PP
+copy constructor 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIother\fP iterator to copy from 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+It is not checked whether \fIother\fP is initialized\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > object_t::key_type \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::key () const\fC [inline]\fP"
+
+.PP
+return the key of an object iterator 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator \fBconst_iterator\fP () const\fC [inline]\fP"
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > bool \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator!= (const \fBiter_impl\fP< U > & other) const\fC [inline]\fP"
+
+.PP
+comparison: not equal 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBreference\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator* () const\fC [inline]\fP"
+
+.PP
+return a reference to the value pointed to by the iterator 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBiter_impl\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator+ (\fBdifference_type\fP i)\fC [inline]\fP"
+
+.PP
+add to iterator 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBiter_impl\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator++ (int)\fC [inline]\fP"
+
+.PP
+post-increment (it++) 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBiter_impl\fP& \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator++ ()\fC [inline]\fP"
+
+.PP
+pre-increment (++it) 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBiter_impl\fP& \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator+= (\fBdifference_type\fP i)\fC [inline]\fP"
+
+.PP
+add to iterator 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBiter_impl\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator\- (\fBdifference_type\fP i)\fC [inline]\fP"
+
+.PP
+subtract from iterator 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBdifference_type\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator\- (const \fBiter_impl\fP< U > & other) const\fC [inline]\fP"
+
+.PP
+return difference 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBiter_impl\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator\-\- (int)\fC [inline]\fP"
+
+.PP
+post-decrement (it--) 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBiter_impl\fP& \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator\-\- ()\fC [inline]\fP"
+
+.PP
+pre-decrement (--it) 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBiter_impl\fP& \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator\-= (\fBdifference_type\fP i)\fC [inline]\fP"
+
+.PP
+subtract from iterator 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBpointer\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator\-> () const\fC [inline]\fP"
+
+.PP
+dereference the iterator 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > bool \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator< (const \fBiter_impl\fP< U > & other) const\fC [inline]\fP"
+
+.PP
+comparison: smaller 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > bool \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator<= (const \fBiter_impl\fP< U > & other) const\fC [inline]\fP"
+
+.PP
+comparison: less than or equal 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBiter_impl\fP& \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator= (\fBiter_impl\fP< U > other)\fC [inline]\fP, \fC [noexcept]\fP"
+
+.PP
+copy assignment 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIother\fP iterator to copy from 
+.RE
+.PP
+\fBNote:\fP
+.RS 4
+It is not checked whether \fIother\fP is initialized\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > bool \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator== (const \fBiter_impl\fP< U > & other) const\fC [inline]\fP"
+
+.PP
+comparison: equal 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > bool \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator> (const \fBiter_impl\fP< U > & other) const\fC [inline]\fP"
+
+.PP
+comparison: greater than 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > bool \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator>= (const \fBiter_impl\fP< U > & other) const\fC [inline]\fP"
+
+.PP
+comparison: greater than or equal 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBreference\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::operator[] (\fBdifference_type\fP n) const\fC [inline]\fP"
+
+.PP
+access to successor 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > void \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::set_begin ()\fC [inline]\fP, \fC [private]\fP, \fC [noexcept]\fP"
+
+.PP
+set the iterator to the first value 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > void \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::set_end ()\fC [inline]\fP, \fC [private]\fP, \fC [noexcept]\fP"
+
+.PP
+set the iterator past the last value 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBreference\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::value () const\fC [inline]\fP"
+
+.PP
+return the value of an iterator 
+.PP
+\fBPrecondition:\fP
+.RS 4
+The iterator is initialized; i\&.e\&. \fCm_object != nullptr\fP\&. 
+.RE
+.PP
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > friend class \fBbasic_json\fP\fC [friend]\fP"
+
+.PP
+allow \fBbasic_json\fP to access private members 
+.SH "Member Data Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBinternal_iterator\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::m_it = \fBinternal_iterator\fP()\fC [private]\fP"
+
+.PP
+the actual iterator of the associated instance 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename U > \fBpointer\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBiter_impl\fP< U >::m_object = nullptr\fC [private]\fP"
+
+.PP
+associated JSON instance 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

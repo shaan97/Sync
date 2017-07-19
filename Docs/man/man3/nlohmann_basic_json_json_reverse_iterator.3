@@ -1,0 +1,181 @@
+.TH "nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::json_reverse_iterator< Base >" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::json_reverse_iterator< Base > \- a template for a reverse iterator class  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json\&.hpp>\fP
+.PP
+Inherits reverse_iterator< Base >\&.
+.SS "Public Types"
+
+.in +1c
+.ti -1c
+.RI "using \fBbase_iterator\fP = std::reverse_iterator< Base >"
+.br
+.RI "shortcut to the reverse iterator adaptor "
+.ti -1c
+.RI "using \fBreference\fP = typename Base::reference"
+.br
+.RI "the reference type for the pointed-to element "
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBjson_reverse_iterator\fP (const typename base_iterator::iterator_type &it) noexcept"
+.br
+.RI "create reverse iterator from iterator "
+.ti -1c
+.RI "\fBjson_reverse_iterator\fP (const \fBbase_iterator\fP &it) noexcept"
+.br
+.RI "create reverse iterator from base class "
+.ti -1c
+.RI "\fBjson_reverse_iterator\fP \fBoperator++\fP (int)"
+.br
+.RI "post-increment (it++) "
+.ti -1c
+.RI "\fBjson_reverse_iterator\fP & \fBoperator++\fP ()"
+.br
+.RI "pre-increment (++it) "
+.ti -1c
+.RI "\fBjson_reverse_iterator\fP \fBoperator\-\-\fP (int)"
+.br
+.RI "post-decrement (it--) "
+.ti -1c
+.RI "\fBjson_reverse_iterator\fP & \fBoperator\-\-\fP ()"
+.br
+.RI "pre-decrement (--it) "
+.ti -1c
+.RI "\fBjson_reverse_iterator\fP & \fBoperator+=\fP (\fBdifference_type\fP i)"
+.br
+.RI "add to iterator "
+.ti -1c
+.RI "\fBjson_reverse_iterator\fP \fBoperator+\fP (\fBdifference_type\fP i) const"
+.br
+.RI "add to iterator "
+.ti -1c
+.RI "\fBjson_reverse_iterator\fP \fBoperator\-\fP (\fBdifference_type\fP i) const"
+.br
+.RI "subtract from iterator "
+.ti -1c
+.RI "\fBdifference_type\fP \fBoperator\-\fP (const \fBjson_reverse_iterator\fP &other) const"
+.br
+.RI "return difference "
+.ti -1c
+.RI "\fBreference\fP \fBoperator[]\fP (\fBdifference_type\fP n) const"
+.br
+.RI "access to successor "
+.ti -1c
+.RI "object_t::key_type \fBkey\fP () const"
+.br
+.RI "return the key of an object iterator "
+.ti -1c
+.RI "\fBreference\fP \fBvalue\fP () const"
+.br
+.RI "return the value of an iterator "
+.in -1c
+.SH "Detailed Description"
+.PP 
+
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType = std::string, class BooleanType = bool, class NumberIntegerType = std::int64_t, class NumberUnsignedType = std::uint64_t, class NumberFloatType = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer>
+.br
+template<typename Base>
+.br
+class nlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::json_reverse_iterator< Base >"
+a template for a reverse iterator class 
+
+
+.PP
+\fBTemplate Parameters:\fP
+.RS 4
+\fIBase\fP the base iterator type to reverse\&. Valid types are \fBiterator\fP (to create \fBreverse_iterator\fP) and \fBconst_iterator\fP (to create \fBconst_reverse_iterator\fP)\&.
+.RE
+.PP
+The class satisfies the following concept requirements:
+.IP "\(bu" 2
+\fCRandomAccessIterator\fP: The iterator that can be moved to point (forward and backward) to any element in constant time\&.
+.IP "\(bu" 2
+\fCOutputIterator\fP: It is possible to write to the pointed-to element (only if \fIBase\fP is \fBiterator\fP)\&.
+.PP
+.PP
+\fBSince:\fP
+.RS 4
+version 1\&.0\&.0 
+.RE
+.PP
+
+.SH "Member Typedef Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > using \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::\fBbase_iterator\fP =  std::reverse_iterator<Base>"
+
+.PP
+shortcut to the reverse iterator adaptor 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > using \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::\fBreference\fP =  typename Base::reference"
+
+.PP
+the reference type for the pointed-to element 
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::\fBjson_reverse_iterator\fP (const typename base_iterator::iterator_type & it)\fC [inline]\fP, \fC [noexcept]\fP"
+
+.PP
+create reverse iterator from iterator 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::\fBjson_reverse_iterator\fP (const \fBbase_iterator\fP & it)\fC [inline]\fP, \fC [noexcept]\fP"
+
+.PP
+create reverse iterator from base class 
+.SH "Member Function Documentation"
+.PP 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > object_t::key_type \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::key () const\fC [inline]\fP"
+
+.PP
+return the key of an object iterator 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBjson_reverse_iterator\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::operator+ (\fBdifference_type\fP i) const\fC [inline]\fP"
+
+.PP
+add to iterator 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBjson_reverse_iterator\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::operator++ (int)\fC [inline]\fP"
+
+.PP
+post-increment (it++) 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBjson_reverse_iterator\fP& \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::operator++ ()\fC [inline]\fP"
+
+.PP
+pre-increment (++it) 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBjson_reverse_iterator\fP& \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::operator+= (\fBdifference_type\fP i)\fC [inline]\fP"
+
+.PP
+add to iterator 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBjson_reverse_iterator\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::operator\- (\fBdifference_type\fP i) const\fC [inline]\fP"
+
+.PP
+subtract from iterator 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBdifference_type\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::operator\- (const \fBjson_reverse_iterator\fP< Base > & other) const\fC [inline]\fP"
+
+.PP
+return difference 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBjson_reverse_iterator\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::operator\-\- (int)\fC [inline]\fP"
+
+.PP
+post-decrement (it--) 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBjson_reverse_iterator\fP& \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::operator\-\- ()\fC [inline]\fP"
+
+.PP
+pre-decrement (--it) 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBreference\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::operator[] (\fBdifference_type\fP n) const\fC [inline]\fP"
+
+.PP
+access to successor 
+.SS "template<template< typename U, typename V, typename\&.\&.\&. Args > class ObjectType = std::map, template< typename U, typename\&.\&.\&. Args > class ArrayType = std::vector, class StringType  = std::string, class BooleanType  = bool, class NumberIntegerType  = std::int64_t, class NumberUnsignedType  = std::uint64_t, class NumberFloatType  = double, template< typename U > class AllocatorType = std::allocator, template< typename T, typename SFINAE=void > class JSONSerializer = adl_serializer> template<typename Base > \fBreference\fP \fBnlohmann::basic_json\fP< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::\fBjson_reverse_iterator\fP< Base >::value () const\fC [inline]\fP"
+
+.PP
+return the value of an iterator 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

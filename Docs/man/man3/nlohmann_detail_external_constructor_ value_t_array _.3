@@ -1,0 +1,30 @@
+.TH "nlohmann::detail::external_constructor< value_t::array >" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+nlohmann::detail::external_constructor< value_t::array >
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <json\&.hpp>\fP
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "template<typename BasicJsonType > static void \fBconstruct\fP (BasicJsonType &j, const typename BasicJsonType::array_t &arr)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleArrayType , enable_if_t< not std::is_same< CompatibleArrayType, typename BasicJsonType::array_t >::value, int >  = 0> static void \fBconstruct\fP (BasicJsonType &j, const CompatibleArrayType &arr)"
+.br
+.in -1c
+.SH "Member Function Documentation"
+.PP 
+.SS "template<typename BasicJsonType > static void \fBnlohmann::detail::external_constructor\fP< \fBvalue_t::array\fP >::construct (BasicJsonType & j, const typename BasicJsonType::array_t & arr)\fC [inline]\fP, \fC [static]\fP"
+
+.SS "template<typename BasicJsonType , typename CompatibleArrayType , enable_if_t< not std::is_same< CompatibleArrayType, typename BasicJsonType::array_t >::value, int >  = 0> static void \fBnlohmann::detail::external_constructor\fP< \fBvalue_t::array\fP >::construct (BasicJsonType & j, const CompatibleArrayType & arr)\fC [inline]\fP, \fC [static]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

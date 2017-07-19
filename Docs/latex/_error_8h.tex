@@ -1,0 +1,60 @@
+\hypertarget{_error_8h}{}\section{/home/shaan/\+Desktop/\+Computer Science/\+Sync/inc/\+Error.h File Reference}
+\label{_error_8h}\index{/home/shaan/\+Desktop/\+Computer Science/\+Sync/inc/\+Error.\+h@{/home/shaan/\+Desktop/\+Computer Science/\+Sync/inc/\+Error.\+h}}
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$boost/asio.\+hpp$>$}\newline
+{\ttfamily \#include \char`\"{}json.\+hpp\char`\"{}}\newline
+Include dependency graph for Error.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_error_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{_error_8h__dep__incl}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classshaan97_1_1sync_1_1_error}{shaan97\+::sync\+::\+Error}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespaceshaan97}{shaan97}
+\begin{DoxyCompactList}\small\item\em The namespace for the github user \hyperlink{namespaceshaan97}{shaan97}. \end{DoxyCompactList}\item 
+ \hyperlink{namespaceshaan97_1_1sync}{shaan97\+::sync}
+\begin{DoxyCompactList}\small\item\em The namespace for the sync project. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{namespaceshaan97_1_1sync_a69f4d5572314be52626f6a1c8ecc8db9}{shaan97\+::sync\+::\+E\+R\+R\+O\+R\+\_\+\+T\+Y\+PE} \{ \newline
+\hyperlink{namespaceshaan97_1_1sync_a69f4d5572314be52626f6a1c8ecc8db9a52c4a0d7144160a041261253a2a82894}{shaan97\+::sync\+::\+N\+O\+NE} = 0, 
+\hyperlink{namespaceshaan97_1_1sync_a69f4d5572314be52626f6a1c8ecc8db9a826ca9fbc231462e0dae956a8fdc078b}{shaan97\+::sync\+::\+F\+A\+I\+L\+E\+D\+\_\+\+C\+O\+N\+N\+E\+C\+T\+I\+ON}, 
+\hyperlink{namespaceshaan97_1_1sync_a69f4d5572314be52626f6a1c8ecc8db9ac6c293b7f0506d3ee58658539e4e3fc0}{shaan97\+::sync\+::\+G\+I\+D\+\_\+\+E\+X\+I\+S\+TS}, 
+\hyperlink{namespaceshaan97_1_1sync_a69f4d5572314be52626f6a1c8ecc8db9af4f2e82194c014add58de880aeb14bee}{shaan97\+::sync\+::\+G\+I\+D\+\_\+\+N\+O\+\_\+\+E\+X\+I\+ST}, 
+\newline
+\hyperlink{namespaceshaan97_1_1sync_a69f4d5572314be52626f6a1c8ecc8db9a8fce264c2465f8d142f4568a833666c7}{shaan97\+::sync\+::\+O\+T\+H\+ER}, 
+\hyperlink{namespaceshaan97_1_1sync_a69f4d5572314be52626f6a1c8ecc8db9ab01cc23469df9566321a2dbfe95283eb}{shaan97\+::sync\+::\+A\+C\+C\+E\+S\+S\+\_\+\+D\+E\+N\+I\+ED}, 
+\hyperlink{namespaceshaan97_1_1sync_a69f4d5572314be52626f6a1c8ecc8db9aa848eafa9f1a60215e209859d3e687c4}{shaan97\+::sync\+::\+C\+O\+R\+R\+U\+P\+T\+E\+D\+\_\+\+D\+A\+TA}, 
+\hyperlink{namespaceshaan97_1_1sync_a69f4d5572314be52626f6a1c8ecc8db9a54f2deaea47604a5b0f6bc7b4e059e83}{shaan97\+::sync\+::\+M\+E\+M\+B\+E\+R\+\_\+\+E\+X\+I\+S\+TS}, 
+\newline
+\hyperlink{namespaceshaan97_1_1sync_a69f4d5572314be52626f6a1c8ecc8db9a240795385057c568d066e43d08c5c240}{shaan97\+::sync\+::\+M\+E\+M\+B\+E\+R\+\_\+\+N\+O\+\_\+\+E\+X\+I\+ST}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{namespaceshaan97_1_1sync_a734625a59747d9c85857e245a8975bb9}{shaan97\+::sync\+::operator$<$$<$} (std\+::ostream \&out, const \hyperlink{classshaan97_1_1sync_1_1_error}{Error} \&e)
+\item 
+void \hyperlink{namespaceshaan97_1_1sync_a6ccb9e98c182a3bac3ee37ad64f76bbc}{shaan97\+::sync\+::to\+\_\+json} (\hyperlink{namespacenlohmann_a2bfd99e845a2e5cd90aeaf1b1431f474}{nlohmann\+::json} \&j, const \hyperlink{classshaan97_1_1sync_1_1_error}{Error} \&e)
+\item 
+void \hyperlink{namespaceshaan97_1_1sync_a9e374973ba3aed17d32efd550318c94c}{shaan97\+::sync\+::from\+\_\+json} (\hyperlink{namespacenlohmann_a2bfd99e845a2e5cd90aeaf1b1431f474}{nlohmann\+::json} \&j, \hyperlink{classshaan97_1_1sync_1_1_error}{Error} \&e)
+\end{DoxyCompactItemize}

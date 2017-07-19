@@ -1,0 +1,43 @@
+\hypertarget{group___connection_handling}{}\section{Connection\+Handling}
+\label{group___connection_handling}\index{Connection\+Handling@{Connection\+Handling}}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{group___connection_handling_gab19cf3e5b775cd1b4eeb6d936340e712}{shaan97\+::sync\+::\+Server\+::start\+\_\+accept} ()
+\item 
+void \hyperlink{group___connection_handling_ga447569609c9d667ab509e61d1dd1b476}{shaan97\+::sync\+::\+Server\+::handle\+\_\+accept} (std\+::shared\+\_\+ptr$<$ boost\+::asio\+::ip\+::tcp\+::socket $>$ \&socket, const boost\+::system\+::error\+\_\+code \&error)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Event based system for handling new socket connection.
+
+{\ttfamily \hyperlink{group___connection_handling_gab19cf3e5b775cd1b4eeb6d936340e712}{start\+\_\+accept()}} makes the \hyperlink{classshaan97_1_1sync_1_1_server}{Server} ready for new connections, making {\ttfamily \hyperlink{group___connection_handling_ga447569609c9d667ab509e61d1dd1b476}{handle\+\_\+accept()}} the handler for that asynchronous event. {\ttfamily \hyperlink{group___connection_handling_ga447569609c9d667ab509e61d1dd1b476}{handle\+\_\+accept()}} calls {\ttfamily \hyperlink{group___connection_handling_gab19cf3e5b775cd1b4eeb6d936340e712}{start\+\_\+accept()}} on another thread so that the \hyperlink{classshaan97_1_1sync_1_1_server}{Server} may continue accepting new connections. 
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{group___connection_handling_ga447569609c9d667ab509e61d1dd1b476}\label{group___connection_handling_ga447569609c9d667ab509e61d1dd1b476}} 
+\index{Connection\+Handling@{Connection\+Handling}!handle\+\_\+accept@{handle\+\_\+accept}}
+\index{handle\+\_\+accept@{handle\+\_\+accept}!Connection\+Handling@{Connection\+Handling}}
+\subsubsection{\texorpdfstring{handle\+\_\+accept()}{handle\_accept()}}
+{\footnotesize\ttfamily void Server\+::handle\+\_\+accept (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ boost\+::asio\+::ip\+::tcp\+::socket $>$ \&}]{socket,  }\item[{const boost\+::system\+::error\+\_\+code \&}]{error }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Handles the connection by reinitiating {\ttfamily \hyperlink{group___connection_handling_gab19cf3e5b775cd1b4eeb6d936340e712}{start\+\_\+accept()}} on another thread and interpreting the message and decides what to do with it. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{group___connection_handling_ga447569609c9d667ab509e61d1dd1b476_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{group___connection_handling_gab19cf3e5b775cd1b4eeb6d936340e712}\label{group___connection_handling_gab19cf3e5b775cd1b4eeb6d936340e712}} 
+\index{Connection\+Handling@{Connection\+Handling}!start\+\_\+accept@{start\+\_\+accept}}
+\index{start\+\_\+accept@{start\+\_\+accept}!Connection\+Handling@{Connection\+Handling}}
+\subsubsection{\texorpdfstring{start\+\_\+accept()}{start\_accept()}}
+{\footnotesize\ttfamily void Server\+::start\+\_\+accept (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+This function prepares the \hyperlink{classshaan97_1_1sync_1_1_server}{Server} for handling new connections. It also sets {\ttfamily handle\+\_\+accept(std\+::shared\+\_\+ptr$<$boost\+::asio\+::ip\+::tcp\+::socket$>$\&, const boost\+::system\+::error\+\_\+code\&)} as the handler for a new connection. Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{group___connection_handling_gab19cf3e5b775cd1b4eeb6d936340e712_cgraph}
+\end{center}
+\end{figure}

@@ -1,0 +1,38 @@
+.TH "/home/shaan/Desktop/Computer Science/Sync/src/Message.cpp" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/shaan/Desktop/Computer Science/Sync/src/Message.cpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include '\&.\&./inc/Message\&.h'\fP
+.br
+
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBprintMessageType\fP (std::ostream &out, const \fBMessage\fP &message)"
+.br
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &out, const \fBMessage\fP &message)"
+.br
+.ti -1c
+.RI "void \fBto_json\fP (\fBnlohmann::json\fP &j, const \fBMessage\fP &m)"
+.br
+.RI "Converts a \fCMessage\fP into a \fC\fBnlohmann::json\fP object\fP "
+.ti -1c
+.RI "void \fBfrom_json\fP (\fBnlohmann::json\fP &j, \fBMessage\fP &m)"
+.br
+.RI "Converts a \fC\fBnlohmann::json\fP\fP into a \fCMessage\fP object\&. "
+.in -1c
+.SH "Function Documentation"
+.PP 
+.SS "std::ostream& operator<< (std::ostream & out, const \fBMessage\fP & message)"
+
+.SS "void printMessageType (std::ostream & out, const \fBMessage\fP & message)"
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

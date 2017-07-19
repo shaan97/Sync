@@ -1,0 +1,478 @@
+.TH "/home/shaan/Desktop/Computer Science/Sync/inc/json.hpp" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/shaan/Desktop/Computer Science/Sync/inc/json.hpp
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <algorithm>\fP
+.br
+\fC#include <array>\fP
+.br
+\fC#include <cassert>\fP
+.br
+\fC#include <cctype>\fP
+.br
+\fC#include <ciso646>\fP
+.br
+\fC#include <cmath>\fP
+.br
+\fC#include <cstddef>\fP
+.br
+\fC#include <cstdint>\fP
+.br
+\fC#include <cstdlib>\fP
+.br
+\fC#include <cstring>\fP
+.br
+\fC#include <forward_list>\fP
+.br
+\fC#include <functional>\fP
+.br
+\fC#include <initializer_list>\fP
+.br
+\fC#include <iomanip>\fP
+.br
+\fC#include <iostream>\fP
+.br
+\fC#include <iterator>\fP
+.br
+\fC#include <limits>\fP
+.br
+\fC#include <locale>\fP
+.br
+\fC#include <map>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <numeric>\fP
+.br
+\fC#include <sstream>\fP
+.br
+\fC#include <stdexcept>\fP
+.br
+\fC#include <string>\fP
+.br
+\fC#include <type_traits>\fP
+.br
+\fC#include <utility>\fP
+.br
+\fC#include <vector>\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "struct \fBnlohmann::detail::conjunction<\&.\&.\&. >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::conjunction< B1 >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::conjunction< B1, Bn\&.\&.\&. >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::negation< B >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::priority_tag< N >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::priority_tag< 0 >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::external_constructor< value_t >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::external_constructor< value_t::boolean >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::external_constructor< value_t::string >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::external_constructor< value_t::number_float >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::external_constructor< value_t::number_unsigned >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::external_constructor< value_t::number_integer >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::external_constructor< value_t::array >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::external_constructor< value_t::object >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::is_compatible_object_type_impl< B, RealType, CompatibleObjectType >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::is_compatible_object_type_impl< true, RealType, CompatibleObjectType >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::is_compatible_object_type< BasicJsonType, CompatibleObjectType >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::is_basic_json_nested_type< BasicJsonType, T >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::is_compatible_array_type< BasicJsonType, CompatibleArrayType >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::is_compatible_integer_type_impl< bool, typename, typename >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::is_compatible_integer_type_impl< true, RealIntegerType, CompatibleNumberIntegerType >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::is_compatible_integer_type< RealIntegerType, CompatibleNumberIntegerType >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::has_from_json< BasicJsonType, T >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::has_non_default_from_json< BasicJsonType, T >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::has_to_json< BasicJsonType, T >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::to_json_fn\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::from_json_fn\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::detail::static_const< T >\fP"
+.br
+.ti -1c
+.RI "struct \fBnlohmann::adl_serializer< typename, typename >\fP"
+.br
+.RI "default JSONSerializer template argument "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >\fP"
+.br
+.RI "a class to store JSON values "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iter_impl< U >\fP"
+.br
+.RI "a template for a random access iterator for the \fBbasic_json\fP class "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::json_reverse_iterator< Base >\fP"
+.br
+.RI "a template for a reverse iterator class "
+.ti -1c
+.RI "union \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::json_value\fP"
+.br
+.RI "a JSON value "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iteration_proxy< IteratorType >\fP"
+.br
+.RI "proxy class for the iterator_wrapper functions "
+.ti -1c
+.RI "struct \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::numtostr\fP"
+.br
+.RI "locale-independent serialization for built-in arithmetic types "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::primitive_iterator_t\fP"
+.br
+.RI "an iterator for primitive JSON types "
+.ti -1c
+.RI "struct \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::internal_iterator\fP"
+.br
+.RI "an iterator value "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iteration_proxy< IteratorType >\fP"
+.br
+.RI "proxy class for the iterator_wrapper functions "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iteration_proxy< IteratorType >::iteration_proxy_internal\fP"
+.br
+.RI "helper class for iteration "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::iter_impl< U >\fP"
+.br
+.RI "a template for a random access iterator for the \fBbasic_json\fP class "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::json_reverse_iterator< Base >\fP"
+.br
+.RI "a template for a reverse iterator class "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer\fP"
+.br
+.RI "lexical analysis "
+.ti -1c
+.RI "struct \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::lexer::strtonum\fP"
+.br
+.RI "parse string into a built-in arithmetic type as if the current locale is POSIX\&. "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::parser\fP"
+.br
+.RI "syntax analysis "
+.ti -1c
+.RI "class \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::json_pointer\fP"
+.br
+.RI "JSON Pointer\&. "
+.ti -1c
+.RI "struct \fBstd::hash< nlohmann::json >\fP"
+.br
+.RI "hash value for JSON objects "
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBnlohmann\fP"
+.br
+.RI "namespace for Niels Lohmann "
+.ti -1c
+.RI " \fBnlohmann::detail\fP"
+.br
+.RI "unnamed namespace with internal helper functions "
+.in -1c
+.SS "Macros"
+
+.in +1c
+.ti -1c
+.RI "#define \fBJSON_DEPRECATED\fP"
+.br
+.ti -1c
+.RI "#define \fBJSON_THROW\fP(exception)   std::abort()"
+.br
+.ti -1c
+.RI "#define \fBJSON_TRY\fP   if(true)"
+.br
+.ti -1c
+.RI "#define \fBJSON_CATCH\fP(exception)   if(false)"
+.br
+.ti -1c
+.RI "#define \fBNLOHMANN_JSON_HAS_HELPER\fP(type)"
+.br
+.RI "Helper to determine whether there's a key_type for T\&. "
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "template<bool B, typename T  = void> using \fBnlohmann::detail::enable_if_t\fP = typename std::enable_if< B, T >::type"
+.br
+.ti -1c
+.RI "template<typename T > using \fBnlohmann::detail::uncvref_t\fP = typename std::remove_cv< typename std::remove_reference< T >::type >::type"
+.br
+.ti -1c
+.RI "template<typename T > using \fBnlohmann::detail::is_unscoped_enum\fP = std::integral_constant< bool, std::is_convertible< T, int >::value and std::is_enum< T >::value >"
+.br
+.ti -1c
+.RI "using \fBnlohmann::json\fP = basic_json<>"
+.br
+.RI "default JSON class "
+.in -1c
+.SS "Enumerations"
+
+.in +1c
+.ti -1c
+.RI "enum \fBnlohmann::detail::value_t\fP : uint8_t { \fBnlohmann::detail::value_t::null\fP, \fBnlohmann::detail::value_t::object\fP, \fBnlohmann::detail::value_t::array\fP, \fBnlohmann::detail::value_t::string\fP, \fBnlohmann::detail::value_t::boolean\fP, \fBnlohmann::detail::value_t::number_integer\fP, \fBnlohmann::detail::value_t::number_unsigned\fP, \fBnlohmann::detail::value_t::number_float\fP, \fBnlohmann::detail::value_t::discarded\fP }
+.RI "the JSON type enumeration ""
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBnlohmann::detail::operator<\fP (const value_t lhs, const value_t rhs) noexcept"
+.br
+.RI "comparison operator for JSON types "
+.ti -1c
+.RI "\fBnlohmann::detail::NLOHMANN_JSON_HAS_HELPER\fP (mapped_type)"
+.br
+.ti -1c
+.RI "\fBnlohmann::detail::NLOHMANN_JSON_HAS_HELPER\fP (key_type)"
+.br
+.ti -1c
+.RI "\fBnlohmann::detail::NLOHMANN_JSON_HAS_HELPER\fP (value_type)"
+.br
+.ti -1c
+.RI "\fBnlohmann::detail::NLOHMANN_JSON_HAS_HELPER\fP (iterator)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename T , enable_if_t< std::is_same< T, typename BasicJsonType::boolean_t >::value, int >  = 0> void \fBnlohmann::detail::to_json\fP (BasicJsonType &j, T b) noexcept"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleString , enable_if_t< std::is_constructible< typename BasicJsonType::string_t, CompatibleString >::value, int >  = 0> void \fBnlohmann::detail::to_json\fP (BasicJsonType &j, const CompatibleString &s)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename FloatType , enable_if_t< std::is_floating_point< FloatType >::value, int >  = 0> void \fBnlohmann::detail::to_json\fP (BasicJsonType &j, FloatType val) noexcept"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleNumberUnsignedType , enable_if_t< is_compatible_integer_type< typename BasicJsonType::number_unsigned_t, CompatibleNumberUnsignedType >::value, int >  = 0> void \fBnlohmann::detail::to_json\fP (BasicJsonType &j, CompatibleNumberUnsignedType val) noexcept"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleNumberIntegerType , enable_if_t< is_compatible_integer_type< typename BasicJsonType::number_integer_t, CompatibleNumberIntegerType >::value, int >  = 0> void \fBnlohmann::detail::to_json\fP (BasicJsonType &j, CompatibleNumberIntegerType val) noexcept"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename UnscopedEnumType , enable_if_t< is_unscoped_enum< UnscopedEnumType >::value, int >  = 0> void \fBnlohmann::detail::to_json\fP (BasicJsonType &j, UnscopedEnumType e) noexcept"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleArrayType , enable_if_t< is_compatible_array_type< BasicJsonType, CompatibleArrayType >::value or std::is_same< typename BasicJsonType::array_t, CompatibleArrayType >::value, int >  = 0> void \fBnlohmann::detail::to_json\fP (BasicJsonType &j, const CompatibleArrayType &arr)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleObjectType , enable_if_t< is_compatible_object_type< BasicJsonType, CompatibleObjectType >::value, int >  = 0> void \fBnlohmann::detail::to_json\fP (BasicJsonType &j, const CompatibleObjectType &arr)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename ArithmeticType , enable_if_t< std::is_arithmetic< ArithmeticType >::value and not std::is_same< ArithmeticType, typename BasicJsonType::boolean_t >::value, int >  = 0> void \fBnlohmann::detail::get_arithmetic_value\fP (const BasicJsonType &j, ArithmeticType &val)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType > void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, typename BasicJsonType::boolean_t &b)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType > void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, typename BasicJsonType::string_t &s)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType > void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, typename BasicJsonType::number_float_t &val)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType > void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, typename BasicJsonType::number_unsigned_t &val)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType > void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, typename BasicJsonType::number_integer_t &val)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename UnscopedEnumType , enable_if_t< is_unscoped_enum< UnscopedEnumType >::value, int >  = 0> void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, UnscopedEnumType &e)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType > void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, typename BasicJsonType::array_t &arr)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename T , typename Allocator > void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, std::forward_list< T, Allocator > &l)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleArrayType > void \fBnlohmann::detail::from_json_array_impl\fP (const BasicJsonType &j, CompatibleArrayType &arr, priority_tag< 0 >)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleArrayType > auto \fBnlohmann::detail::from_json_array_impl\fP (const BasicJsonType &j, CompatibleArrayType &arr, priority_tag< 1 >) \-> decltype(arr\&.reserve(std::declval< typename CompatibleArrayType::size_type >()), void())"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleArrayType , enable_if_t< is_compatible_array_type< BasicJsonType, CompatibleArrayType >::value and not std::is_same< typename BasicJsonType::array_t, CompatibleArrayType >::value, int >  = 0> void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, CompatibleArrayType &arr)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename CompatibleObjectType , enable_if_t< is_compatible_object_type< BasicJsonType, CompatibleObjectType >::value, int >  = 0> void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, CompatibleObjectType &obj)"
+.br
+.ti -1c
+.RI "template<typename BasicJsonType , typename ArithmeticType , enable_if_t< std::is_arithmetic< ArithmeticType >::value and not std::is_same< ArithmeticType, typename BasicJsonType::number_unsigned_t >::value and not std::is_same< ArithmeticType, typename BasicJsonType::number_integer_t >::value and not std::is_same< ArithmeticType, typename BasicJsonType::number_float_t >::value and not std::is_same< ArithmeticType, typename BasicJsonType::boolean_t >::value, int >  = 0> void \fBnlohmann::detail::from_json\fP (const BasicJsonType &j, ArithmeticType &val)"
+.br
+.ti -1c
+.RI "template<> void \fBstd::swap\fP (\fBnlohmann::json\fP &j1, \fBnlohmann::json\fP &j2) noexcept(is_nothrow_move_constructible< \fBnlohmann::json\fP >::value and is_nothrow_move_assignable< \fBnlohmann::json\fP >::value)"
+.br
+.RI "exchanges the values of two JSON objects "
+.ti -1c
+.RI "\fBnlohmann::json\fP \fBoperator'' _json\fP (const char *s, std::size_t n)"
+.br
+.RI "user-defined string literal for JSON values "
+.ti -1c
+.RI "\fBnlohmann::json::json_pointer\fP \fBoperator'' _json_pointer\fP (const char *s, std::size_t n)"
+.br
+.RI "user-defined string literal for JSON pointer "
+.in -1c
+.SH "Macro Definition Documentation"
+.PP 
+.SS "#define JSON_CATCH(exception)   if(false)"
+
+.SS "#define JSON_DEPRECATED"
+
+.SS "#define JSON_THROW(exception)   std::abort()"
+
+.SS "#define JSON_TRY   if(true)"
+
+.SS "#define NLOHMANN_JSON_HAS_HELPER(type)"
+\fBValue:\fP
+.PP
+.nf
+template<typename T> struct has_##type {                                  \
+    private:                                                                  \
+        template<typename U, typename = typename U::type>                     \
+        static int detect(U &&);                                              \
+        static void detect(\&.\&.\&.);                                              \
+    public:                                                                   \
+        static constexpr bool value =                                         \
+                std::is_integral<decltype(detect(std::declval<T>()))>::value; \
+    }
+.fi
+.PP
+Helper to determine whether there's a key_type for T\&. This helper is used to tell associative containers apart from other containers such as sequence containers\&. For instance, \fCstd::map\fP passes the test as it contains a \fCmapped_type\fP, whereas \fCstd::vector\fP fails the test\&.
+.PP
+\fBSee also:\fP
+.RS 4
+http://stackoverflow.com/a/7728728/266378 
+.RE
+.PP
+\fBSince:\fP
+.RS 4
+version 1\&.0\&.0, overworked in version 2\&.0\&.6 
+.RE
+.PP
+
+.SH "Function Documentation"
+.PP 
+.SS "\fBnlohmann::json\fP operator'' _json (const char * s, std::size_t n)\fC [inline]\fP"
+
+.PP
+user-defined string literal for JSON values This operator implements a user-defined string literal for JSON objects\&. It can be used by adding \fC'_json'\fP to a string literal and returns a JSON object if no parse error occurred\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP a string representation of a JSON object 
+.br
+\fIn\fP the length of string \fIs\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a JSON object
+.RE
+.PP
+\fBSince:\fP
+.RS 4
+version 1\&.0\&.0 
+.RE
+.PP
+
+.SS "\fBnlohmann::json::json_pointer\fP operator'' _json_pointer (const char * s, std::size_t n)\fC [inline]\fP"
+
+.PP
+user-defined string literal for JSON pointer This operator implements a user-defined string literal for JSON Pointers\&. It can be used by adding \fC'_json_pointer'\fP to a string literal and returns a JSON pointer object if no parse error occurred\&.
+.PP
+\fBParameters:\fP
+.RS 4
+\fIs\fP a string representation of a JSON Pointer 
+.br
+\fIn\fP the length of string \fIs\fP 
+.RE
+.PP
+\fBReturns:\fP
+.RS 4
+a JSON pointer object
+.RE
+.PP
+\fBSince:\fP
+.RS 4
+version 2\&.0\&.0 
+.RE
+.PP
+
+.SS "template<> void std::swap (\fBnlohmann::json\fP & j1, \fBnlohmann::json\fP & j2)\fC [inline]\fP, \fC [noexcept]\fP"
+
+.PP
+exchanges the values of two JSON objects 
+.PP
+\fBSince:\fP
+.RS 4
+version 1\&.0\&.0 
+.RE
+.PP
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

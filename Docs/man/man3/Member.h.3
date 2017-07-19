@@ -1,0 +1,61 @@
+.TH "/home/shaan/Desktop/Computer Science/Sync/inc/Member.h" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+/home/shaan/Desktop/Computer Science/Sync/inc/Member.h
+.SH SYNOPSIS
+.br
+.PP
+\fC#include <string>\fP
+.br
+\fC#include <memory>\fP
+.br
+\fC#include <boost/asio\&.hpp>\fP
+.br
+\fC#include <unordered_set>\fP
+.br
+\fC#include 'Error\&.h'\fP
+.br
+\fC#include 'json\&.hpp'\fP
+.br
+
+.SS "Classes"
+
+.in +1c
+.ti -1c
+.RI "class \fBshaan97::sync::Member\fP"
+.br
+.RI "\fC\fBMember\fP\fPs are always members of a \fC\fBshaan97::sync::Group\fP\fP\&. They are the means of sending and receiving data from clients\&. "
+.in -1c
+.SS "Namespaces"
+
+.in +1c
+.ti -1c
+.RI " \fBshaan97\fP"
+.br
+.RI "The namespace for the github user \fBshaan97\fP\&. "
+.ti -1c
+.RI " \fBshaan97::sync\fP"
+.br
+.RI "The namespace for the sync project\&. "
+.in -1c
+.SS "Typedefs"
+
+.in +1c
+.ti -1c
+.RI "typedef std::string \fBshaan97::sync::MemberName\fP"
+.br
+.in -1c
+.SS "Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBshaan97::sync::to_json\fP (\fBnlohmann::json\fP &j, const \fBMember\fP &m)"
+.br
+.ti -1c
+.RI "void \fBshaan97::sync::from_json\fP (\fBnlohmann::json\fP &j, \fBMember\fP &m)"
+.br
+.in -1c
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

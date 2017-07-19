@@ -1,0 +1,147 @@
+.TH "shaan97::sync::Client" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+shaan97::sync::Client
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Client\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBClient\fP (std::string \fBserver_name\fP, std::string \fBservice_name\fP='daytime', GROUP_ID \fBgid\fP='')"
+.br
+.ti -1c
+.RI "\fBClient\fP (const \fBClient\fP &c)"
+.br
+.ti -1c
+.RI "virtual \fB~Client\fP ()"
+.br
+.ti -1c
+.RI "bool \fBjoinGroup\fP (\fBGROUP_ID\fP \fBgid\fP)"
+.br
+.ti -1c
+.RI "void \fBleaveGroup\fP ()"
+.br
+.ti -1c
+.RI "bool \fBchangeGroup\fP (\fBGROUP_ID\fP \fBgid\fP)"
+.br
+.ti -1c
+.RI "\fBGROUP_ID\fP \fBgetGroup\fP () const"
+.br
+.ti -1c
+.RI "std::pair< \fBGROUP_ID\fP, bool > \fBmakeGroup\fP (\fBGROUP_ID\fP \fBgid\fP='')"
+.br
+.ti -1c
+.RI "bool \fBisConnected\fP () const"
+.br
+.ti -1c
+.RI "bool \fBproposeSong\fP ()"
+.br
+.ti -1c
+.RI "void \fBswap\fP (\fBClient\fP &c)"
+.br
+.ti -1c
+.RI "\fBClient\fP & \fBoperator=\fP (const \fBClient\fP &c)"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "bool \fBsyncGroup\fP (std::string \fBserver_name\fP, std::string \fBservice_name\fP, \fBGROUP_ID\fP \fBgid\fP)"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBGROUP_ID\fP \fBgid\fP"
+.br
+.ti -1c
+.RI "bool \fBconnectedToGroup\fP = false"
+.br
+.ti -1c
+.RI "std::shared_ptr< boost::asio::io_service > \fBio_service\fP"
+.br
+.ti -1c
+.RI "std::shared_ptr< boost::asio::ip::tcp::resolver > \fBresolver\fP"
+.br
+.ti -1c
+.RI "std::shared_ptr< boost::asio::ip::tcp::resolver::query > \fBquery\fP"
+.br
+.ti -1c
+.RI "std::shared_ptr< boost::asio::ip::tcp::resolver::iterator > \fBendpoint_iterator\fP"
+.br
+.ti -1c
+.RI "std::shared_ptr< boost::asio::ip::tcp::socket > \fBsocket\fP"
+.br
+.ti -1c
+.RI "\fBError\fP \fBerror\fP"
+.br
+.ti -1c
+.RI "std::string \fBserver_name\fP"
+.br
+.ti -1c
+.RI "std::string \fBservice_name\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Client::Client (std::string server_name, std::string service_name = \fC'daytime'\fP, \fBGROUP_ID\fP gid = \fC''\fP)"
+
+.SS "Client::Client (const \fBClient\fP & c)"
+
+.SS "Client::~Client ()\fC [virtual]\fP"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool shaan97::sync::Client::changeGroup (\fBGROUP_ID\fP gid)"
+
+.SS "\fBGROUP_ID\fP shaan97::sync::Client::getGroup () const\fC [inline]\fP"
+
+.SS "bool shaan97::sync::Client::isConnected () const\fC [inline]\fP"
+
+.SS "bool shaan97::sync::Client::joinGroup (\fBGROUP_ID\fP gid)"
+
+.SS "void shaan97::sync::Client::leaveGroup ()"
+
+.SS "std::pair<\fBGROUP_ID\fP, bool> shaan97::sync::Client::makeGroup (\fBGROUP_ID\fP gid = \fC''\fP)"
+
+.SS "\fBClient\fP & Client::operator= (const \fBClient\fP & c)"
+
+.SS "bool shaan97::sync::Client::proposeSong ()"
+
+.SS "void Client::swap (\fBClient\fP & c)"
+
+.SS "bool Client::syncGroup (std::string server_name, std::string service_name, \fBGROUP_ID\fP gid)\fC [private]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "bool shaan97::sync::Client::connectedToGroup = false\fC [private]\fP"
+
+.SS "std::shared_ptr<boost::asio::ip::tcp::resolver::iterator> shaan97::sync::Client::endpoint_iterator\fC [private]\fP"
+
+.SS "\fBError\fP shaan97::sync::Client::error\fC [private]\fP"
+
+.SS "\fBGROUP_ID\fP shaan97::sync::Client::gid\fC [private]\fP"
+
+.SS "std::shared_ptr<boost::asio::io_service> shaan97::sync::Client::io_service\fC [private]\fP"
+
+.SS "std::shared_ptr<boost::asio::ip::tcp::resolver::query> shaan97::sync::Client::query\fC [private]\fP"
+
+.SS "std::shared_ptr<boost::asio::ip::tcp::resolver> shaan97::sync::Client::resolver\fC [private]\fP"
+
+.SS "std::string shaan97::sync::Client::server_name\fC [private]\fP"
+
+.SS "std::string shaan97::sync::Client::service_name\fC [private]\fP"
+
+.SS "std::shared_ptr<boost::asio::ip::tcp::socket> shaan97::sync::Client::socket\fC [private]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

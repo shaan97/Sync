@@ -1,0 +1,111 @@
+\hypertarget{structshaan97_1_1sync_1_1_message}{}\section{shaan97\+:\+:sync\+:\+:Message Struct Reference}
+\label{structshaan97_1_1sync_1_1_message}\index{shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}}
+
+
+{\ttfamily \#include $<$Message.\+h$>$}
+
+
+
+Collaboration diagram for shaan97\+:\+:sync\+:\+:Message\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{structshaan97_1_1sync_1_1_message__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespaceshaan97_1_1sync_a902024d98481afc28794167b4524f537}{Message\+Type} \hyperlink{structshaan97_1_1sync_1_1_message_a690d35bec280963fc0a20d71dcd53b46}{type}
+\begin{DoxyCompactList}\small\item\em Nature of the message. \end{DoxyCompactList}\item 
+\hyperlink{classshaan97_1_1sync_1_1_member}{Member} \hyperlink{structshaan97_1_1sync_1_1_message_a7abc98c88212d6ad6b0f613957489ad3}{member}
+\begin{DoxyCompactList}\small\item\em Sender of the message. \end{DoxyCompactList}\item 
+\hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID} \hyperlink{structshaan97_1_1sync_1_1_message_a43e7dbbfb505261b1d9432ecafbc8699}{gid}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classshaan97_1_1sync_1_1_group}{Group} of interest (if necessary) \end{DoxyCompactList}\item 
+\hyperlink{classshaan97_1_1sync_1_1_member}{Member} \hyperlink{structshaan97_1_1sync_1_1_message_a1b27154c48628e01d12d4290244c4918}{other}
+\begin{DoxyCompactList}\small\item\em Other member of interest (if necessary) \end{DoxyCompactList}\item 
+\hyperlink{classshaan97_1_1sync_1_1_error}{Error} \hyperlink{structshaan97_1_1sync_1_1_message_a92f154226ebe0ff83eaec8885927c605}{error}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classshaan97_1_1sync_1_1_error}{Error} messages. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& \hyperlink{structshaan97_1_1sync_1_1_message_abb79787d78c9a91699bd7841005df5f7}{operator$<$$<$} (std\+::ostream \&out, const \hyperlink{structshaan97_1_1sync_1_1_message}{Message} \&message)
+\begin{DoxyCompactList}\small\item\em Prints out details of the message, should only be used for debugging or error logging. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Structured data from socket compatible with server-\/side code \begin{DoxyNote}{Note}
+This is the \textquotesingle{}deserialized\textquotesingle{} version of the data. This will be serialized via another protocol (C\+B\+OR), when we move towards a distributed system 
+\end{DoxyNote}
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{structshaan97_1_1sync_1_1_message_abb79787d78c9a91699bd7841005df5f7}\label{structshaan97_1_1sync_1_1_message_abb79787d78c9a91699bd7841005df5f7}} 
+\index{shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}}
+\subsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
+{\footnotesize\ttfamily std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{out,  }\item[{const \hyperlink{structshaan97_1_1sync_1_1_message}{Message} \&}]{message }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Prints out details of the message, should only be used for debugging or error logging. 
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{structshaan97_1_1sync_1_1_message_a92f154226ebe0ff83eaec8885927c605}\label{structshaan97_1_1sync_1_1_message_a92f154226ebe0ff83eaec8885927c605}} 
+\index{shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}!error@{error}}
+\index{error@{error}!shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}}
+\subsubsection{\texorpdfstring{error}{error}}
+{\footnotesize\ttfamily \hyperlink{classshaan97_1_1sync_1_1_error}{Error} shaan97\+::sync\+::\+Message\+::error}
+
+
+
+\hyperlink{classshaan97_1_1sync_1_1_error}{Error} messages. 
+
+\mbox{\Hypertarget{structshaan97_1_1sync_1_1_message_a43e7dbbfb505261b1d9432ecafbc8699}\label{structshaan97_1_1sync_1_1_message_a43e7dbbfb505261b1d9432ecafbc8699}} 
+\index{shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}!gid@{gid}}
+\index{gid@{gid}!shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}}
+\subsubsection{\texorpdfstring{gid}{gid}}
+{\footnotesize\ttfamily \hyperlink{namespaceshaan97_1_1sync_a34cebf175d27dfc3d82f24608f7043c1}{G\+R\+O\+U\+P\+\_\+\+ID} shaan97\+::sync\+::\+Message\+::gid}
+
+
+
+\hyperlink{classshaan97_1_1sync_1_1_group}{Group} of interest (if necessary) 
+
+\mbox{\Hypertarget{structshaan97_1_1sync_1_1_message_a7abc98c88212d6ad6b0f613957489ad3}\label{structshaan97_1_1sync_1_1_message_a7abc98c88212d6ad6b0f613957489ad3}} 
+\index{shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}!member@{member}}
+\index{member@{member}!shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}}
+\subsubsection{\texorpdfstring{member}{member}}
+{\footnotesize\ttfamily \hyperlink{classshaan97_1_1sync_1_1_member}{Member} shaan97\+::sync\+::\+Message\+::member}
+
+
+
+Sender of the message. 
+
+\mbox{\Hypertarget{structshaan97_1_1sync_1_1_message_a1b27154c48628e01d12d4290244c4918}\label{structshaan97_1_1sync_1_1_message_a1b27154c48628e01d12d4290244c4918}} 
+\index{shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}!other@{other}}
+\index{other@{other}!shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}}
+\subsubsection{\texorpdfstring{other}{other}}
+{\footnotesize\ttfamily \hyperlink{classshaan97_1_1sync_1_1_member}{Member} shaan97\+::sync\+::\+Message\+::other}
+
+
+
+Other member of interest (if necessary) 
+
+\mbox{\Hypertarget{structshaan97_1_1sync_1_1_message_a690d35bec280963fc0a20d71dcd53b46}\label{structshaan97_1_1sync_1_1_message_a690d35bec280963fc0a20d71dcd53b46}} 
+\index{shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}!type@{type}}
+\index{type@{type}!shaan97\+::sync\+::\+Message@{shaan97\+::sync\+::\+Message}}
+\subsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily \hyperlink{namespaceshaan97_1_1sync_a902024d98481afc28794167b4524f537}{Message\+Type} shaan97\+::sync\+::\+Message\+::type}
+
+
+
+Nature of the message. 
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+/home/shaan/\+Desktop/\+Computer Science/\+Sync/inc/\hyperlink{_message_8h}{Message.\+h}\end{DoxyCompactItemize}

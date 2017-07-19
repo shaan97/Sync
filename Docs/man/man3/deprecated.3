@@ -1,0 +1,10 @@
+.TH "deprecated" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+deprecatedDeprecated List 
+ \- 
+.IP "\fBMember \fBnlohmann::basic_json< ObjectType, ArrayType, StringType, BooleanType, NumberIntegerType, NumberUnsignedType, NumberFloatType, AllocatorType, JSONSerializer >::basic_json\fP (std::istream &i, const parser_callback_t cb=nullptr)\fP" 1c
+This constructor is deprecated and will be removed in version 3\&.0\&.0 to unify the interface of the library\&. Deserialization will be done by stream operators or by calling one of the \fCparse\fP functions, e\&.g\&. \fBparse(std::istream&, const parser_callback_t)\fP\&. That is, calls like \fCjson j(i);\fP for an input stream \fIi\fP need to be replaced by \fCjson j = json::parse(i);\fP\&. See the example below\&.
+.PP
+

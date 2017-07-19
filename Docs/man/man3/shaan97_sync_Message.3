@@ -1,0 +1,84 @@
+.TH "shaan97::sync::Message" 3 "Tue Jul 18 2017" "Version 1.0.0" "Sync" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+shaan97::sync::Message
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <Message\&.h>\fP
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBMessageType\fP \fBtype\fP"
+.br
+.RI "Nature of the message\&. "
+.ti -1c
+.RI "\fBMember\fP \fBmember\fP"
+.br
+.RI "Sender of the message\&. "
+.ti -1c
+.RI "\fBGROUP_ID\fP \fBgid\fP"
+.br
+.RI "\fBGroup\fP of interest (if necessary) "
+.ti -1c
+.RI "\fBMember\fP \fBother\fP"
+.br
+.RI "Other member of interest (if necessary) "
+.ti -1c
+.RI "\fBError\fP \fBerror\fP"
+.br
+.RI "\fBError\fP messages\&. "
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &out, const \fBMessage\fP &message)"
+.br
+.RI "Prints out details of the message, should only be used for debugging or error logging\&. "
+.in -1c
+.SH "Detailed Description"
+.PP 
+Structured data from socket compatible with server-side code 
+.PP
+\fBNote:\fP
+.RS 4
+This is the 'deserialized' version of the data\&. This will be serialized via another protocol (CBOR), when we move towards a distributed system 
+.RE
+.PP
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "std::ostream& operator<< (std::ostream & out, const \fBMessage\fP & message)\fC [friend]\fP"
+
+.PP
+Prints out details of the message, should only be used for debugging or error logging\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBError\fP shaan97::sync::Message::error"
+
+.PP
+\fBError\fP messages\&. 
+.SS "\fBGROUP_ID\fP shaan97::sync::Message::gid"
+
+.PP
+\fBGroup\fP of interest (if necessary) 
+.SS "\fBMember\fP shaan97::sync::Message::member"
+
+.PP
+Sender of the message\&. 
+.SS "\fBMember\fP shaan97::sync::Message::other"
+
+.PP
+Other member of interest (if necessary) 
+.SS "\fBMessageType\fP shaan97::sync::Message::type"
+
+.PP
+Nature of the message\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Sync from the source code\&.

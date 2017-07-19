@@ -1,0 +1,11 @@
+<map id="nlohmann::basic_json::diff" name="nlohmann::basic_json::diff">
+<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#a2b2d781d7f2a4ee41bc0016e931cadf7" title="return the type of the JSON value (explicit) " alt="" coords="216,5,364,47"/>
+<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#ac8e523ddc8c2dd7e5d2daf0d49a9c0d7" title="add an object to an array " alt="" coords="216,71,364,112"/>
+<area shape="rect" id="node4" href="$classnlohmann_1_1basic__json.html#a25e27ad0c6d53c01871c5485e1f75b96" title="returns the number of elements " alt="" coords="216,136,364,177"/>
+<area shape="rect" id="node5" href="$classnlohmann_1_1basic__json.html#a0136728f5db69d4051c77b94307abd6c" title="inserts element " alt="" coords="216,201,364,243"/>
+<area shape="rect" id="node6" href="$classnlohmann_1_1basic__json.html#a13e032a02a7fd8a93fdddc2fcbc4763c" title="returns an iterator to one past the last element " alt="" coords="201,267,379,294"/>
+<area shape="rect" id="node8" href="$classnlohmann_1_1basic__json.html#a0ff28dac23f2bdecee9564d07f51dcdc" title="returns an iterator to the first element " alt="" coords="216,319,364,360"/>
+<area shape="rect" id="node10" href="$classnlohmann_1_1basic__json.html#aeed33787bd362c7ead59a4ba945392db" title="find an element in a JSON object " alt="" coords="216,384,364,425"/>
+<area shape="rect" id="node7" href="$classnlohmann_1_1basic__json_1_1iter__impl.html#a18eb0144dc65b6387a9d8a0be7e9e05c" title="set the iterator past the last value " alt="" coords="427,256,575,297"/>
+<area shape="rect" id="node9" href="$classnlohmann_1_1basic__json_1_1iter__impl.html#a7f88e3d6564b7d7497b39460b51d2743" title="set the iterator to the first value " alt="" coords="427,321,575,363"/>
+</map>
