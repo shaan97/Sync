@@ -5,18 +5,45 @@
 #include <boost/asio.hpp>
 #include <string>
 
+#include "Group.h"
+#include "Error.h"
+
+
 namespace shaan97 {
 
 namespace sync {
 
-typedef std::string GROUP_ID;
+
 
 class Client {
-	/* CLASS INVARIANTS
+	public:
+		Client(std::string server_name, std::string service_name = "daytime", GROUP_ID gid = "");
+		Client(const Client& c);
+		virtual ~Client();
+
+		bool joinGroup(GROUP_ID gid);
+		void leaveGroup();
+		bool changeGroup(GROUP_ID gid);
+
+		GROUP_ID getGroup() const {
+			if(isConnected())
+				return this->gid;
+			else
+				return "";
+		}
+
+		std::pair<GROUP_ID, bool> makeGroup(GROUP_ID gid = "");
 		
-		TODO : Establish class invariants.
-		(i) An empty string value for GROUP_ID means that the Client is part of no group.
-	*/
+
+		bool isConnected() const{
+			return this->connectedToGroup;
+		}
+
+		bool proposeSong();
+		
+		void swap(Client& c);
+		Client& operator=(const Client& c);
+
 	private:
 		// Group ID
 		GROUP_ID gid;
@@ -43,37 +70,14 @@ class Client {
 		std::shared_ptr<boost::asio::ip::tcp::socket> socket;
 
 		// Can be used to read what failed if error occurred for I/O
-		boost::system::error_code error;
+		Error error;
 		
 		// Keep track of current server name and service name
 		std::string server_name, service_name;
 
 		//bool syncGroup(std::string server_name, std::string service_name);
 		bool syncGroup(std::string server_name, std::string service_name, GROUP_ID gid);
-	public:
-		Client(std::string server_name, std::string service_name = "daytime", GROUP_ID gid = "");
-		Client(const Client& c);
-		virtual ~Client();
-
-		bool setGroup(GROUP_ID gid);
-
-		GROUP_ID getGroup() const {
-			if(isConnected())
-				return this->gid;
-			else
-				return "";
-		}
-
-		
-
-		bool isConnected() const{
-			return this->connectedToGroup;
-		}
-
-		
-		
-		void swap(Client& c);
-		Client& operator=(const Client& c);
+	
 
 
 };

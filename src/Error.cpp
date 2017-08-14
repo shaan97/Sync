@@ -1,4 +1,6 @@
 #include "../inc/Error.h"
+#include "../inc/Message.h"
+
 #include <sstream>
 using namespace shaan97::sync;
 
@@ -24,6 +26,12 @@ inline std::string errorToString(const ERROR_TYPE& error) {
 		break;
 	case CORRUPTED_DATA:
 		return "CORRUPTED_DATA";
+		break;
+	case MEMBER_EXISTS:
+		return "MEMBER_EXISTS";
+		break;
+	case MEMBER_NO_EXIST:
+		return "MEMBER_NO_EXIST";
 		break;
 	default:
 		return "UNDEFINED_ERROR";
@@ -141,4 +149,20 @@ Error& Error::operator=(Error&& error) {
 	this->error = std::move(error.error);
 	this->isBoostError = std::move(error.isBoostError);
 	return *this;
+}
+
+Error::operator bool() const {
+	return boost_error || this->error != NONE;
+}
+
+void shaan97::sync::to_json(nlohmann::json& j, const Error& e) {
+	j = {
+		{JSON_KEY::SYNC_ERROR, e.error},
+		{JSON_KEY::BOOST_ERROR, e.boost_error.message()},
+		{JSON_KEY::DETAILS, e.getDetails()}
+	};
+}
+
+void shaan97::sync::from_json(nlohmann::json& j, Error& e) {
+	e.setError(j.at(JSON_KEY::SYNC_ERROR).get<JSON_KEY>(), j.at(JSON_KEY::DETAILS).get<std::string>());
 }

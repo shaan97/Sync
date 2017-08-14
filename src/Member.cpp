@@ -1,17 +1,18 @@
 #include "../inc/Member.h"
+#include "../inc/Message.h"
 
 using namespace shaan97::sync;
 
-Member::Member(const std::string& name, const std::shared_ptr<boost::asio::ip::tcp::socket>& socket, const std::shared_ptr<Group>& group) :
-	name(name), client_socket(socket)
+Member::Member(const std::string& name, const std::shared_ptr<boost::asio::ip::tcp::socket>& socket) //, const std::shared_ptr<Group>& group) :
+	: name(name), client_socket(socket)
 {
-	groups.emplace(group);
+	// Intentionally blank
 }
 
 Member::Member(Member&& mem)  {
 	this->name = std::move(mem.name);
 	this->client_socket = std::move(mem.client_socket);
-	this->groups = std::move(mem.groups);
+	//this->groups = std::move(mem.groups);
 }
 
 
@@ -51,12 +52,38 @@ MemberName Member::getName() const {
 	return this->name;
 }
 
-void Member::setName(const MemberName& name) {
-	this->name = name;
+bool Member::setName(const MemberName& name) {
+	Error e;
+	setName(name, e);
+	return e;	// Cast to bool
 }
 
-
+void Member::setName(const MemberName& name, Error& e) {
+	this->name = name;
+	e = NONE;
+}
 
 bool Member::operator==(const Member& m) const {
-	return name == m.name;
+	// Only checks if the socket is the same object in memory. Assumption is that
+	// there is only one socket ever open for a given client
+	return this->client_socket == m.client_socket;
+}
+
+bool Member::changeSocket(const std::shared_ptr<boost::asio::ip::tcp::socket>& socket) {
+	Error e;
+	changeSocket(socket, e);
+	return e;
+}
+
+void Member::changeSocket(const std::shared_ptr<boost::asio::ip::tcp::socket>& socket, Error& e) {
+	this->client_socket = socket;
+	e = NONE;
+}
+
+void to_json(nlohmann::json& j, const Member& m) {
+	j[JSON_KEY::NAME] = m.getName();
+}
+
+void from_json(nlohmann::json& j, Member& m) {
+	m.setName(j.at(JSON_KEY::NAME).get<MemberName>());
 }

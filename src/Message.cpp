@@ -26,8 +26,18 @@ std::ostream& operator<<(std::ostream& out, const Message& message) {
 	printMessageType(out, message);
 	out << " Member name: " << message.member.getName();
 	out << " GROUP ID " << message.gid;	
-	out << " Referencing Member: " << message.other.getName();
+	out << " Referencing Member: " << message.other;
 	
 
 	return out;
+}
+
+void to_json(nlohmann::json& j, const Message& m) {
+	j = {
+		{TYPE, m.type},
+		{MEMBER, m.member},
+		{GID, m.gid},
+		{OTHER, m.other},
+		{ERROR_MESSAGE, m.error}
+	};
 }
