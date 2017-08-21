@@ -10,27 +10,29 @@ var Status = require("./globals").Status;
 */
 class SyncServer {
 
-	constructor(sync_factory, decoder) {
+	constructor(sync_factory) {
+		this.sync_factory = sync_factory;
+		this.room_mgr = this.sync_factory.makeRoomManager();
+		this.decoder = this.sync_factory.makeDecoder();
+
 		// Set up WSS
-		this.wss = new WebSocketServer({port: 8000});
-		this.factory = sync_factory;
-		this.room_mgr = this.factory.makeRoomManager();
-		this.decoder = decoder;
+		this.wss = new WebSocketServer({port: 8000});		
+		var server = this;
 
 		this.wss.on("connection", function(ws) {
 
 			// First connection to a client established
-
-			/* TODO : Figure out a better logging scheme. */
 			util.log("Incoming socket connection: " + ws.bytesReceived + " received.");
 
 			// On the first message, we determine what group we should connect the client to
+;	
 			ws.once("message", function(message) {
 				util.log("Received %s", message);
-				
-				var success = handleMessage(ws, message);
+				var success = server.handleMessage(ws, message);
+
 
 				if(!success) {
+					util.log("Failure");
 					ws.send(Status.FAIL);
 					ws.close();
 				}
@@ -40,13 +42,17 @@ class SyncServer {
 			});
 		});
 
+
+
 	}
 
 	handleMessage(ws, message) {
 		this.decoder.message = message;
-		switch(this.decoder.getRequestType()) {
+		var type = this.decoder.getRequestType();
+		switch(type) {
 
 		case RequestType.ROOM_CREATE:
+			console.log("room create");
 			// Get desired room name
 			var room_name = this.decoder.getRoomName();
 
@@ -55,7 +61,7 @@ class SyncServer {
 				return false;
 
 			// Create the room, if possible
-			var room = this.sync_factory.makeRoom(decoder, ws);
+			var room = this.sync_factory.makeRoom(this.decoder, ws);
 			if(room == null) {
 				return false;
 			}
@@ -74,7 +80,7 @@ class SyncServer {
 			}
 
 			// Create a member object representation of the client
-			var member = this.sync_factory.makeMember(digest, ws);
+			var member = this.sync_factory.makeMember(this.decoder, ws);
 
 			// Try to insert the member into the room
 			return room.insert(member);
@@ -89,3 +95,8 @@ class SyncServer {
 }
 
 exports.SyncServer = SyncServer;
+
+var BasicSyncFactory = require("./basic-sync-factory").BasicSyncFactory;
+var Decoder = require("./decoder").Decoder;
+
+var server = new SyncServer(new BasicSyncFactory());
