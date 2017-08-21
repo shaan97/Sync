@@ -1,0 +1,19 @@
+{
+  "name": "sync-server",
+  "version": "1.0.0",
+  "description": "Server built for coordinating real-time music playback between devices.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sync",
+    "music",
+    "devices"
+  ],
+  "author": "Shaan Mathur",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "ws": "^3.1.0"
+  }
+}
