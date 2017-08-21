@@ -1,4 +1,4 @@
-
+var util = require("util");
 
 class BasicRoomManager {
 	constructor() {
@@ -9,12 +9,19 @@ class BasicRoomManager {
 		if(room.room_name in this.rooms)
 			return false;
 		
+		var room_mgr = this;
+		room.on("empty", function() {
+			room_mgr.remove(room);
+		});
+
 		this.rooms[room.room_name] = room;
 		return true;
 	}
 
 	remove(room) {
+		util.log("Removing " + room.room_name);
 		if(room.room_name in this.rooms) {
+			room.close();
 			delete this.rooms[room.room_name];
 			return true;
 		}
@@ -33,17 +40,6 @@ class BasicRoomManager {
 		return null;
 	}
 
-	/*
-	transfer(new_room_mgr) {
-		var success = true;
-		this.rooms.foreach(function(room) {
-			if(!new_room_mgr.insert(room))
-				success = false;
-			else
-				remove()
-		});
-	}
-	*/
 }
 
 exports.BasicRoomManager = BasicRoomManager;
