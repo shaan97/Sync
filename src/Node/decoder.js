@@ -3,19 +3,19 @@
 class Decoder {
 	
 	set message(message) {
-		this.message = JSON.parse(message);
+		this._message = JSON.parse(message);
 	}
 
 	getRequestType() {
-		return this.message.RequestType;
+		return this._message.RequestType;
 	}
 
 	getMemberName() {
-		return this.message.member_name;
+		return this._message.member_name;
 	}
  
 	getRoomName() {
-		return this.message.room_name;
+		return this._message.room_name;
 	}
 
 }
