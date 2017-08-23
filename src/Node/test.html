@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sync Tester</title>
+  </head>
+  <body>
+    
+      <script src="../globals.js" type="text/javascript"></script>
+      <script src="globals.js" type="text/javascript"></script>
+    Name:<input type="text" id="name"></input><br><br>
+
+    <div id = "room_create">
+      Room Create:<input type="text" id = "rc" name="Room Create">
+      <input type="submit" value="Submit" onclick="send('rc')"></input><br>
+    </div>
+    <br>
+
+    <div id = "room_join">
+      Room Join:<input type="text" id = "rj" name="Room Join">
+      <input type="submit" value="Submit" onclick="send('rj')"></input>
+    </div>
+
+  <script type="text/javascript">
+   function send(id)
+   {
+      var rname = document.getElementById(id).value;
+      
+      window.WebSocket = window.WebSocket || window.MozWebSocket;
+      var connection = new WebSocket('ws://localhost:8000');
+
+      var type = id == "rc" ? RequestType.ROOM_CREATE : RequestType.ROOM_JOIN;
+      var _json = {RequestType: type, member_name: document.getElementById("name").value, room_name: rname};
+      console.log(typeof(_json));
+
+      connection.onopen = function() {
+        console.log("Connected!");
+        // Send in request to join group.
+        connection.send(JSON.stringify(_json));
+      }
+      
+   }
+
+
+
+  </script>
+  </body>
+</html>
