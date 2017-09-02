@@ -5,20 +5,21 @@ var BasicRoom = require("./basic-room").BasicRoom;
 var Decoder = require("./decoder").Decoder;
 var deep_copy = require("./globals").deep_copy;
 
-/// Library of functions used to decode a message
+/// Factory to instantiate basic implementations of objects in server hierarchy
 class BasicSyncFactory extends SyncFactory {
 
 	makeRoomManager() {
-		return new BasicRoomManager;
+		return new BasicRoomManager();
 	}
 	
-	makeRoom(digest, ws) {
-		return new BasicRoom(digest.getRoomName(), this.makeMember(digest, ws));
+	makeRoom(room_name, member) {
+		return new BasicRoom(room_name, member);
 	}
 
-	makeMember(digest, ws) {
-		/* TODO : One day, this might be needed. For now, we just return the Basic type.*/
-		return new BasicMember(digest.getMemberName(), ws, deep_copy(digest));
+	makeMember(name, ws) {
+		ws.decoder = this.makeDecoder()
+		ws.name = name;
+		return ws;
 	}
 
 	makeDecoder() {
