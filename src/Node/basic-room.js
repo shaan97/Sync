@@ -23,20 +23,23 @@ class BasicRoom extends EventEmitter {
 
 	insert(member) {
 		util.log("Attempting to add " + member.name);
-		if(member.name in this.members)
+		if(member.name in this.members) {
+			util.log(`${member.name} already present in ${this.room_name}`);
+			member.send(Status.EXISTS);
 			return false;
+		}
 
 		this.members[member.name] = member;
 		var room = this;
 		
 		// Make the room handle all messages from the connection now
 		member.on("message", function(message) {
-			util.log("Received message from " + member.name);
+			util.log("Received message from " + member.name + " in Room " + this.room_name);
 			room.handleMessage(member, message);
 		});
 
 		member.on("close", function() {
-			util.log("Receiving close from " + member.name);
+			util.log("Receiving close from " + member.name + " in Room " + this.room_name);
 			room.remove(member.name);
 		});
 
@@ -46,9 +49,11 @@ class BasicRoom extends EventEmitter {
 	}
 
 	remove(member_name) {
-		util.log("Attempting to remove " + member_name);
-		if(!(member_name in this.members))
+		util.log("Attempting to remove " + member_name + " in Room " + this.room_name);
+		if(!(member_name in this.members)){
+			util.log(`${member_name} not in ${this.room_name}`);
 			return false;
+		}
 
 		var member = this.members[member_name];
 		if(member !== this.admin) {
@@ -56,10 +61,11 @@ class BasicRoom extends EventEmitter {
 			member.close();
 		}
 		else {
-			util.log(member_name + " is an admin. Attempting to get new admin.");
+			util.log(member_name + " is an admin. Attempting to get new admin in Room " + this.room_name);
 			this.getNewAdmin();
 			if(member === this.admin) {
 				this.emit("empty");
+				util.log(`${this.room_name} emitted "empty"`);
 				return false;
 			} else {
 				delete this.members[member_name];
@@ -67,13 +73,13 @@ class BasicRoom extends EventEmitter {
 			}
 		}
 
-		util.log(member_name + " was removed.");
+		util.log(member_name + " was removed in Room " + this.room_name);
 		return true;
 	}
 
 	handleMessage(member, message) {
-		var log = "Received message from member: ";
-		util.log(log + requestTypeToString());
+		var log = "Room " + this.room_name + " received message from " + member.name + ":\t";
+		util.log(log + requestTypeToString(message));
 		member.decoder.message = message;
 		// Determine action based on request type
 		switch(member.decoder.RequestType()) {
@@ -82,7 +88,7 @@ class BasicRoom extends EventEmitter {
 		case RequestType.REMOVE_MEMBER:
 			var other = member.decoder.getOtherMemberName();		
 			if(member != this.admin || other == null || !(other in this.members)) {
-				ws.send(Status.FAIL);
+				member.send(Status.FAIL);
 				return false;
 			}
 			this.remove(other);
