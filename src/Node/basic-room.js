@@ -4,7 +4,6 @@ var EventEmitter = require("events").EventEmitter;
 var RequestType = require("./globals").RequestType;
 var requestTypeToString = require("./globals").requestTypeToString;
 
-/* TODO : Implement rooms */
 class BasicRoom extends EventEmitter {
 	constructor(room_name, admin) {
 		super();
