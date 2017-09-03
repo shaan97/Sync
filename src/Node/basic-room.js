@@ -53,7 +53,7 @@ class BasicRoom extends EventEmitter {
 
 		var member = this.members[member_name];
 		if(member !== this.admin) {
-			this.members.removeAttribute(member_name);
+			delete this.members[member_name];
 			member.close();
 		}
 		else {
@@ -61,8 +61,9 @@ class BasicRoom extends EventEmitter {
 			this.getNewAdmin();
 			if(member === this.admin) {
 				this.emit("empty");
+				return false;
 			} else {
-				this.members.removeAttribute(member_name);
+				delete this.members[member_name];
 				member.close();
 			}
 		}
@@ -109,9 +110,9 @@ class BasicRoom extends EventEmitter {
 
 	getNewAdmin() {
 		// Arbitrary implementation
-		for(let member of this.members) {
-			if(member !== this.admin) {
-				this.admin = member;
+		for(let member in this.members) {
+			if(this.members.hasOwnProperty(member) && member !== this.admin.name) {
+				this.admin = this.members[member];
 				break;
 			}
 		}
@@ -121,10 +122,12 @@ class BasicRoom extends EventEmitter {
 	}
 
 	close() {
-		this.members.forEach(function(member) {
-			member.close();
-		});
-		this.members.clear();
+		for(let member in this.members) {
+			if(this.members.hasOwnProperty(member)) {
+				this.members[member].close();
+				delete this.members[member];
+			}
+		}
 	}
 }
 
