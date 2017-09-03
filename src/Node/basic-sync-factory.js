@@ -1,5 +1,4 @@
 var SyncFactory = require("./sync-factory").SyncFactory;
-var BasicMember = require("./basic-member").BasicMember;
 var BasicRoomManager = require("./basic-room-manager").BasicRoomManager;
 var BasicRoom = require("./basic-room").BasicRoom;
 var Decoder = require("./decoder").Decoder;
