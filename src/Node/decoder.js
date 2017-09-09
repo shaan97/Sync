@@ -21,8 +21,8 @@ class Decoder {
 	}
 
 	/// @return null if invalid
-	getSongName() {
-		return this._message.song_name;
+	getSongID() {
+		return this._message.song_id;
 	}
 
 	/// @return null if invalid
