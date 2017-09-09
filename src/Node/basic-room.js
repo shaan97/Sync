@@ -3,6 +3,11 @@ var Status = require("./globals").Status;
 var EventEmitter = require("events").EventEmitter;
 var RequestType = require("./globals").RequestType;
 var requestTypeToString = require("./globals").requestTypeToString;
+var deepcopy = require("deepcopy");
+var SyncEvent = require("./sync-event").SyncEvent;
+var LinkedList = require("linked-list").LinkedList;
+var MessageType = require("./globals").MessageType;
+var SyncEventMessage = require("./sync-event").SyncEventMessage;
 
 class BasicRoom extends EventEmitter {
 	constructor(room_name, admin) {
@@ -13,23 +18,26 @@ class BasicRoom extends EventEmitter {
 
 		// Initialize set of members 
 		this.members = new Object();
+		this.size = 0;
 		this.insert(admin);
 		this.makeAdmin(admin);
 
-		// Music "queue" (might allow arbitrary promotions)
-		this.music_queue = new Array();
-
+		// List of sync events that require consensus among all nodes in distributed system
+		var sync_events = new LinkedList();
 	}
 
 	insert(member) {
+		var _encoder = deepcopy(member.encoder);
+		
 		util.log("Attempting to add " + member.name);
 		if(member.name in this.members) {
 			util.log(`${member.name} already present in ${this.room_name}`);
-			member.send(Status.EXISTS);
+			member.send(_encoder.setStatus(Status.EXISTS).response);
 			return false;
 		}
 
 		this.members[member.name] = member;
+		++this.size;
 		var room = this;
 		
 		// Make the room handle all messages from the connection now
@@ -43,7 +51,8 @@ class BasicRoom extends EventEmitter {
 			room.remove(member.name);
 		});
 
-		member.send(Status.SUCCESS);
+
+		member.send(_encoder.setStatus(Status.SUCCESS).response);
 		util.log(member.name + " added to " + this.room_name);
 		return true;
 	}
@@ -73,6 +82,7 @@ class BasicRoom extends EventEmitter {
 			}
 		}
 
+		--this.size;
 		util.log(member_name + " was removed in Room " + this.room_name);
 		return true;
 	}
@@ -80,28 +90,73 @@ class BasicRoom extends EventEmitter {
 	handleMessage(member, message) {
 		var log = "Room " + this.room_name + " received message from " + member.name + ":\t";
 		util.log(log + requestTypeToString(message));
-		member.decoder.message = message;
+
+		var _decoder = deepcopy(member.decoder);
+		var _encoder = deepcopy(member.encoder);
+		_decoder.message = message;
+
+
+		// Create message to send to all members
+		var msg = new SyncEventMessage();
+
 		// Determine action based on request type
-		switch(member.decoder.RequestType()) {
+		switch(_decoder.getRequestType()) {
 		case RequestType.SONG_REQUEST:
-			return false; // TODO 
+			var song_id = _decoder.getSongID();
+			if(song_id === null)
+				return false;
+
+			msg.setMessageType(MessageType.ENQUEUE_SONG);
+			msg.setSongID(song_id);
+			msg.setMemberName(member.name);
+
+			break;
+		case RequestType.PAUSE:
+			msg.setMessageType(MessageType.PAUSE);
+			msg.setMemberName(member.name);
+
+			break;
+		case RequestType.PLAY:
+			msg.setMessageType(MessageType.PLAY);
+			msg.setMemberName(member.name);
+			
+			break;
 		case RequestType.REMOVE_MEMBER:
-			var other = member.decoder.getOtherMemberName();		
-			if(member != this.admin || other == null || !(other in this.members)) {
-				member.send(Status.FAIL);
+			var other = _decoder.getOtherMemberName();		
+			if(member !== this.admin || other === null || !(other in this.members) || !this.remove(other.name)) {
+				member.send(_encoder.setStatus(Status.FAIL).response);
 				return false;
 			}
-			this.remove(other);
-			return true;
+
+			// TODO : What do we do if we can't get consensus on this?
+			msg.setMessageType(MessageType.REMOVE_MEMBER);
+			msg.setMemberName(other.name);
+
+			break;
 		default:
-			member.send(Status.INVALID);
+			member.send(_encoder.setStatus(Status.INVALID).response);
 			return false;
 		}
+		
+		// Create a Song Request Sync Event
+		var sync_event = new SyncEvent(members, msg);
+		{
+			let emitter = new EventEmitter();
+			Object.assign(sync_event, emitter);
+		}
+		
+		sync_events.append(sync_event);
+		
+		// Tell member that their status is pending
+		member.send(_encoder.setStatus(Status.PENDING).response);
+
+		// Failure not determinable yet
+		return true;
 		
 	}
 
 	size() {
-		return this.members.size;
+		return this.size;
 	}
 
 	makeAdmin(member) {
@@ -115,6 +170,7 @@ class BasicRoom extends EventEmitter {
 
 	getNewAdmin() {
 		// Arbitrary implementation
+		var room = this;
 		for(let member in this.members) {
 			if(this.members.hasOwnProperty(member) && member !== this.admin.name) {
 				this.admin = this.members[member];
@@ -127,10 +183,16 @@ class BasicRoom extends EventEmitter {
 	}
 
 	close() {
+		var room = this;
+		this.forEach(function(member) {
+			room.members[member].close();
+		});
+	}
+
+	forEach(func) {
 		for(let member in this.members) {
 			if(this.members.hasOwnProperty(member)) {
-				this.members[member].close();
-				delete this.members[member];
+				func(member);
 			}
 		}
 	}
