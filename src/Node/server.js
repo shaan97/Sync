@@ -2,6 +2,7 @@ var WebSocketServer = require("ws").Server;
 var util = require("util");
 var RequestType = require("./globals").RequestType;
 var Status = require("./globals").Status;
+var deepcopy = require("deepcopy");
 
 /*	@class SyncServer
 *	
@@ -13,6 +14,7 @@ class SyncServer {
 		this.sync_factory = sync_factory;
 		this.room_mgr = this.sync_factory.makeRoomManager();
 		this.decoder = this.sync_factory.makeDecoder();
+		this.encoder = this.sync_factory.makeEncoder();
 
 		// Set up WSS
 		this.wss = new WebSocketServer({port: 8000});		
@@ -26,8 +28,10 @@ class SyncServer {
 			// On the first message, we determine what group we should connect the client to	
 			ws.once("message", function(message) {
 				util.log("Received %s", message);
-				if(!server.handleMessage(ws, message))
+				if(!server.handleMessage(ws, message)) {
 					util.log("Failure.");
+					ws.close();
+				}
 			});
 		});
 
@@ -36,32 +40,33 @@ class SyncServer {
 	}
 
 	handleMessage(ws, message) {
-		this.decoder.message = message;
-		var member_name = this.decoder.getMemberName();
+		var _decoder = deepcopy(this.decoder);
+		var _encoder = deepcopy(this.encoder);
+		_decoder.message = message;
+
+		var member_name = _decoder.getMemberName();
 		if(member_name === null) {
 			util.log(`Member name not present.`);
-			ws.send(Status.INVALID);
+			ws.send(_encoder.setStatus(Status.INVALID).response);
 			return false;
 		}
 
-		var type = this.decoder.getRequestType();
+		var type = _decoder.getRequestType();
 		switch(type) {
 
 		case RequestType.ROOM_CREATE:
 			// Get desired room name
-			var room_name = this.decoder.getRoomName();
+			var room_name = _decoder.getRoomName();
 			if (room_name === null) { 
 				util.log(`${member_name} did not provide valid room name.`);
-				ws.send(Status.INVALID);
-				ws.close();
+				ws.send(_encoder.setStatus(Status.INVALID).response);
 				return false;
 			}
 
 			// Check if room already exists
 			if(this.room_mgr.contains(room_name)) {
 				util.log(`${member_name} cannot create existing room ${room_name}`);
-				ws.send(Status.EXISTS);
-				ws.close();
+				ws.send(_encoder.setStatus(Status.EXISTS).response);
 				return false;
 			}
 
@@ -69,15 +74,16 @@ class SyncServer {
 			var room = this.sync_factory.makeRoom(room_name, this.sync_factory.makeMember(member_name, ws));
 
 			// Request the room manager to add this new room
-			return this.room_mgr.insert(room);
+			var success = this.room_mgr.insert(room);
+			ws.send(_encoder.setStatus(success ? Status.SUCCESS : Status.FAIL).response);
+			return success;
 
 		case RequestType.ROOM_JOIN:
 			// Get the room name
-			var room_name = this.decoder.getRoomName();
+			var room_name = _decoder.getRoomName();
 			if (room_name === null) { 
 				util.log(`${member_name} did not provide valid room name.`);
-				ws.send(Status.INVALID);
-				ws.close();
+				ws.send(_encoder.setStatus(Status.INVALID).response);
 				return false;
 			}
 
@@ -85,8 +91,7 @@ class SyncServer {
 			var room = this.room_mgr.getRoom(room_name);
 			if(room === null) {
 				util.log(`${member_name} cannot join ${room_name} since it doesn't exist.`);
-				ws.send(Status.NOT_EXIST);
-				ws.close();
+				ws.send(_encoder.setStatus(Status.NOT_EXIST).response);
 				return false;
 			}
 
@@ -94,12 +99,13 @@ class SyncServer {
 			var member = this.sync_factory.makeMember(member_name, ws);
 
 			// Try to insert the member into the room
-			return room.insert(member);
+			var success = room.insert(member);
+			ws.send(_encoder.setStatus(success ? Status.SUCCESS : Status.FAIL).response);
+			return success;
 
 		default:
 			util.log(`${member_name} provided unapplicable request type.`);
-			ws.send(Status.FAIL);
-			ws.close();
+			ws.send(_encoder.setStatus(Status.FAIL).response);
 			return false;
 		}
 	}
