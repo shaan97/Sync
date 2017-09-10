@@ -13,13 +13,12 @@ class SyncServer {
 	constructor(sync_factory) {
 		this.sync_factory = sync_factory;
 		this.room_mgr = this.sync_factory.makeRoomManager();
-		this.decoder = this.sync_factory.makeDecoder();
-		this.encoder = this.sync_factory.makeEncoder();
+		this.server_decoder = this.sync_factory.makeServerDecoder();
 
 		// Set up WSS
 		this.wss = new WebSocketServer({port: 8000});		
 		var server = this;
-
+		
 		this.wss.on("connection", function(ws) {
 
 			// First connection to a client established
@@ -40,23 +39,34 @@ class SyncServer {
 	}
 
 	handleMessage(ws, message) {
-		var _decoder = deepcopy(this.decoder);
-		var _encoder = deepcopy(this.encoder);
-		_decoder.message = message;
 
-		var member_name = _decoder.getMemberName();
+		/* 	We need to figure out how we will communicate with this socket, so we will begin with
+			a standardized decoder that we always expect on first message. We will use that to
+			determine the protocol version we are dealing with, and use our factory to create
+			the appropriate decoder/encoder pair
+		*/
+		
+		// Load message into first message decoder
+		this.server_decoder.message = message;
+
+		// Now use version to figure out how the rooms will communicate with the client
+		var message_formatter = this.sync_factory.getMessageFormatters(this.server_decoder.getVersion());
+		var _decoder = message_formatter.decoder;
+		var _encoder = message_formatter.encoder;
+
+		var member_name = this.server_decoder.getMemberName();
 		if(member_name === null) {
 			util.log(`Member name not present.`);
 			ws.send(_encoder.setStatus(Status.INVALID).response);
 			return false;
 		}
 
-		var type = _decoder.getRequestType();
+		var type = this.server_decoder.getRequestType();
 		switch(type) {
 
 		case RequestType.ROOM_CREATE:
 			// Get desired room name
-			var room_name = _decoder.getRoomName();
+			var room_name = this.server_decoder.getRoomName();
 			if (room_name === null) { 
 				util.log(`${member_name} did not provide valid room name.`);
 				ws.send(_encoder.setStatus(Status.INVALID).response);
@@ -71,7 +81,7 @@ class SyncServer {
 			}
 
 			// Create the room
-			var room = this.sync_factory.makeRoom(room_name, this.sync_factory.makeMember(member_name, ws));
+			var room = this.sync_factory.makeRoom(room_name, this.sync_factory.makeMember(member_name, ws, this.server_decoder.getVersion()));
 
 			// Request the room manager to add this new room
 			var success = this.room_mgr.insert(room);
@@ -80,7 +90,7 @@ class SyncServer {
 
 		case RequestType.ROOM_JOIN:
 			// Get the room name
-			var room_name = _decoder.getRoomName();
+			var room_name = this.server_decoder.getRoomName();
 			if (room_name === null) { 
 				util.log(`${member_name} did not provide valid room name.`);
 				ws.send(_encoder.setStatus(Status.INVALID).response);
@@ -96,7 +106,7 @@ class SyncServer {
 			}
 
 			// Create a member object representation of the client
-			var member = this.sync_factory.makeMember(member_name, ws);
+			var member = this.sync_factory.makeMember(member_name, ws, this.server_decoder.getVersion());
 
 			// Try to insert the member into the room
 			var success = room.insert(member);
