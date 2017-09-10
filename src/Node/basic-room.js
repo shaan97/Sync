@@ -37,7 +37,7 @@ class BasicRoom extends EventEmitter {
 		this.makeAdmin(admin);
 
 		// List of sync events that require consensus among all nodes in distributed system
-		var sync_events = new LinkedList.LinkedList();
+		var sync_events = new LinkedList();
 	}
 
 	/*!
