@@ -16,19 +16,25 @@ class BasicSyncFactory extends SyncFactory {
 		return new BasicRoom(room_name, member);
 	}
 
-	makeMember(name, ws) {
-		ws.decoder = this.makeDecoder();
-		ws.encoder = this.makeEncoder();
+	makeMember(name, ws, version = 1.0) {
+		var message_formatters = this.getMessageFormatters(version)
+		ws.decoder = message_formatters.decoder;
+		ws.encoder = message_formatters.encoder;
 		ws.name = name;
 		return ws;
 	}
 
-	makeDecoder() {
+	makeServerDecoder() {
 		return new Decoder();
 	}
 
-	makeEncoder() {
-		return new Encoder();
+	getMessageFormatters(version) {
+		switch(version) {
+		case 1.0:
+			return {"encoder" : new Encoder(), "decoder" : new Decoder()};
+		default:
+			return {"encoder" : new Encoder(), "decoder" : new Decoder()};
+		}
 	}
 
 }
