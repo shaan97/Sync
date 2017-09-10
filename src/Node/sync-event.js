@@ -3,7 +3,7 @@ var LinkedList = require("linked-list");
 var EventEmitter = require("events").EventEmitter;
 
 
-class SyncEvent extends LinkedList.Item {
+class SyncEvent extends EventEmitter {
 
 	constructor(members, message) {
 		super()
@@ -15,20 +15,24 @@ class SyncEvent extends LinkedList.Item {
 		this.timeout = 5000;	// 5000 ms wait
 		this.timer = null;
 		
-		this.phase_num = 1;
+		this.phase_num = 0;
 
-		LinkedList.Item.apply(this, arguments);
 	}
 
 	confirm(member) {
 		this.pending.delete(member);
 		if(this.pending.size <= 0 && this.timer !== null) {
 			clearTimeout(this.timer);
+			this.emit("phase-complete");
 		}
 	}
 
 	isComplete() {
-		return this.pending.size <= 0 && this.phase_num > 0;
+		return this.pending.size <= 0 && this.phase_num == 3;
+	}
+
+	isAborted() {
+		return this.phase_num < 0;
 	}
 
 	add(member) {
@@ -36,22 +40,23 @@ class SyncEvent extends LinkedList.Item {
 	}
 
 	nextPhase() {
-		switch(this.phase_num) {
+		var success;
+		switch(this.phase_num + 1) {
 		case 1:
-			this.phase(Status.CAN_COMMIT);
+			success = this.phase(Status.CAN_COMMIT);
 			break;
 		case 2:
-			this.phase(Status.PRE_COMMIT);
+			success = this.phase(Status.PRE_COMMIT);
 			break;
 		case 3:
-			this.phase(Status.COMMIT);
+			success = this.phase(Status.COMMIT);
 			break;
 		default:
 			return false;
 		}
 
 		++this.phase_num;
-		return true;
+		return success;
 	}
  
 	phase(status) {
