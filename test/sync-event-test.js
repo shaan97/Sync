@@ -1,5 +1,7 @@
 var expect = require("chai").expect;
-var sleep = require("sleep")
+var sinon = require("sinon");
+var sinonTestFactory = require('sinon-test');
+var sinonTest = sinonTestFactory(sinon);
 
 var sync_event = require("../src/Node/sync-event");
 var Encoder = require("../src/Node/encoder").Encoder;
@@ -41,7 +43,6 @@ function forEach(members, func) {
 	}
 }
 describe("SyncEvent", function() {
-	this.timeout(10500);
 
 	
 	var members = getMembers();
@@ -106,25 +107,25 @@ describe("SyncEvent", function() {
 	
 	});
 
-	it("should be able to enter a phase and exit on timeout", (done) => {
+	it("should be able to enter a phase and exit on timeout", sinonTest(() => {
 		var event = new sync_event.SyncEvent(members, message);
+		var clock = sinon.useFakeTimers();
 
 		expect(event.phase(0)).to.equal(true);
 		forEach(members, (member) => {
 			expect(JSON.parse(member.buffer).status).to.equal(0);
 		});
 		expect(event.pending.size).to.equal(size);
-		setTimeout(() => {
-			forEach(members, (member) => {
-				expect(JSON.parse(member.buffer).status).to.equal(Status.ABORT_COMMIT);
-			});
-			done()
-		}, 5000)
+		clock.tick(5000); 
+		forEach(members, (member) => {
+			expect(JSON.parse(member.buffer).status).to.equal(Status.ABORT_COMMIT);
+		});
+		expect(event.isAborted()).to.equal(true);
+	}));
 
+	it("should not abort if all members are confirmed within timeout period", sinonTest(() => {
+		var clock = sinon.useFakeTimers();
 		
-	});
-
-	it("should not abort if all members are confirmed within timeout period", (done) => {
 		var new_members = deepcopy(members)
 		var event = new sync_event.SyncEvent(new_members, message);
 		
@@ -136,15 +137,11 @@ describe("SyncEvent", function() {
 		forEach(new_members, (member) => {
 			expect(JSON.parse(member.buffer).status).to.equal(0);
 		});
-
-		setTimeout(() => {
-			forEach(new_members, (member) => {
-				expect(JSON.parse(member.buffer).status).to.equal(0);
-			});
-			done();
-			
-		}, 5000)
-	});
+		clock.tick(5000);
+		forEach(new_members, (member) => {
+			expect(JSON.parse(member.buffer).status).to.equal(0);
+		});
+	}));
 
 	it("should be able to walk through all the phases", () => {
 		var new_members = deepcopy(members)
@@ -153,17 +150,17 @@ describe("SyncEvent", function() {
 		var arr = [Status.CAN_COMMIT, Status.PRE_COMMIT, Status.COMMIT]
 		arr.forEach((stat) => {
 
-			event.nextPhase()
+			expect(event.nextPhase()).is.equal(true);
 			
 			forEach(new_members, (member) => {
 				expect(JSON.parse(member.buffer).status).is.equal(stat);
 				event.confirm(member);
 			});
 
-			expect(event.isComplete()).is.equal(true);
 		});
 
-		event.nextPhase();
+		expect(event.isComplete()).is.equal(true);
+		expect(event.nextPhase()).is.equal(false);
 		expect(event.isComplete()).is.equal(true);
 	});
 
