@@ -30,6 +30,11 @@ class Decoder {
 		return this._message.other_member_name;
 	}
 
+	/// @return null if invalid
+	getVersion() {
+		return this._message.version;
+	}
+
 }
 
 exports.Decoder = Decoder;
