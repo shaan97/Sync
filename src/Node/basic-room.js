@@ -5,11 +5,25 @@ var RequestType = require("./globals").RequestType;
 var requestTypeToString = require("./globals").requestTypeToString;
 var deepcopy = require("deepcopy");
 var SyncEvent = require("./sync-event").SyncEvent;
-var LinkedList = require("linked-list").LinkedList;
+var LinkedList = require("linked-list");
 var MessageType = require("./globals").MessageType;
 var SyncEventMessage = require("./sync-event").SyncEventMessage;
 
+/*!
+	@class BasicRoom
+
+	@brief This class implementeds the Room API. Members can be inserted and removed from
+	rooms. All members in a room are syncing music together.
+
+*/
 class BasicRoom extends EventEmitter {
+
+	/*!
+		@param room_name		The name of the room. This is a unique identifier per room.
+		@param admin			The admin of the room. This is a member who has administrative
+								privileges for the room (i.e. removing members, determines default values
+								in case of member-to-member inconsistencies, etc.)
+	*/
 	constructor(room_name, admin) {
 		super();
 
@@ -23,19 +37,26 @@ class BasicRoom extends EventEmitter {
 		this.makeAdmin(admin);
 
 		// List of sync events that require consensus among all nodes in distributed system
-		var sync_events = new LinkedList();
+		var sync_events = new LinkedList.LinkedList();
 	}
 
+	/*!
+		@param member		The member we are inserting. The member should implement the
+							WebSocket API and should maintain state for the member, including
+							name, encoder/decoder.
+	*/
 	insert(member) {
 		var _encoder = deepcopy(member.encoder);
-		
 		util.log("Attempting to add " + member.name);
+
+		// If member is already in here, we fail with Status.EXISTS
 		if(member.name in this.members) {
 			util.log(`${member.name} already present in ${this.room_name}`);
 			member.send(_encoder.setStatus(Status.EXISTS).response);
 			return false;
 		}
 
+		// Member is not in the room, so we insert them
 		this.members[member.name] = member;
 		++this.size;
 		var room = this;
@@ -46,37 +67,52 @@ class BasicRoom extends EventEmitter {
 			room.handleMessage(member, message);
 		});
 
+		// On socket close, we remove the member from the room
 		member.on("close", function() {
 			util.log("Receiving close from " + member.name + " in Room " + this.room_name);
 			room.remove(member.name);
 		});
 
-
+		// Send success
 		member.send(_encoder.setStatus(Status.SUCCESS).response);
 		util.log(member.name + " added to " + this.room_name);
 		return true;
 	}
 
+	/*!
+		@param member_name		The name of the member we are removing
+	*/
 	remove(member_name) {
 		util.log("Attempting to remove " + member_name + " in Room " + this.room_name);
+
+		// We can't remove member if it doesn't exist in the group
 		if(!(member_name in this.members)){
 			util.log(`${member_name} not in ${this.room_name}`);
 			return false;
 		}
 
+		// Get the reference to the member
 		var member = this.members[member_name];
+
+		// If the member is not an admin, we can safely remove
 		if(member !== this.admin) {
 			delete this.members[member_name];
 			member.close();
 		}
 		else {
+			// If the member is an admin, we have to find a new admin before removing
+
 			util.log(member_name + " is an admin. Attempting to get new admin in Room " + this.room_name);
 			this.getNewAdmin();
+
+			// If we still have the same admin, that means we must be effectively empty,
+			// so we emit an empty event for handling at a higher level
 			if(member === this.admin) {
 				this.emit("empty");
 				util.log(`${this.room_name} emitted "empty"`);
 				return false;
 			} else {
+				// We found a new admin, so we can remove the old admin
 				delete this.members[member_name];
 				member.close();
 			}
@@ -87,6 +123,10 @@ class BasicRoom extends EventEmitter {
 		return true;
 	}
 
+	/*!
+		@param member		The member who is sending the message
+		@param message		The message sent by the member that we are going to handle
+	*/
 	handleMessage(member, message) {
 		var log = "Room " + this.room_name + " received message from " + member.name + ":\t";
 		util.log(log + requestTypeToString(message));
@@ -99,8 +139,10 @@ class BasicRoom extends EventEmitter {
 		// Create message to send to all members
 		var msg = new SyncEventMessage();
 
-		// Determine action based on request type
+		// Based on request type, we will build a sync_event to use to
+		// synchronize the change amongst all members
 		switch(_decoder.getRequestType()) {
+
 		case RequestType.SONG_REQUEST:
 			var song_id = _decoder.getSongID();
 			if(song_id === null)
@@ -140,12 +182,9 @@ class BasicRoom extends EventEmitter {
 		
 		// Create a Song Request Sync Event
 		var sync_event = new SyncEvent(members, msg);
-		{
-			let emitter = new EventEmitter();
-			Object.assign(sync_event, emitter);
-		}
-		
-		sync_events.append(sync_event);
+		var node = new Item(sync_event);
+		sync_event.on("phase-complete", () => { this.syncEventHandler(node) });
+		sync_events.append(node);
 		
 		// Tell member that their status is pending
 		member.send(_encoder.setStatus(Status.PENDING).response);
@@ -155,12 +194,31 @@ class BasicRoom extends EventEmitter {
 		
 	}
 
+	/*!
+		@param event_node		The event node that contains the event we have to handle
+	*/
+	syncEventHandler(event_node) {
+		if(event_node.value.isComplete() || event_node.value.isAborted()) {
+			event_node.detach();
+		}
+
+		// Not complete yet
+		if(!event_node.value.nextPhase()) {
+			event_node.value.abortCommit();
+		}
+	}
+
 	size() {
 		return this.size;
 	}
 
+	/*!
+		@param member		The new member that is an admin
+	*/
 	makeAdmin(member) {
 		util.log("Making " + member.name + " admin.");
+
+		// We can only make admin if the member exists in the or we can insert the member
 		if(!(member.name in this.members) && !this.insert(member))
 			return false;
 
@@ -168,8 +226,13 @@ class BasicRoom extends EventEmitter {
 		return true;
 	}
 
+
+	/*!
+		@postcondition The room will either have a new admin if possible, or the same admin
+		if changing administrators is impossible
+	*/
 	getNewAdmin() {
-		// Arbitrary implementation
+		// Arbitrary implementation: Find first member that isn't an admin and make it an admin
 		var room = this;
 		for(let member in this.members) {
 			if(this.members.hasOwnProperty(member) && member !== this.admin.name) {
@@ -182,6 +245,9 @@ class BasicRoom extends EventEmitter {
 
 	}
 
+	/*!
+		@postcondition All members are removed from group
+	*/
 	close() {
 		var room = this;
 		this.forEach(function(member) {
@@ -189,12 +255,22 @@ class BasicRoom extends EventEmitter {
 		});
 	}
 
+	/*!
+		@brief Syntactic sugar for looping through each member in room
+	*/
 	forEach(func) {
 		for(let member in this.members) {
 			if(this.members.hasOwnProperty(member)) {
 				func(member);
 			}
 		}
+	}
+}
+
+class Item extends LinkedList.Item {
+	constructor(value) {
+		this.value = value;
+		LinkedList.Item.apply(this, arguments);
 	}
 }
 
