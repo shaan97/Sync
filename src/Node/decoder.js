@@ -12,27 +12,32 @@ class Decoder {
 
 	/// @return null if invalid
 	getMemberName() {
-		return this._message.member_name;
+		return "member_name" in this._message ? this._message.member_name : null;
 	}
 
 	/// @return null if invalid
 	getRoomName() {
-		return this._message.room_name;
+		return "room_name" in this._message ? this._message.room_name : null;
 	}
 
 	/// @return null if invalid
 	getSongID() {
-		return this._message.song_id;
+		return "song_id" in this._message ? this._message.song_id : null;
 	}
 
 	/// @return null if invalid
 	getOtherMemberName() {
-		return this._message.other_member_name;
+		return "other_member_name" in this._message ? this._message.other_member_name : null;
 	}
 
 	/// @return null if invalid
 	getVersion() {
-		return this._message.version;
+		return "version" in this._message ? this._message.version : null;
+	}
+
+	/// @return null if invalid
+	getSyncEventID() {
+		return "sync_event_id" in this._message ? this._message.sync_event_id : null;
 	}
 
 }
