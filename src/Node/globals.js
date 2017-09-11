@@ -6,26 +6,29 @@ var RequestType = {
 	REMOVE_MEMBER : 'R',
 	PLAY: '\1',
 	PAUSE: '\2',
-	SKIP: '\3'
+	SKIP: '\3',
+	CAN_COMMIT: '\4',
+	PRE_COMMIT: '\5',
+	COMMIT: '\6'
 };
 
 function requestTypeToString(req) {
 	switch(req) {
-	case ROOM_CREATE:
+	case RequestType.ROOM_CREATE:
 		return "ROOM_CREATE";
-	case ROOM_JOIN:
+	case RequestType.ROOM_JOIN:
 		return "ROOM_JOIN";
-	case SONG_REQUEST:
+	case RequestType.SONG_REQUEST:
 		return "SONG_REQUEST";
-	case INVALID_REQUEST:
+	case RequestType.INVALID_REQUEST:
 		return "INVALID_REQUEST";
-	case REMOVE_MEMBER:
+	case RequestType.REMOVE_MEMBER:
 		return "REMOVE_MEMBER";
-	case PLAY:
+	case RequestType.PLAY:
 		return "PLAY";
-	case PAUSE:
+	case RequestType.PAUSE:
 		return "PAUSE";
-	case SKIP:
+	case RequestType.SKIP:
 		return "SKIP";
 	default:
 		return "UNKNOWN";
@@ -59,3 +62,4 @@ var MessageType = {
 exports.RequestType = RequestType;
 exports.Status = Status;
 exports.MessageType = MessageType;
+exports.requestTypeToString = requestTypeToString;

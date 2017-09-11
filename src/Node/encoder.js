@@ -1,4 +1,6 @@
 var RequestType = require("./globals").RequestType;
+var crypto = require("crypto");
+var deepcopy = require("deepcopy");
 
 class Encoder {
 	constructor() {
@@ -19,13 +21,10 @@ class Encoder {
 		return this;
 	}
 
-	setMessageType(message_type) {
-		this._response["message_type"] = message_type;
-		return this;
-	}
-
-	setMessage(message) {
-		this._response["message"] = message;
+	setSyncEvent(event) {
+		var message = deepcopy(event.message);
+		message.sync_event_id = event.getSyncEventID();
+		this._response["sync_message"] = message;
 		return this;
 	}
 }
