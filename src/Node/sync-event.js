@@ -1,14 +1,14 @@
 var Status = require("./globals").Status;
 var LinkedList = require("linked-list");
 var EventEmitter = require("events").EventEmitter;
-
+var crypto = require("crypto");
 
 class SyncEvent extends EventEmitter {
 
-	constructor(members, message) {
+	constructor(members) {
 		super()
 		this.members = members;
-		this.message = message;
+		this.message = {};
 		
 		this.pending = new Set();
 		
@@ -20,11 +20,13 @@ class SyncEvent extends EventEmitter {
 	}
 
 	confirm(member) {
-		this.pending.delete(member);
+		if(!this.pending.delete(member))
+			return false;
 		if(this.pending.size <= 0 && this.timer !== null) {
 			clearTimeout(this.timer);
 			this.emit("phase-complete");
 		}
+		return true;
 	}
 
 	isComplete() {
@@ -79,11 +81,10 @@ class SyncEvent extends EventEmitter {
 
 	sendAll(phase) {
 		var count = 0;
-		var event = this.message;
-		this.forEach(function(member) {
+		this.forEach((member) => {
 			++count;
 			let _encoder = member.encoder;
-			_encoder.setStatus(phase).setMessage(event.message);
+			_encoder.setStatus(phase).setSyncEvent(this);
 			member.send(_encoder.response);
 		});
 
@@ -109,9 +110,7 @@ class SyncEvent extends EventEmitter {
 	toString() {
 		return JSON.stringify(this);
 	}
-}
 
-class SyncEventMessage {
 	setMessageType(message_type) {
 		this.message["message"] = message_type;
 	}
@@ -124,7 +123,23 @@ class SyncEventMessage {
 		this.message["member_name"] = member_name;
 	}
 
+	getSyncEventID() {
+		return crypto.createHash('md5').update(this.getMessageText()).digest('hex');
+	}
+
+	getMessageText() {
+		var text = "";
+		if("member_name" in this.message)
+			text += this.message["member_name"];
+		if("message" in this.message)
+			text += this.message["message"];
+		if("song_id" in this.message)
+			text += this.message["song_id"];
+
+		return text;
+	}
 }
 
+
+
 exports.SyncEvent = SyncEvent;
-exports.SyncEventMessage = SyncEventMessage;
