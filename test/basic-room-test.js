@@ -23,16 +23,16 @@ describe("BasicRoom", function() {
 						sync_factory.makeMember("saira", deepcopy(ws), 1.0),
 						sync_factory.makeMember("raj", deepcopy(ws), 1.0),
 						sync_factory.makeMember("mandy", deepcopy(ws), 1.0)];
-		
+
 		BasicRoom.__set__("util", {log: function(msg) {}});
 
-		this.room = new BasicRoom.BasicRoom("room", this.members[0]);							
+		this.room = new BasicRoom.BasicRoom("room", this.members[0]);
 
 	});
 
 	describe("Container functionality", () => {
 
-		
+
 
 		it("should be able to insert members", () => {
 			expect(this.room.size).to.equal(1);
@@ -47,7 +47,7 @@ describe("BasicRoom", function() {
 					expect(this.room.members[member.name]).to.equal(member);
 				}
 				expect(this.room.size).to.equal(size);
-				
+
 			});
 
 			// All members should still be in the room
@@ -60,29 +60,21 @@ describe("BasicRoom", function() {
 		it("should be able to remove members", () => {
 			expect(this.room.size).to.equal(1);
 
-			var size = 1;
 			this.members.forEach((member) => {
 				if(member !== this.room.admin) {
 					expect(this.room.insert(member)).to.equal(true);
-					size++;
 				}
 			});
-
-			this.room.on("empty", () => {
-				expect(this.room.size).to.equal(1);
-				expect(this.room.remove(this.room.admin)).to.equal(false);
-				expect(this.room).to.not.have.property(this.members[0].name);
-			});
-
+			expect(this.room.admin).to.equal(this.members[0])
 			this.members.forEach((member) => {
 				if(member !== this.room.admin) {
+					console.log(member.name)
 					expect(this.room.remove(member.name)).to.equal(true);
-					--size;
-					expect(this.room.size).to.equal(size);
-					expect(this.room[member.name]).to.equal(undefined);
 				}
 			});
-		});
+			expect(this.room.remove(this.room.admin.name)).to.equal(false);
+});
+
 
 		it("should be able to query the existance of a member", () => {
 			index = 0;
@@ -130,7 +122,7 @@ describe("BasicRoom", function() {
 			this.members.forEach((member) => {
 				var id = (this.room.sync_events_queue.head.event.getSyncEventID())
 				var msg = JSON.stringify({
-					RequestType: RequestType.CAN_COMMIT, 
+					RequestType: RequestType.CAN_COMMIT,
 					sync_event_id: id
 				});
 				this.room.handleMessage(member, msg)
@@ -145,7 +137,7 @@ describe("BasicRoom", function() {
 			this.members.forEach((member) => {
 				var id = (this.room.sync_events_queue.head.event.getSyncEventID())
 				var msg = JSON.stringify({
-					RequestType: RequestType.CAN_COMMIT, 
+					RequestType: RequestType.CAN_COMMIT,
 					sync_event_id: id
 				});
 				this.room.handleMessage(member, msg)
@@ -154,14 +146,14 @@ describe("BasicRoom", function() {
 			this.members.forEach((member) => {
 				var id = (this.room.sync_events_queue.head.event.getSyncEventID())
 				var msg = JSON.stringify({
-					RequestType: RequestType.PRE_COMMIT, 
+					RequestType: RequestType.PRE_COMMIT,
 					sync_event_id: id
 				});
 				this.room.handleMessage(member, msg);
 			});
 
 			expect(JSON.parse(send_spy.getCall(send_spy.callCount - 1).args[0]).status).to.equal(Status.COMMIT);
-			
+
 		});
 		it("should abort upon timeout", sinonTest(() => {
 			var clock = sinon.useFakeTimers();
@@ -174,7 +166,7 @@ describe("BasicRoom", function() {
 			this.members.forEach((member) => {
 				var id = (this.room.sync_events_queue.head.event.getSyncEventID())
 				var msg = JSON.stringify({
-					RequestType: RequestType.CAN_COMMIT, 
+					RequestType: RequestType.CAN_COMMIT,
 					sync_event_id: id
 				});
 				this.room.handleMessage(member, msg)
@@ -203,7 +195,7 @@ describe("BasicRoom", function() {
 			});
 
 			var spy = sinon.spy(this.room.admin, "send");
-			
+
 			this.members.forEach((member) => {
 				if(member !== this.room.admin) {
 					this.room.handleMessage(this.room.admin, JSON.stringify({RequestType: RequestType.REMOVE_MEMBER, other_member_name: member.name}));
