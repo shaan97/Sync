@@ -18,13 +18,15 @@ describe("BasicRoom", function() {
 			on: function(event, callback) {},
 			close: function() {}
 		}
+
+		BasicRoom.__set__("util", {log: function(msg) {}});
+		
 		this.members = [sync_factory.makeMember("shaan", deepcopy(ws), 1.0),
 						sync_factory.makeMember("devan", deepcopy(ws), 1.0),
 						sync_factory.makeMember("saira", deepcopy(ws), 1.0),
 						sync_factory.makeMember("raj", deepcopy(ws), 1.0),
 						sync_factory.makeMember("mandy", deepcopy(ws), 1.0)];
 
-		BasicRoom.__set__("util", {log: function(msg) {}});
 
 		this.room = new BasicRoom.BasicRoom("room", this.members[0]);
 
@@ -68,7 +70,6 @@ describe("BasicRoom", function() {
 			expect(this.room.admin).to.equal(this.members[0])
 			this.members.forEach((member) => {
 				if(member !== this.room.admin) {
-					console.log(member.name)
 					expect(this.room.remove(member.name)).to.equal(true);
 				}
 			});
