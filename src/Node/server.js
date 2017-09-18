@@ -104,6 +104,13 @@ class SyncServer {
 				ws.send(_encoder.setStatus(Status.NOT_EXIST).response);
 				return false;
 			}
+			
+			// Check to see if member with name already in room
+			if(this.room_mgr.getRoom(room_name).contains(member_name)) {
+				util.log(`Member with name ${member_name} already in room ${room_name}`);
+				ws.send(_encoder.setStatus(Status.EXISTS).response);
+				return false;
+			}
 
 			// Create a member object representation of the client
 			var member = this.sync_factory.makeMember(member_name, ws, this.server_decoder.getVersion());
