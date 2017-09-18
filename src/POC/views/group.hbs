@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Sync</title>
+ 
+    <style>
+      	
+      	canvas {
+    			cursor: crosshair;
+    			display: block;
+    			position: relative;
+    			z-index: 3;
+    			background: black;
+    		}
+          
+        html, body {
+            width:  100%;
+            height: 100%;
+            margin: 10px;
+          }
+        
+    		canvas:active {
+    			cursor: crosshair;
+    		}
+
+    /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+   
+    </style>
+
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+      <script src="https://code.jquery.com/jquery.min.js" type="text/javascript"></script>
+  </head>
+
+  <body>
+    <p>{{name}}<p>
+    <button onclick="playSong()">click to play</button>
+    <button onclick="loadSong()">click to load (necessary for mobile)</button>
+    <button onclick="ping()">Ping</button>
+    <p id="log"></p>
+    <audio id='song'    preload='auto'>
+    <source src="../media/song.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+
+    <script>
+    //dom vars
+      var song = document.getElementById('song');
+      
+      //fix edge not using promises
+      song.play_orig = song.play;
+      song.play = function(){
+        return song.play_orig() || //chrome and firefox returns a promise object
+          new Promise((res, rej)=>{  //edge doesn't so we return a promise object manually
+            res();
+          }); 
+      }
+
+      var song2 = document.getElementById('song2');
+
+      //socket connection
+      var socket = io('/group');
+      var roomName = '{{name}}';
+
+      socket.on('connect', ()=> {
+
+      /*  setTimeout(ping, 500);
+        setTimeout(ping, 800); */
+
+        socket.emit('join', {
+          roomName
+        })
+     })
+
+    function playSong(){
+      socket.emit('playSong', {roomName})
+    }
+
+    function loadSong(){
+      song.load();
+      var songpromise = song.play();
+      songpromise.then(function(){
+        console.log(songpromise);
+        setTimeout(function(){song.pause();},100)
+      })
+    }
+    
+    song.addEventListener('canplaythrough', function() { 
+      $('#log').append(" can play ");
+    }, false);
+
+    socket.on('playSong', data =>{
+      $('#log').append(" "+data.roomName)
+     // song.play();
+      setTimeout(function(){song.play();}, 500-average_latency );
+    })
+
+    //load on load of document but hard clicking the lolad still work better?
+    $( document ).ready(function() {
+        loadSong();
+    });
+
+    //latency checker
+    var startTime;
+    var latency_history = [100, 100, 100, 100];
+    var average_latency = 50; //100/2 for roundtrip
+
+    function ping() {
+      console.log('ping')
+      startTime = Date.now();
+      socket.emit('ping_1');
+    }
+    setInterval(ping, 2000); 
+
+    socket.on('pong', function() {
+      console.log('pong')
+      latency = Date.now() - startTime;
+
+      //history update
+      latency_history[3] = latency_history[2];
+      latency_history[2] = latency_history[1];
+      latency_history[1] = latency_history[0];
+      latency_history[0] = latency;
+      average_latency = average(latency_history)/2;
+      console.log(latency, average_latency)
+    });  
+
+/*    socket.on('ping_2', function() {
+      console.log('pong sent')
+      socket.emit('pong_1')
+    }); */
+
+    function average(numbers){
+      var result = numbers.reduce(function(accumulator, currentValue) {
+       return accumulator + currentValue;
+      });
+      return result/numbers.length;
+    }
+
+    </script>
+
+  </body>
+</html>

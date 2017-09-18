@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Sync</title>
+ 
+    <style>
+      	
+      	canvas {
+    			cursor: crosshair;
+    			display: block;
+    			position: relative;
+    			z-index: 3;
+    			background: black;
+    		}
+          
+        html, body {
+            width:  100%;
+            height: 100%;
+            margin: 10px;
+          }
+        
+    		canvas:active {
+    			cursor: crosshair;
+    		}
+
+    /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+   
+    </style>
+
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+      <script src="https://code.jquery.com/jquery.min.js" type="text/javascript"></script>
+  </head>
+
+  <body>
+
+    <audio id='song'    preload='auto'>
+    <source src="media/sonOfMan.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+    <audio id='song2'    preload='auto'>
+    <source src="media/sonOfMan.mp3" type="audio/mpeg">
+      Your browser does not support the audio tag.
+    </audio>
+    <button onclick="playSongs()">PLAY</button>
+
+    <script>
+
+      var song = document.getElementById('song');
+      song.addEventListener('canplaythrough', function() { 
+        console.log('ready')
+      }, false);
+      var song2 = document.getElementById('song2');
+      song.addEventListener('canplaythrough', function() { 
+        console.log('ready2')
+      }, false);
+
+      var playSongs = function(){
+        setTimeout(()=>{song.play()}, 100);
+        setTimeout(()=>{song2.play()}, 115);
+      }
+
+    </script>
+
+  </body>
+</html>
