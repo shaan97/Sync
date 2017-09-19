@@ -1,0 +1,24 @@
+{
+  "name": "socketroomstest",
+  "version": "1.0.0",
+  "description": "I attempt to create groups of sockets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "kingxkok",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.4",
+    "handlebars": "^4.0.10",
+    "hbs": "^4.0.1",
+    "sntp": "^2.0.2",
+    "socket.io": "^2.0.3",
+    "socket.io-client": "^2.0.3"
+  },
+  "devDependencies": {
+    "edge": "^7.10.1",
+    "ntpsync": "^0.2.0"
+  }
+}

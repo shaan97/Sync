@@ -16,17 +16,20 @@
   "dependencies": {
     "deepcopy": "^0.6.3",
     "linked-list": "^1.0.3",
+    "mocha": "^3.5.3",
     "ntp-client": "^0.5.3",
     "ws": "^3.1.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "edge": "^7.10.1",
     "istanbul": "^0.4.5",
     "mocha": "^3.5.0",
     "mock-socket": "^7.0.0",
     "rewire": "^2.5.2",
     "sinon": "^3.2.1",
     "sinon-test": "^2.1.0",
-    "sleep": "^5.1.1"
+    "sleep": "^5.1.1",
+    "socket.io-client": "^2.0.3"
   }
 }
