@@ -15,6 +15,24 @@ To make a request to the server, we have a `RequestType` field that establishes 
     ...
 }
 ```
+
+### Getting Responses
+Responses from the server will generally involve receiving some sort of `Status` value describing the success of the request.
+#### Example
+```javascript
+// JSON Response from Server
+{
+    status: Status.CAN_COMMIT,
+    sync_message: {
+                        message: MessageType.ENQUEUE_SONG,
+                        song_id: "UniqueSongID",
+                        member_name: "UserWhoRequestedSong"
+                        sync_event_id: <SHA256_Hex>
+                  }
+}
+```
+
+## Client Requests
 ### Creating a Room
 #### Example
 ```javascript
