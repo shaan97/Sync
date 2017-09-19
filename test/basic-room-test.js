@@ -111,10 +111,23 @@ describe("BasicRoom", function() {
 			expect(this.room.sync_events_queue.head).to.not.equal(null);
 		});
 
-		it("should begin by sending a canCommit to the members", () => {
+		it("should send a PENDING to the requester", () => {
 			var send_spy = sinon.spy(this.room.admin, "send");
 			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY}));
-			expect(JSON.parse(send_spy.getCall(0).args[0]).status).to.equal(Status.CAN_COMMIT);
+			expect(JSON.parse(send_spy.getCall(0).args[0]).status).to.equal(Status.PENDING);
+		});
+
+		it("should send a canCommit to the members", () => {
+			send_spies = {};
+			this.members.forEach((member) => {
+				send_spies[member] = sinon.spy(member, "send");
+			});
+
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY}));
+			this.members.forEach((member) => {
+				if(member !== this.room.admin)
+					expect(JSON.parse(send_spies[member].getCall(0).args[0]).status).to.equal(Status.CAN_COMMIT);
+			})
 		});
 
 		it("should only move to preCommit if all members confirm canCommit", () => {
@@ -191,18 +204,20 @@ describe("BasicRoom", function() {
 					this.room.handleMessage(member, JSON.stringify({RequestType: RequestType.REMOVE_MEMBER, other_member_name: this.members[1].name}));
 					expect(this.room.contains(member.name)).to.equal(true);
 					expect(spy.callCount).to.be.greaterThan(0);
-					expect(JSON.parse(spy.getCall(spy.callCount - 1).args[0]).status).to.equal(Status.FAIL);
+					expect(JSON.parse(spy.getCall(spy.callCount - 1).args[0]).status).to.equal(Status.INVALID);
 				}
 			});
 
 			var spy = sinon.spy(this.room.admin, "send");
-
+			var i = 0;
 			this.members.forEach((member) => {
 				if(member !== this.room.admin) {
 					this.room.handleMessage(this.room.admin, JSON.stringify({RequestType: RequestType.REMOVE_MEMBER, other_member_name: member.name}));
 					expect(this.room.contains(member.name)).to.equal(false);
-					expect(spy.callCount).to.be.greaterThan(0);
-					expect(JSON.parse(spy.getCall(spy.callCount - 1).args[0]).status).to.equal(Status.PENDING);
+					expect(spy.callCount).to.equal(i + 2);
+					expect(JSON.parse(spy.getCall(i === 0 ? 0 : i + 1).args[0]).status).to.equal(Status.PENDING);
+					//expect(JSON.parse(spy.getCall(i + 1).args[0]).status).to.equal(Status.CAN_COMMIT);
+					i++;
 				}
 			});
 		});
