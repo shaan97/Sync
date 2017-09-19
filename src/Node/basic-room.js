@@ -127,7 +127,7 @@ class BasicRoom extends EventEmitter {
 		@param message		The message sent by the member that we are going to handle
 	*/
 	handleMessage(member, message) {
-		var log = "Room " + this.room_name + " received message from " + member.name + ":\t";
+		var log = `Room ${this.room_name} received message from ${member.name}:	`;
 		util.log(log + requestTypeToString(message));
 
 		var _decoder = deepcopy(member.decoder);
@@ -145,13 +145,9 @@ class BasicRoom extends EventEmitter {
 		case RequestType.PRE_COMMIT:
 		case RequestType.COMMIT:
 			var sync_id = _decoder.getSyncEventID();
-			if(sync_id === null) {
-				member.send(_encoder.setStatus(Status.INVALID).response);
-				return false;
-			}
-
+			
 			// Check to see if event corresponds to the current active sync event
-			if(!(sync_id in this.sync_events_map)) {
+			if(sync_id === null || !(sync_id in this.sync_events_map)) {
 				member.send(_encoder.setStatus(Status.INVALID).response);
 				return false;
 			}
@@ -182,11 +178,21 @@ class BasicRoom extends EventEmitter {
 		case RequestType.PLAY:
 			sync_event.setMessageType(MessageType.PLAY);
 			sync_event.setMemberName(member.name);
-			
+
+			break;
+		case RequestType.SKIP:
+			sync_event.setMessageType(MessageType.SKIP);
+			sync_event.setMemberName(member.name);
+
 			break;
 		case RequestType.REMOVE_MEMBER:
 			var other = _decoder.getOtherMemberName();		
-			if(member !== this.admin || other === null || !(other in this.members) || !this.remove(other)) {
+			if(member !== this.admin || other === null || !(other in this.members)) {
+				member.send(_encoder.setStatus(Status.INVALID).response);
+				return false;
+			}
+
+			if(!this.remove(other)) {
 				member.send(_encoder.setStatus(Status.FAIL).response);
 				return false;
 			}
@@ -212,13 +218,15 @@ class BasicRoom extends EventEmitter {
 		// Map node for quick lookup
 		this.sync_events_map[id] = sync_event_node;
 
+		// Tell member that their status is pending
+		member.send(_encoder.setStatus(Status.PENDING).response);
+
 		if(this.sync_events_queue.tail === null) {
 			// This is the first item to be inserted in the queue, so we begin the first phase
 			sync_event.nextPhase();
 		}
 		
-		// Tell member that their status is pending
-		member.send(_encoder.setStatus(Status.PENDING).response);
+		
 
 		// Failure not determinable yet
 		return true;
