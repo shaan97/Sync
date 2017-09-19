@@ -1,5 +1,0 @@
-<map id="nlohmann::basic_json::parse" name="nlohmann::basic_json::parse">
-<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json_1_1parser.html#ad93c24f1a1b0ac2f557e6ea34deffd63" title="public parser interface " alt="" coords="201,39,349,80"/>
-<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#a13453ed62f2b771dea9923119beb4f7c" title="checks the class invariants " alt="" coords="397,5,545,47"/>
-<area shape="rect" id="node4" href="$classnlohmann_1_1basic__json.html#aabe623bc8304c2ba92d96d91f390fab4" title="return whether value is discarded " alt="" coords="397,71,545,112"/>
-</map>

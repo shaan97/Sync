@@ -1,5 +1,0 @@
-<map id="interpret_socket" name="interpret_socket">
-<area shape="rect" id="node2" href="$classnlohmann_1_1basic__json.html#ab5e3e1758c1a52ffe89b1d379ef7fbe1" title="create a JSON value from a byte vector in CBOR format " alt="" coords="181,5,329,47"/>
-<area shape="rect" id="node3" href="$classnlohmann_1_1basic__json.html#a73ae333487310e3302135189ce8ff5d8" title="access specified array element with bounds checking " alt="" coords="172,71,339,98"/>
-<area shape="rect" id="node4" href="$classnlohmann_1_1basic__json.html#a6b187a22994c12c8cae0dd5ee99dc85e" title="get special&#45;case overload " alt="" coords="168,122,343,149"/>
-</map>

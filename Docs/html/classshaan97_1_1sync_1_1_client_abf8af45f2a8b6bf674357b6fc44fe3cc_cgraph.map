@@ -1,7 +1,0 @@
-<map id="shaan97::sync::Client::getGroup" name="shaan97::sync::Client::getGroup">
-<area shape="rect" id="node2" href="$classshaan97_1_1sync_1_1_client.html#a4367779edf080f835087e07b35fa6a38" title="shaan97::sync::Client\l::isConnected" alt="" coords="203,64,352,105"/>
-<area shape="rect" id="node6" href="$classshaan97_1_1sync_1_1_client.html#a94a60773fd7d212132f44661acac59c7" title="shaan97::sync::Client\l::makeGroup" alt="" coords="203,129,352,171"/>
-<area shape="rect" id="node3" href="$classshaan97_1_1sync_1_1_client.html#a603ec6160f76f97fcfb41d099fdea6ab" title="shaan97::sync::Client\l::proposeSong" alt="" coords="400,5,549,47"/>
-<area shape="rect" id="node4" href="$classshaan97_1_1sync_1_1_client.html#a6429d2c4549c9fd3074f3181923c5906" title="shaan97::sync::Client\l::swap" alt="" coords="597,93,747,135"/>
-<area shape="rect" id="node5" href="$classshaan97_1_1sync_1_1_client.html#a807d5ec3cc4cc0bcc3d5dec72fc3af06" title="shaan97::sync::Client\l::operator=" alt="" coords="400,123,549,164"/>
-</map>
