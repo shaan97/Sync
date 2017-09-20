@@ -16,11 +16,6 @@ class Encoder {
 		return this;
 	}
 
-	setSongID(song_id) {
-		this._response["song_id"] = song_id;
-		return this;
-	}
-
 	setSyncEvent(event) {
 		var message = deepcopy(event.message);
 		message.sync_event_id = event.getSyncEventID();
