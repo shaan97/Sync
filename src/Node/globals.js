@@ -45,8 +45,7 @@ var Status = {
 	CAN_COMMIT : 6,
 	PRE_COMMIT : 7,
 	COMMIT : 8,
-	ABORT_COMMIT : 9,
-	ENQUEUE : 10
+	ABORT_COMMIT : 9
 }
 
 var MessageType = {
