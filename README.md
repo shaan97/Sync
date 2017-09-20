@@ -1,4 +1,6 @@
-# Sync
+# Sync  
+![Build Status](https://travis-ci.com/shaan97/Sync.svg?token=AgpUdA6KGadhvBSZ9dMi&branch=master)
+
 Sync is an app created to synchronize music between devices, whether they be in the same room, or across the globe.
 
 ## Server Communication
