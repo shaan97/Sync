@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Get staged js files (excluding deleted files and ".*-test.js" files)
+git_repo=`git rev-parse --show-toplevel`
+(cd "$git_repo" && istanbul cover _mocha > /dev/null 2> /dev/null)
+
+hooks="$git_repo/hooks"
+
+changed_js_files=`git --git-dir "$git_repo/.git" --work-tree "$git_repo" diff --cached --name-status | grep -e ".js$" | awk '!/.*-test.js/ && ($1 != "D") { print $2 }')`
+
+py_path="$git_repo/hooks/pre-commit.py"
+
+python "$py_path" "$changed_js_files"
+

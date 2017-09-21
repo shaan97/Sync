@@ -1,0 +1,6 @@
+#!/bin/sh
+
+sudo apt-get install python pip
+pip install click colorama glob2
+ln -s -f ../../hooks/pre-commit ../.git/hooks/pre-commit
+
