@@ -43,6 +43,10 @@ namespace HelloWorld
             get { return this._Request.ToString(); }
         }
 
+        public override string ToString()
+        {
+            return "{\n}\n";
+        }
         
 
 
