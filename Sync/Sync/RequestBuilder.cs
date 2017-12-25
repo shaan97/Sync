@@ -17,7 +17,7 @@ namespace HelloWorld
      * For instance, the user may want to create a room, which leads to the execution of the following code:
      * 
      * @code
-     * var req = new Requestbuilder();
+     * var req = new RequestBuilder();
      * req.RequestType = RequestType["ROOM_CREATE"]; // RequestType might be a JSON object that is loaded from RequestType.json using JSON.NET
      * req.member_name = "Shaan";
      * req.room_name = "Shaan's room";
@@ -30,25 +30,15 @@ namespace HelloWorld
      */
     class RequestBuilder
     {
-        private Dictionary<string, string> RequestType;
-        public RequestBuilder() {
-            /* TODO : Make a file RequestType.json that is just the object from globals.js */
-            this.RequestType = JsonConvert.DeserializeObject<Dictionary<string, string>>(File.ReadAllText(@"PATH TO RequestType.json"));
-            this._Request = new JObject();
+        public string RequestType               { get; set; } = null;       
+        public string member_name               { get; set; } = null;
+        public string room_name                 { get; set; } = null;
+        public string other_member_name         { get; set; } = null;
+        public string song_id                   { get; set; } = null;
+        public string sync_event_id             { get; set; } = null;
+
+        public string ToString() {
+            return JsonConvert.SerializeObject(this);
         }
-
-        private JObject _Request;
-        public string Request
-        {
-            get { return this._Request.ToString(); }
-        }
-
-        public override string ToString()
-        {
-            return "{\n}\n";
-        }
-        
-
-
     }
 }
