@@ -4,10 +4,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using WebSocket4Net;
+using SuperSocket.ClientEngine;
 
-namespace HelloWorld
+namespace Sync
 {
-    class SyncServer
+    public class SyncServer
     {
         private WebSocket ws;
         private bool Opened;
@@ -19,7 +20,7 @@ namespace HelloWorld
             
             this.ws = new WebSocket("ws://localhost:2012/");
             this.ws.MessageReceived += (object sender, MessageReceivedEventArgs e) => { lock (this.Message) { this.Message += e.Message; } };
-            this.ws.Error += (object sender, ErrorEventArgs e) => { this.Opened = false; };
+            this.ws.Error += (object sender,  ErrorEventArgs e) => { this.Opened = false; };
             this.ws.Closed += (object sender, EventArgs e) => { this.Opened = false; };
 
             this.Opened = false;

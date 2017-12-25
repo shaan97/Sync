@@ -5,7 +5,7 @@ using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 
-namespace HelloWorld
+namespace Sync
 {
     /* 
      * @class RequestBuilder 
@@ -28,7 +28,7 @@ namespace HelloWorld
      * This class should also implement all Sync Server protocols established in README.md.
      *
      */
-    class RequestBuilder
+    public class RequestBuilder
     {
         public string RequestType       { get; set; } = null;       
         public string member_name       { get; set; } = null;
@@ -37,7 +37,7 @@ namespace HelloWorld
         public string song_id           { get; set; } = null;
         public string sync_event_id     { get; set; } = null;
 
-        public string ToString() {
+        public override string ToString() {
             return JsonConvert.SerializeObject(this);
         }
     }
