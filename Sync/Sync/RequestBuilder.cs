@@ -30,12 +30,12 @@ namespace HelloWorld
      */
     class RequestBuilder
     {
-        public string RequestType               { get; set; } = null;       
-        public string member_name               { get; set; } = null;
-        public string room_name                 { get; set; } = null;
-        public string other_member_name         { get; set; } = null;
-        public string song_id                   { get; set; } = null;
-        public string sync_event_id             { get; set; } = null;
+        public string RequestType       { get; set; } = null;       
+        public string member_name       { get; set; } = null;
+        public string room_name         { get; set; } = null;
+        public string other_member_name { get; set; } = null;
+        public string song_id           { get; set; } = null;
+        public string sync_event_id     { get; set; } = null;
 
         public string ToString() {
             return JsonConvert.SerializeObject(this);
