@@ -1,16 +1,4 @@
-var RequestType = {
-	ROOM_CREATE : 'C',
-	ROOM_JOIN : 'J',
-	SONG_REQUEST : 'S',
-	INVALID_REQUEST : '\0',
-	REMOVE_MEMBER : 'R',
-	PLAY: '\1',
-	PAUSE: '\2',
-	SKIP: '\3',
-	CAN_COMMIT: '\4',
-	PRE_COMMIT: '\5',
-	COMMIT: '\6'
-};
+var RequestType = require("./RequestType");
 
 function requestTypeToString(req) {
 	switch(req) {
