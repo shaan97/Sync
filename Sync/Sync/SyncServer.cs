@@ -16,8 +16,12 @@ namespace HelloWorld
         public SyncServer()
         {
             this.Message = "";
+            
             this.ws = new WebSocket("ws://localhost:2012/");
             this.ws.MessageReceived += (object sender, MessageReceivedEventArgs e) => { lock (this.Message) { this.Message += e.Message; } };
+            this.ws.Error += (object sender, ErrorEventArgs e) => { this.Opened = false; };
+            this.ws.Closed += (object sender, EventArgs e) => { this.Opened = false; };
+
             this.Opened = false;
 
         }
@@ -39,8 +43,9 @@ namespace HelloWorld
                 this.ws.Opened += (object sender, EventArgs e) => { this.ws.Send(data); sent.Release(); };
                 this.Open();
                 sent.Wait();
-            } else
-                this.ws.Send(data);
+            }
+            
+            this.ws.Send(data);
         }
 
         public string Read()
