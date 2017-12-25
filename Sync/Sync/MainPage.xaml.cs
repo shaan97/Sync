@@ -9,9 +9,19 @@ namespace Sync
 {
 	public partial class MainPage : ContentPage
 	{
-		public MainPage()
+		private SyncServer sync;
+		public MainPage(SyncServer sync)
 		{
+			this.sync = sync;
 			InitializeComponent();
+		}
+
+		public void Create_Room(string room) {
+			
+		}
+
+		public void Join_Room(string room) {
+
 		}
 	}
 }

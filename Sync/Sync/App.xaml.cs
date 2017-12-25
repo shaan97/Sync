@@ -9,11 +9,12 @@ namespace Sync
 {
 	public partial class App : Application
 	{
+		private SyncServer sync;
 		public App ()
 		{
 			InitializeComponent();
-
-			MainPage = new Sync.MainPage();
+			this.sync = new SyncServer();
+			MainPage = new Sync.MainPage(this.sync);
 		}
 
 		protected override void OnStart ()
