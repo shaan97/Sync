@@ -20,6 +20,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)RequestBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ResponseDecoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SyncServer.cs" />
   </ItemGroup>
 </Project>
