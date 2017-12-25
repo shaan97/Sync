@@ -14,7 +14,7 @@ namespace Sync
 		{
 			InitializeComponent();
 			this.sync = new SyncServer();
-			MainPage = new Sync.MainPage(this.sync);
+			MainPage = new Sync.MainPage(this.sync, "NAME");
 		}
 
 		protected override void OnStart ()
