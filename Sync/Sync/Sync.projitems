@@ -23,4 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ResponseDecoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SyncServer.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)RequestType.json" />
+  </ItemGroup>
 </Project>

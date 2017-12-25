@@ -4,6 +4,7 @@ using System.Text;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Reflection;
 
 namespace Sync
 {
@@ -30,12 +31,43 @@ namespace Sync
      */
     public class RequestBuilder
     {
-        public string RequestType       { get; set; } = null;       
+        private string _RequestType = null;
+        public string RequestType {
+            get { return _RequestType; }
+            set {
+                if (this.request_codes.ContainsKey(value)) {
+                    this._RequestType = this.request_codes[value];
+                }
+            }
+        }
+
         public string member_name       { get; set; } = null;
         public string room_name         { get; set; } = null;
         public string other_member_name { get; set; } = null;
         public string song_id           { get; set; } = null;
         public string sync_event_id     { get; set; } = null;
+
+        private Dictionary<string, string> request_codes;
+
+        public RequestBuilder() {
+            var assembly = typeof(RequestBuilder).GetTypeInfo().Assembly;
+
+            #if __IOS__
+            var resource_name = "Sync.iOS.RequestType.json";
+            #endif
+            #if __ANDROID__
+            var resource_name = "Sync.Droid.RequestType.json";
+            #endif
+
+            Stream stream = assembly.GetManifestResourceStream(resource_name);
+            string text = "";
+            using (var reader = new System.IO.StreamReader(stream))
+            {
+                text = reader.ReadToEnd();
+            }
+
+            this.request_codes = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
+        }
 
         public override string ToString() {
             return JsonConvert.SerializeObject(this);
