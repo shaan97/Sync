@@ -19,8 +19,8 @@ namespace Sync
             }
         }
 
-        public static Dictionary<string, int> status        { get; protected set; }
-        public static Dictionary<string, int> message_type  { get; protected set; }
+        public static Dictionary<string, int> Status        { get; protected set; }
+        public static Dictionary<string, int> MessageType  { get; protected set; }
 
         static ResponseDecoder()
         {
@@ -48,13 +48,13 @@ namespace Sync
                 text = reader.ReadToEnd();
             }
 
-            status = JsonConvert.DeserializeObject<Dictionary<string, int>>(text);
+            Status = JsonConvert.DeserializeObject<Dictionary<string, int>>(text);
 
             using (var reader = new System.IO.StreamReader(stream2))
             {
                 text = reader.ReadToEnd();
             }
-            message_type = JsonConvert.DeserializeObject<Dictionary<string, int>>(text);
+            MessageType = JsonConvert.DeserializeObject<Dictionary<string, int>>(text);
 
         }
 
