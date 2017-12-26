@@ -107,13 +107,13 @@ describe("BasicRoom", function() {
 		});
 
 		it("should create sync events for messages that require member synchronization", () => {
-			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY}));
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY, request_id : 0}));
 			expect(this.room.sync_events_queue.head).to.not.equal(null);
 		});
 
 		it("should send a PENDING to the requester", () => {
 			var send_spy = sinon.spy(this.room.admin, "send");
-			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY}));
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY, request_id : 0}));
 			expect(JSON.parse(send_spy.getCall(0).args[0]).status).to.equal(Status.PENDING);
 		});
 
@@ -123,7 +123,7 @@ describe("BasicRoom", function() {
 				send_spies[member] = sinon.spy(member, "send");
 			});
 
-			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY}));
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY, request_id : 0}));
 			this.members.forEach((member) => {
 				if(member !== this.room.admin)
 					expect(JSON.parse(send_spies[member].getCall(0).args[0]).status).to.equal(Status.CAN_COMMIT);
@@ -132,12 +132,13 @@ describe("BasicRoom", function() {
 
 		it("should only move to preCommit if all members confirm canCommit", () => {
 			var send_spy = sinon.spy(this.room.admin, "send");
-			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY}));
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY, request_id : 0, request_id : 0}));
 			this.members.forEach((member) => {
 				var id = (this.room.sync_events_queue.head.event.getSyncEventID())
 				var msg = JSON.stringify({
 					RequestType: RequestType.CAN_COMMIT,
-					sync_event_id: id
+					sync_event_id: id,
+					request_id : 0
 				});
 				this.room.handleMessage(member, msg)
 			});
@@ -147,12 +148,13 @@ describe("BasicRoom", function() {
 
 		it("should only move to commit if all members confirm preCommit", () => {
 			var send_spy = sinon.spy(this.room.admin, "send");
-			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY}));
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY, request_id : 0, request_id : 0}));
 			this.members.forEach((member) => {
 				var id = (this.room.sync_events_queue.head.event.getSyncEventID())
 				var msg = JSON.stringify({
 					RequestType: RequestType.CAN_COMMIT,
-					sync_event_id: id
+					sync_event_id: id,
+					request_id : 0
 				});
 				this.room.handleMessage(member, msg)
 			});
@@ -161,7 +163,8 @@ describe("BasicRoom", function() {
 				var id = (this.room.sync_events_queue.head.event.getSyncEventID())
 				var msg = JSON.stringify({
 					RequestType: RequestType.PRE_COMMIT,
-					sync_event_id: id
+					sync_event_id: id,
+					request_id : 0
 				});
 				this.room.handleMessage(member, msg);
 			});
@@ -172,16 +175,17 @@ describe("BasicRoom", function() {
 		it("should abort upon timeout", sinonTest(() => {
 			var clock = sinon.useFakeTimers();
 			var send_spy = sinon.spy(this.room.admin, "send");
-			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PAUSE}));
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PAUSE, request_id : 0}));
 			clock.tick(5000);
 			expect(JSON.parse(send_spy.getCall(send_spy.callCount - 1).args[0]).status).to.equal(Status.ABORT_COMMIT);
 
-			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.SONG_REQUEST, song_id : 1}));
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.SONG_REQUEST, song_id : 1, request_id : 0}));
 			this.members.forEach((member) => {
 				var id = (this.room.sync_events_queue.head.event.getSyncEventID())
 				var msg = JSON.stringify({
 					RequestType: RequestType.CAN_COMMIT,
-					sync_event_id: id
+					sync_event_id: id,
+					request_id : 0
 				});
 				this.room.handleMessage(member, msg)
 			});
@@ -201,7 +205,7 @@ describe("BasicRoom", function() {
 			this.members.forEach((member) => {
 				if(member !== this.room.admin) {
 					var spy = sinon.spy(member, "send");
-					this.room.handleMessage(member, JSON.stringify({RequestType: RequestType.REMOVE_MEMBER, other_member_name: this.members[1].name}));
+					this.room.handleMessage(member, JSON.stringify({RequestType: RequestType.REMOVE_MEMBER, other_member_name: this.members[1].name, request_id : 0}));
 					expect(this.room.contains(member.name)).to.equal(true);
 					expect(spy.callCount).to.be.greaterThan(0);
 					expect(JSON.parse(spy.getCall(spy.callCount - 1).args[0]).status).to.equal(Status.INVALID);
@@ -212,7 +216,7 @@ describe("BasicRoom", function() {
 			var i = 0;
 			this.members.forEach((member) => {
 				if(member !== this.room.admin) {
-					this.room.handleMessage(this.room.admin, JSON.stringify({RequestType: RequestType.REMOVE_MEMBER, other_member_name: member.name}));
+					this.room.handleMessage(this.room.admin, JSON.stringify({RequestType: RequestType.REMOVE_MEMBER, other_member_name: member.name, request_id : 0}));
 					expect(this.room.contains(member.name)).to.equal(false);
 					expect(spy.callCount).to.equal(i + 2);
 					expect(JSON.parse(spy.getCall(i === 0 ? 0 : i + 1).args[0]).status).to.equal(Status.PENDING);
