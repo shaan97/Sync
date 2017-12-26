@@ -35,8 +35,8 @@ namespace Sync
         public string RequestType {
             get { return _RequestType; }
             set {
-                if (this.request_codes.ContainsKey(value)) {
-                    this._RequestType = this.request_codes[value];
+                if (request_codes.ContainsKey(value)) {
+                    this._RequestType = request_codes[value];
                 }
             }
         }
@@ -47,9 +47,9 @@ namespace Sync
         public string song_id           { get; set; } = null;
         public string sync_event_id     { get; set; } = null;
 
-        private Dictionary<string, string> request_codes;
+        private static Dictionary<string, string> request_codes;
 
-        public RequestBuilder() {
+        static RequestBuilder() {
             var assembly = typeof(RequestBuilder).GetTypeInfo().Assembly;
 
             #if __IOS__
@@ -66,7 +66,7 @@ namespace Sync
                 text = reader.ReadToEnd();
             }
 
-            this.request_codes = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
+            request_codes = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
         }
 
         public override string ToString() {
