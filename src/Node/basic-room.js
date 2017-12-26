@@ -133,7 +133,7 @@ class BasicRoom extends EventEmitter {
 		_decoder.message = message;
 
         if (_decoder.getRequestID() === null) {
-            util.log(`${member_name} failed to label request ID, sending failure.`);
+            util.log(`${member.name} failed to label request ID, sending failure.`);
             member.send(_encoder.setStatus(Status.INVALID).setRequestID(-1).response)
             return false;
         }
