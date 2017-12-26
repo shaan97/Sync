@@ -135,6 +135,7 @@ class BasicRoom extends EventEmitter {
         if (_decoder.getRequestID() === null) {
             util.log(`${member_name} failed to label request ID, sending failure.`);
             member.send(_encoder.setStatus(Status.INVALID).setRequestID(-1).response)
+            return false;
         }
 
 		// Create message to send to all members
