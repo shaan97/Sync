@@ -19,6 +19,29 @@ namespace Sync
 		}
 
         public void Create_Room(object sender, EventArgs e) {
+            object invoked = false;
+            EventHandler<ServerResponseEventArgs> response_handler = null;
+            response_handler =
+                (object s, ServerResponseEventArgs server_response) => {
+                    // Make sure this was invoked only once (two threads could possibly invoke callback simultaneous before unsubscribing)
+                    lock (invoked)
+                    {
+                        if ((bool)invoked)
+                            return;
+                        ResponseDecoder response = new ResponseDecoder(server_response.Response);
+                        
+
+                        invoked = true;
+                    }
+
+                    // Unsubscribe, we only want this event to happen once
+                    sync.ServerResponse -= response_handler;
+
+                    // Enter Room
+                    Navigation.PushAsync(new Room(this.sync, this.member_name, new SpotifyPlayer()));
+                };
+
+            sync.ServerResponse += response_handler;
             sync.Send(
                 new RequestBuilder
                 {
@@ -27,10 +50,29 @@ namespace Sync
                     room_name = ((Entry)sender).Text
                 }.ToString()
             );
-            //Navigation.PushAsync()
 		}
 
 		public void Join_Room(object sender, EventArgs e) {
+            object invoked = false;
+            EventHandler<ServerResponseEventArgs> response_handler = null;
+            response_handler =
+                (object s, ServerResponseEventArgs server_response) => {
+                    // Make sure this was invoked only once (two threads could possibly invoke callback simultaneous before unsubscribing)
+                    lock (invoked)
+                    {
+                        if ((bool)invoked)
+                            return;
+                        invoked = true;
+                    }
+
+                    // Unsubscribe, we only want this event to happen once
+                    sync.ServerResponse -= response_handler;
+
+                    // Enter Room
+                    Navigation.PushAsync(new Room(this.sync, this.member_name, new SpotifyPlayer()));
+                };
+
+            sync.ServerResponse += response_handler;
             sync.Send(
                 new RequestBuilder
                 {
