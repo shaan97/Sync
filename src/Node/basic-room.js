@@ -52,7 +52,6 @@ class BasicRoom extends EventEmitter {
 		// If member is already in here, we fail with Status.EXISTS
 		if(member.name in this.members) {
 			util.log(`${member.name} already present in ${this.room_name}`);
-			member.send(_encoder.setStatus(Status.EXISTS).response);
 			return false;
 		}
 
@@ -73,7 +72,6 @@ class BasicRoom extends EventEmitter {
 		});
 
 		// Send success
-		member.send(_encoder.setStatus(Status.SUCCESS).response);
 		util.log(member.name + " added to " + this.room_name);
 		return true;
 	}
@@ -134,6 +132,10 @@ class BasicRoom extends EventEmitter {
 		var _encoder = deepcopy(member.encoder);
 		_decoder.message = message;
 
+        if (_decoder.getRequestID() === null) {
+            util.log(`${member_name} failed to label request ID, sending failure.`);
+            member.send(_encoder.setStatus(Status.INVALID).setRequestID(-1).response)
+        }
 
 		// Create message to send to all members
 		var sync_event = new SyncEvent(this.members);
@@ -148,7 +150,7 @@ class BasicRoom extends EventEmitter {
 			
 			// Check to see if event corresponds to the current active sync event
 			if(sync_id === null || !(sync_id in this.sync_events_map)) {
-				member.send(_encoder.setStatus(Status.INVALID).response);
+				member.send(_encoder.setStatus(Status.INVALID).setRequestID(_decoder.getRequestID()).response);
 				return false;
 			}
 
@@ -156,12 +158,12 @@ class BasicRoom extends EventEmitter {
 			
 			// Confirm member and return its success
 			var success = event_node.event.confirm(member);
-			member.send(_encoder.setStatus(success ? Status.SUCCESS : Status.FAIL));
+			member.send(_encoder.setStatus(success ? Status.SUCCESS : Status.FAIL).setRequestID(_decoder.getRequestID()).response);
 			return success;
 		case RequestType.SONG_REQUEST:
 			var song_id = _decoder.getSongID();
 			if(song_id === null) {
-				member.send(_encoder.setStatus(Status.INVALID));
+                member.send(_encoder.setStatus(Status.INVALID).setRequestID(_decoder.getRequestID()).response);
 				return false;
 			}
 
@@ -188,12 +190,12 @@ class BasicRoom extends EventEmitter {
 		case RequestType.REMOVE_MEMBER:
 			var other = _decoder.getOtherMemberName();		
 			if(member !== this.admin || other === null || !(other in this.members)) {
-				member.send(_encoder.setStatus(Status.INVALID).response);
+                member.send(_encoder.setStatus(Status.INVALID).setRequestID(_decoder.getRequestID()).response);
 				return false;
 			}
 
 			if(!this.remove(other)) {
-				member.send(_encoder.setStatus(Status.FAIL).response);
+                member.send(_encoder.setStatus(Status.FAIL).setRequestID(_decoder.getRequestID()).response);
 				return false;
 			}
 
@@ -203,7 +205,7 @@ class BasicRoom extends EventEmitter {
 
 			break;
 		default:
-			member.send(_encoder.setStatus(Status.INVALID).response);
+			member.send(_encoder.setStatus(Status.INVALID).setRequestID(_decoder.getRequestID()).response);
 			return false;
 		}
 		
@@ -219,7 +221,7 @@ class BasicRoom extends EventEmitter {
 		this.sync_events_map[id] = sync_event_node;
 
 		// Tell member that their status is pending
-		member.send(_encoder.setStatus(Status.PENDING).response);
+        member.send(_encoder.setStatus(Status.PENDING).setRequestID(_decoder.getRequestID()).response);
 
 		if(this.sync_events_queue.tail === null) {
 			// This is the first item to be inserted in the queue, so we begin the first phase

@@ -55,11 +55,14 @@ class SyncServer {
 		var _encoder = message_formatter.encoder;
 
 		var member_name = this.server_decoder.getMemberName();
-		if(member_name === null) {
-			util.log(`Member name not present.`);
-			ws.send(_encoder.setStatus(Status.INVALID).response);
-			return false;
-		}
+        if (this.server_decoder.getRequestID() === null) {
+            util.log("Request ID not present.");
+            ws.send(_encoder.setStatus(Status.INVALID).setRequestID(-1).response);
+        }else if (member_name === null) {
+            util.log(`Member name not present.`);
+            ws.send(_encoder.setStatus(Status.INVALID).setRequestID(this.server_decoder.getRequestID()).response);
+            return false;
+        }
 
 		var type = this.server_decoder.getRequestType();
 		switch(type) {
@@ -69,14 +72,14 @@ class SyncServer {
 			var room_name = this.server_decoder.getRoomName();
 			if (room_name === null) { 
 				util.log(`${member_name} did not provide valid room name.`);
-				ws.send(_encoder.setStatus(Status.INVALID).response);
+				ws.send(_encoder.setStatus(Status.INVALID).setRequestID(this.server_decoder.getRequestID()).response);
 				return false;
 			}
 
 			// Check if room already exists
 			if(this.room_mgr.contains(room_name)) {
 				util.log(`${member_name} cannot create existing room ${room_name}`);
-				ws.send(_encoder.setStatus(Status.EXISTS).response);
+                ws.send(_encoder.setStatus(Status.EXISTS).setRequestID(this.server_decoder.getRequestID()).response);
 				return false;
 			}
 
@@ -85,7 +88,7 @@ class SyncServer {
 
 			// Request the room manager to add this new room
 			var success = this.room_mgr.insert(room);
-			ws.send(_encoder.setStatus(success ? Status.SUCCESS : Status.FAIL).response);
+            ws.send(_encoder.setStatus(success ? Status.SUCCESS : Status.FAIL).setRequestID(this.server_decoder.getRequestID()).response);
 			return success;
 
 		case RequestType.ROOM_JOIN:
@@ -93,7 +96,7 @@ class SyncServer {
 			var room_name = this.server_decoder.getRoomName();
 			if (room_name === null) { 
 				util.log(`${member_name} did not provide valid room name.`);
-				ws.send(_encoder.setStatus(Status.INVALID).response);
+                ws.send(_encoder.setStatus(Status.INVALID).setRequestID(this.server_decoder.getRequestID()).response);
 				return false;
 			}
 
@@ -101,14 +104,14 @@ class SyncServer {
 			var room = this.room_mgr.getRoom(room_name);
 			if(room === null) {
 				util.log(`${member_name} cannot join ${room_name} since it doesn't exist.`);
-				ws.send(_encoder.setStatus(Status.NOT_EXIST).response);
+                ws.send(_encoder.setStatus(Status.NOT_EXIST).setRequestID(this.server_decoder.getRequestID()).response);
 				return false;
 			}
 			
 			// Check to see if member with name already in room
 			if(this.room_mgr.getRoom(room_name).contains(member_name)) {
 				util.log(`Member with name ${member_name} already in room ${room_name}`);
-				ws.send(_encoder.setStatus(Status.EXISTS).response);
+                ws.send(_encoder.setStatus(Status.EXISTS).setRequestID(this.server_decoder.getRequestID()).response);
 				return false;
 			}
 
@@ -117,12 +120,12 @@ class SyncServer {
 
 			// Try to insert the member into the room
 			var success = room.insert(member);
-			ws.send(_encoder.setStatus(success ? Status.SUCCESS : Status.FAIL).response);
+            ws.send(_encoder.setStatus(success ? Status.SUCCESS : Status.FAIL).setRequestID(this.server_decoder.getRequestID()).response);
 			return success;
 
 		default:
 			util.log(`${member_name} provided unapplicable request type.`);
-			ws.send(_encoder.setStatus(Status.FAIL).response);
+            ws.send(_encoder.setStatus(Status.FAIL).setRequestID(this.server_decoder.getRequestID()).response);
 			return false;
 		}
 	}

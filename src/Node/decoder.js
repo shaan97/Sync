@@ -38,7 +38,12 @@ class Decoder {
 	/// @return null if invalid
 	getSyncEventID() {
 		return "sync_event_id" in this._message ? this._message.sync_event_id : null;
-	}
+    }
+
+    // @return null if invalid
+    getRequestID() {
+        return "request_id" in this._message ? this._message.request_id : null;
+    }
 
 }
 

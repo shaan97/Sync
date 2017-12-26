@@ -21,7 +21,12 @@ class Encoder {
 		message.sync_event_id = event.getSyncEventID();
 		this._response["sync_message"] = message;
 		return this;
-	}
+    }
+
+    setRequestID(id) {
+        this._response["request_id"] = id;
+        return this;
+    }
 }
 
 exports.Encoder = Encoder;
