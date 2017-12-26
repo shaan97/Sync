@@ -1,0 +1,9 @@
+{
+  "PLAY": 0,
+  "ENQUEUE_SONG": 1,
+  "PAUSE": 2,
+  "SKIP": 3,
+  "REMOVE_SONG": 4,
+  "ADD_MEMBER": 5,
+  "REMOVE_MEMBER": 6
+}

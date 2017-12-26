@@ -23,28 +23,9 @@ function requestTypeToString(req) {
 	}
 }
 
-var Status = {
-	SUCCESS : 0,
-	FAIL : 1,
-	PENDING : 2,
-	EXISTS : 3,
-	NOT_EXIST : 4,
-	INVALID : 5,
-	CAN_COMMIT : 6,
-	PRE_COMMIT : 7,
-	COMMIT : 8,
-	ABORT_COMMIT : 9
-}
+var Status = require("./Status");
 
-var MessageType = {
-	PLAY : 0,
-	ENQUEUE_SONG : 1,
-	PAUSE : 2,
-	SKIP : 3,
-	REMOVE_SONG : 4,
-	ADD_MEMBER : 5,
-	REMOVE_MEMBER : 6
-}
+var MessageType = require("./MessageType");
 
 exports.RequestType = RequestType;
 exports.Status = Status;
