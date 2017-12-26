@@ -14,12 +14,16 @@ namespace Sync
         private bool Opened;
         private string Message;
 
+        public event EventHandler<ServerResponseEventArgs> ServerResponse;
+
         public SyncServer()
         {
             this.Message = "";
             
             this.ws = new WebSocket("ws://192.168.1.226:8000/");
-            this.ws.MessageReceived += (object sender, MessageReceivedEventArgs e) => { lock (this.Message) { this.Message += e.Message; } };
+            this.ws.MessageReceived += (object sender, MessageReceivedEventArgs e) => {
+                ServerResponse?.Invoke(sender, new ServerResponseEventArgs(e.Message));
+            };
             this.ws.Error += (object sender,  ErrorEventArgs e) => { this.Opened = false; };
             this.ws.Closed += (object sender, EventArgs e) => { this.Opened = false; };
 
@@ -51,6 +55,8 @@ namespace Sync
             this.ws.Send(data);
         }
 
+
+
         public string Read()
         {
             lock (this.Message)
@@ -60,5 +66,10 @@ namespace Sync
                 return msg;
             }
         }
+    }
+
+    public class ServerResponseEventArgs : EventArgs {
+        public string Response { get; protected set; }
+        public ServerResponseEventArgs(string response) { this.Response = response; }
     }
 }
