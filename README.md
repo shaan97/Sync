@@ -9,10 +9,11 @@ Communicating with the Sync Server involves making JSON requests of a particular
 We will be using several constants here to avoid having to state the values explicitly (which gives us flexibility in the future), so please refer to globals.js.
 
 ### Making Requests
-To make a request to the server, we have a `RequestType` field that establishes what the intent of the message is.
+To make a request to the server, we have a `RequestType` field that establishes what the intent of the message is. Additionally required is a `request_id` field so the server can specify what unique request it is responding to.
 ```javascript
 {
     RequestType: <Request>,
+    request_id: <Unique Request Number>
     // other request specific data...
     ...
 }
@@ -41,6 +42,7 @@ Responses from the server will generally involve receiving some sort of `Status`
 // JSON Request for Creating a Room
 {
     RequestType: RequestType.ROOM_CREATE,
+    request_id: <Unique Request Number>
     member_name: "Shaan",               // Name of the member making the request
     room_name: "Shaan's Room"           // Name of the room to be created
 }
@@ -61,6 +63,7 @@ To create a room, we have a `RequestType` of `RequestType.ROOM_CREATE`. We then 
 // JSON Request for Joining a Room
 {
     RequestType: RequestType.ROOM_JOIN,
+    request_id: <Unique Request Number>
     member_name: "Arvind",              // Name of the member making the request
     room_name: "Shaan's Room"           // Name of the room to be created
 }
@@ -81,6 +84,7 @@ To join a room, we have a `RequestType` of `RequestType.ROOM_JOIN`. We then requ
 // JSON Request for Removing a Member. Note: Only admin can remove 
 {
     RequestType: RequestType.REMOVE_MEMBER,
+    request_id: <Unique Request Number>
     other_member_name: "Arvind"             // Member to be removed
 }
 ```
@@ -103,6 +107,7 @@ To remove a member (an admin only privilege), we have a `RequestType` of `Reques
 ```javascript
 {
     RequestType: RequestType.SONG_REQUEST,
+    request_id: <Unique Request Number>
     song_id: "UniqueSongID"         // Unique Song ID (TBD)
 }
 ```
@@ -126,6 +131,7 @@ To request a song, we have a `RequestType` of `RequestType.SONG_REQUEST`. We als
 ```javascript
 {
     RequestType: RequestType.PLAY  // or RequestType.PAUSE or RequestType.SKIP
+    request_id: <Unique Request Number>
 }
 ```
 
@@ -147,6 +153,7 @@ To play, pause, or skip a song, we just send the corresponding `RequestType`. Th
 ```javascript
 {
     RequestType: RequestType.CAN_COMMIT,    // or RequestType.PRE_COMMIT or RequestType.COMMIT
+    request_id: <Unique Request Number>
     sync_event_id: "UniqueSyncEventID"      // May be implemented as a hash
 }
 ```
