@@ -26,6 +26,7 @@ Responses from the server will generally involve receiving some sort of `Status`
 // JSON Response from Server
 {
     status: Status.CAN_COMMIT,
+    request_id: <Unique Request Number>
     sync_message: {
                         message: MessageType.ENQUEUE_SONG,
                         song_id: "UniqueSongID",
