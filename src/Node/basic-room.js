@@ -61,7 +61,7 @@ class BasicRoom extends EventEmitter {
 		
 		// Make the room handle all messages from the connection now
 		member.on("message", (message) => {
-			util.log("Received message from " + member.name + " in Room " + this.room_name);
+			util.log(`Received message from ${member.name} in Room ${this.room_name}.\nReceived: ${message}`);
 			this.handleMessage(member, message);
 		});
 
