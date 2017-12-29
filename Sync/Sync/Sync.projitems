@@ -9,21 +9,50 @@
     <Import_RootNamespace>Sync</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)App.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)MainPage.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\App.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MainPage.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SyncRoom.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SyncRoomDetail.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SyncRoomMaster.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
+    <Compile Include="$(MSBuildThisFileDirectory)helper\Callback.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Spotify\IMusicPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)RequestBuilder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ResponseDecoder.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)SyncServer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sync Server\Request.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sync Server\ResponseDecoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Spotify\SpotifyPlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SyncRoom.xaml.cs">
+      <DependentUpon>SyncRoom.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SyncRoomDetail.xaml.cs">
+      <DependentUpon>SyncRoomDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SyncRoomMaster.xaml.cs">
+      <DependentUpon>SyncRoomMaster.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SyncRoomMenuItem.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Sync Server\SyncServer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)RequestType.json" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)json\RequestType.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)json\MessageType.json" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)json\Status.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)json\" />
+    <Folder Include="$(MSBuildThisFileDirectory)helper\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Sync Server\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Spotify\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Pages\" />
   </ItemGroup>
 </Project>
