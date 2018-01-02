@@ -8,5 +8,6 @@
   "CAN_COMMIT": 6,
   "PRE_COMMIT": 7,
   "COMMIT": 8,
-  "ABORT_COMMIT": 9
+  "ABORT_COMMIT": 9,
+  "PING": 10
 }
