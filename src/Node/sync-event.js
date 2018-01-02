@@ -2,6 +2,7 @@ var Status = require("./globals").Status;
 var LinkedList = require("linked-list");
 var EventEmitter = require("events").EventEmitter;
 var crypto = require("crypto");
+var clone = require("clone");
 
 class SyncEvent extends EventEmitter {
 
@@ -83,8 +84,9 @@ class SyncEvent extends EventEmitter {
 		var count = 0;
 		this.forEach((member) => {
 			++count;
-			let _encoder = member.encoder;
+			let _encoder = clone(member.encoder);
 			_encoder.setStatus(phase).setSyncEvent(this);
+			
 			member.send(_encoder.response);
 		});
 

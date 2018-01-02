@@ -2,7 +2,8 @@ var WebSocketServer = require("ws").Server;
 var util = require("util");
 var RequestType = require("./globals").RequestType;
 var Status = require("./globals").Status;
-var deepcopy = require("deepcopy");
+var clone = require("clone");
+var ntpsync = require("ntpsync");
 
 /*	@class SyncServer
 *	
@@ -34,8 +35,15 @@ class SyncServer {
 			});
 		});
 
-
-
+		setInterval(() => {
+			ntpsync.ntpLocalClockDeltaPromise().then((ntp) => {
+				this.room_mgr.rooms.forEach(room => {
+					room.delta = ntp.minimalNTPLatencyDelta;
+				});
+			}).catch((err) => {
+				util.log(err);
+			});
+		}, 60000);
 	}
 
 	handleMessage(ws, message) {
@@ -57,7 +65,8 @@ class SyncServer {
 		var member_name = this.server_decoder.getMemberName();
         if (this.server_decoder.getRequestID() === null) {
             util.log("Request ID not present.");
-            ws.send(_encoder.setStatus(Status.INVALID).setRequestID(-1).response);
+			ws.send(_encoder.setStatus(Status.INVALID).setRequestID(-1).response);
+			return false;
         }else if (member_name === null) {
             util.log(`Member name not present.`);
             ws.send(_encoder.setStatus(Status.INVALID).setRequestID(this.server_decoder.getRequestID()).response);
@@ -85,7 +94,7 @@ class SyncServer {
 
 			// Create the room
 			var room = this.sync_factory.makeRoom(room_name, this.sync_factory.makeMember(member_name, ws, this.server_decoder.getVersion()));
-
+			
 			// Request the room manager to add this new room
 			var success = this.room_mgr.insert(room);
             ws.send(_encoder.setStatus(success ? Status.SUCCESS : Status.FAIL).setRequestID(this.server_decoder.getRequestID()).response);
