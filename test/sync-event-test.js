@@ -7,7 +7,7 @@ var sync_event = require("../src/Node/sync-event");
 var Encoder = require("../src/Node/encoder").Encoder;
 var MessageType = require("../src/Node/globals");
 var Status = require("../src/Node/globals").Status;
-var deepcopy = require("deepcopy");
+var clone = require("clone");
 
 function getMembers() {
 	var shaan = {
@@ -126,7 +126,7 @@ describe("SyncEvent", function() {
 	it("should not abort if all members are confirmed within timeout period", sinonTest(() => {
 		var clock = sinon.useFakeTimers();
 		
-		var new_members = deepcopy(members)
+		var new_members = clone(members)
 		var event = new sync_event.SyncEvent(new_members, message);
 		
 		event.phase(0)
@@ -144,7 +144,7 @@ describe("SyncEvent", function() {
 	}));
 
 	it("should be able to walk through all the phases", () => {
-		var new_members = deepcopy(members)
+		var new_members = clone(members)
 		var event = new sync_event.SyncEvent(new_members, message);
 
 		var arr = [Status.CAN_COMMIT, Status.PRE_COMMIT, Status.COMMIT]
