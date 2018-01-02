@@ -5,8 +5,8 @@ var RequestType = require("./globals").RequestType;
 var requestTypeToString = require("./globals").requestTypeToString;
 var clone = require("clone");
 var SyncEvent = require("./sync-event").SyncEvent;
-var LinkedList = require("linked-list");
 var MessageType = require("./globals").MessageType;
+var SyncEventProtocol = require("./sync-event").SyncEventProtocol;
 
 /*!
 	@class BasicRoom
@@ -30,14 +30,13 @@ class BasicRoom extends EventEmitter {
 		this.room_name = room_name;
 
 		// Initialize set of members 
-		this.members = new Object();
+		this.members = new Map();
 		this.size = 0;
 		this.insert(admin);
 		this.makeAdmin(admin);
 
-		// Queue of sync events 
-		this.sync_events_queue = new LinkedList();
-		this.sync_events_map = {};
+		// All message handlers for this room
+		this.protocols = new Set();
 
 		// NTP Delta
 		this.delta = 0;
@@ -49,6 +48,7 @@ class BasicRoom extends EventEmitter {
 		this.pending_pings = {};
 	}
 
+
 	/*!
 		@param member		The member we are inserting. The member should implement the
 							WebSocket API and should maintain state for the member, including
@@ -59,20 +59,17 @@ class BasicRoom extends EventEmitter {
 		util.log(`Attempting to add ${member.name}`);
 
 		// If member is already in here, we fail with Status.EXISTS
-		if(member.name in this.members) {
+		if(this.members.has(member.name)) {
 			util.log(`${member.name} already present in ${this.room_name}`);
 			return false;
 		}
 
 		// Member is not in the room, so we insert them
-		this.members[member.name] = member;
+		this.members.set(member.name, member);
 		++this.size;
 		
-		// Make the room handle all messages from the connection now
-		member.on("message", (message) => {
-			util.log(`Received message from ${member.name} in Room ${this.room_name}.\nReceived: ${message}`);
-			this.handleMessage(member, message);
-		});
+		
+		member.on("message", async (msg) => { await this.handleMessage(member, msg) });
 
 		// On socket close, we remove the member from the room
 		member.on("close", () => {
@@ -92,17 +89,17 @@ class BasicRoom extends EventEmitter {
 		util.log(`Attempting to remove ${member_name} in Room ${this.room_name}`);
 
 		// We can't remove member if it doesn't exist in the group
-		if(!(member_name in this.members)){
+		if(!(this.members.has(member_name))){
 			util.log(`${member_name} not in ${this.room_name}`);
 			return false;
 		}
 
 		// Get the reference to the member
-		var member = this.members[member_name];
+		var member = this.members.get(member_name);
 
 		// If the member is not an admin, we can safely remove
 		if(member !== this.admin) {
-			delete this.members[member_name];
+			this.members.delete(member_name);
 			member.close();
 		}
 		else {
@@ -119,7 +116,7 @@ class BasicRoom extends EventEmitter {
 				return false;
 			} else {
 				// We found a new admin, so we can remove the old admin
-				delete this.members[member_name];
+				this.members.delete(member_name);
 				member.close();
 			}
 		}
@@ -133,146 +130,12 @@ class BasicRoom extends EventEmitter {
 		@param member		The member who is sending the message
 		@param message		The message sent by the member that we are going to handle
 	*/
-	handleMessage(member, message) {
-		var log = `Room ${this.room_name} received message from ${member.name}:	`;
-		var _decoder = clone(member.decoder);
-		var _encoder = clone(member.encoder);
-		_decoder.message = message;
-
-		util.log(log + requestTypeToString(_decoder.getRequestType()));
-        if (_decoder.getRequestID() === null) {
-            util.log(`${member.name} failed to label request ID, sending failure.`);
-            member.send(_encoder.setStatus(Status.INVALID).setRequestID(-1).response)
-            return false;
-        }
-
-		// Create message to send to all members
-		var sync_event = new SyncEvent(this.members);
-
-		// Based on request type, we will build a sync_event to use to
-		// synchronize the change amongst all members
-		switch(_decoder.getRequestType()) {
-		case RequestType.CAN_COMMIT:
-		case RequestType.PRE_COMMIT:
-		case RequestType.COMMIT:
-			var sync_id = _decoder.getSyncEventID();
-			
-			// Check to see if event corresponds to the current active sync event
-			if(sync_id === null || !(sync_id in this.sync_events_map)) {
-				member.send(_encoder.setStatus(Status.INVALID).setRequestID(_decoder.getRequestID()).response);
-				return false;
-			}
-
-			var event_node = this.sync_events_map[sync_id];
-			
-			// Confirm member and return its success
-			var success = event_node.event.confirm(member);
-			member.send(_encoder.setStatus(success ? Status.SUCCESS : Status.FAIL).setRequestID(_decoder.getRequestID()).response);
-			return success;
-		case RequestType.SONG_REQUEST:
-			var song_id = _decoder.getSongID();
-			if(song_id === null) {
-                member.send(_encoder.setStatus(Status.INVALID).setRequestID(_decoder.getRequestID()).response);
-				return false;
-			}
-
-			sync_event.setMessageType(MessageType.ENQUEUE_SONG);
-			sync_event.setSongID(song_id);
-			sync_event.setMemberName(member.name);
-
-			break;
-		case RequestType.PAUSE:
-			sync_event.setMessageType(MessageType.PAUSE);
-			sync_event.setMemberName(member.name);
-
-			break;
-		case RequestType.PLAY:
-			sync_event.setMessageType(MessageType.PLAY);
-			sync_event.setMemberName(member.name);
-
-			break;
-		case RequestType.SKIP:
-			sync_event.setMessageType(MessageType.SKIP);
-			sync_event.setMemberName(member.name);
-
-			break;
-		case RequestType.REMOVE_MEMBER:
-			var other = _decoder.getOtherMemberName();		
-			if(member !== this.admin || other === null || !(other in this.members)) {
-                member.send(_encoder.setStatus(Status.INVALID).setRequestID(_decoder.getRequestID()).response);
-				return false;
-			}
-
-			if(!this.remove(other)) {
-                member.send(_encoder.setStatus(Status.FAIL).setRequestID(_decoder.getRequestID()).response);
-				return false;
-			}
-
-			// TODO : What do we do if we can't get consensus on this?
-			sync_event.setMessageType(MessageType.REMOVE_MEMBER);
-			sync_event.setMemberName(other);
-
-			break;
-		default:
-			member.send(_encoder.setStatus(Status.INVALID).setRequestID(_decoder.getRequestID()).response);
-			return false;
+	async handleMessage(member, message) {
+		const msg_json = JSON.parse(message);
+		for(let protocol of this.protocols) {
+			protocol.message(member, msg_json);
+			await 1;
 		}
-		
-		// Create a Song Request Sync Event
-		var sync_event_node = new SyncItem(sync_event);
-		var id = sync_event.getSyncEventID()
-		sync_event.on("phase-complete", () => { this.syncEventHandler(id) });
-
-		// Enqueue
-		this.sync_events_queue.append(sync_event_node);
-		
-		// Map node for quick lookup
-		this.sync_events_map[id] = sync_event_node;
-
-		// Tell member that their status is pending
-        member.send(_encoder.setStatus(Status.PENDING).setRequestID(_decoder.getRequestID()).response);
-
-		if(this.sync_events_queue.tail === null) {
-			// This is the first item to be inserted in the queue, so we begin the first phase
-			sync_event.nextPhase();
-		}
-		
-		
-
-		// Failure not determinable yet
-		return true;
-		
-	}
-
-	/*!
-		@param member_name		Name of the member who initiated the event (key to the unordered map)
-	*/
-	syncEventHandler(event_id) {
-		var event_node = this.sync_events_map[event_id];
-		if(event_node.event.isComplete() || event_node.event.isAborted()) {
-			// Event is complete
-
-			// Delete event data (dequeue)
-			event_node.detach();
-
-			// Remove from map
-			delete this.sync_events_map[event_id];
-
-			// Now begin sync event at front of queue
-			if(this.sync_events_queue.head !== null)
-				this.sync_events_queue.head.event.nextPhase();
-
-			return;
-		}
-
-		// Not complete yet
-		if(!event_node.event.nextPhase()) {
-			event_node.event.abortCommit();
-		}
-	}
-
-	size() {
-		return this.size;
 	}
 
 	/*!
@@ -282,7 +145,7 @@ class BasicRoom extends EventEmitter {
 		util.log(`Making ${member.name} admin.`);
 
 		// We can only make admin if the member exists in the or we can insert the member
-		if(!(member.name in this.members) && !this.insert(member))
+		if(!(this.members.has(member.name)) && !this.insert(member))
 			return false;
 
 		this.admin = member;
@@ -297,13 +160,13 @@ class BasicRoom extends EventEmitter {
 	getNewAdmin() {
 		// Arbitrary implementation: Find first member that isn't an admin and make it an admin
 		var room = this;
-		for(let member in this.members) {
-			if(this.members.hasOwnProperty(member) && member !== this.admin.name) {
-				this.admin = this.members[member];
+		for(var member of this.members.values()) {
+			if(member.name !== this.admin.name) {
+				this.admin = member;
 				break;
 			}
 		}
-
+		
 		util.log(`${this.admin.name} is admin.`);
 
 	}
@@ -312,9 +175,10 @@ class BasicRoom extends EventEmitter {
 		@postcondition All members are removed from group
 	*/
 	close() {
-		this.forEach((member) => {
-			if(member !== this.admin)
-				this.remove(member.name);
+		this.members.forEach((member, member_name, _) => {
+			if(member !== this.admin) {
+				this.remove(member_name);
+			}
 		});
 	}
 
@@ -324,42 +188,14 @@ class BasicRoom extends EventEmitter {
 		@returns true if member with that member_name exists
 	*/
 	contains(member_name) {
-		for(let name in this.members) {
-			if(this.members.hasOwnProperty(name) && name === member_name)
-				return true;
-		}
-
-		return false;
+		return this.members.has(member_name);
 	}
 
 	get(member_name) {
-		for(let name in this.members) {
-			if(this.members.hasOwnProperty(name) && name === member_name)
-				return this.members[name];
-		}
-
-		return null;
+		return this.members.get(member_name);
 	}
 	
-	/*!
-		@brief Syntactic sugar for looping through each member in room
-	*/
-	forEach(func) {
-		for(let member in this.members) {
-			if(this.members.hasOwnProperty(member)) {
-				func(this.members[member]);
-			}
-		}
-	}
+	
 }
-
-class SyncItem extends LinkedList.Item {
-	constructor(event) {
-		super();
-		this.event = event;
-		LinkedList.Item.apply(this, arguments);
-	}
-}
-
 
 exports.BasicRoom = BasicRoom;

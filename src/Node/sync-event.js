@@ -1,8 +1,173 @@
+var RequestType = require("./globals").RequestType;
+var MessageType = require("./globals").MessageType;
 var Status = require("./globals").Status;
 var LinkedList = require("linked-list");
 var EventEmitter = require("events").EventEmitter;
 var crypto = require("crypto");
 var clone = require("clone");
+
+class SyncEventProtocol {
+	constructor(room) {
+		this.room = room;
+
+		// Queue of sync events 
+		this.sync_events_queue = new LinkedList();
+		this.sync_events_map = {};
+	}
+
+	message(member, message) {
+		if(!('RequestType' in message))
+			return false;
+	
+		var encoder = clone(member.encoder);
+		var sync_event = new SyncEvent(this.room.members);
+		switch(message.RequestType) {
+			case RequestType.CAN_COMMIT:
+			case RequestType.PRE_COMMIT:
+			case RequestType.COMMIT:
+				
+				// Check to see if event corresponds to the current active sync event
+				if(message.sync_event_id === null || !(message.sync_event_id in this.sync_events_map)) {
+					member.send(encoder
+						.setStatus(Status.INVALID)
+						.setRequestID(message.request_id)
+					.response);
+					return false;
+				}
+	
+				var event_node = this.sync_events_map[message.sync_event_id];
+				
+				// Confirm member and return its success
+				var success = event_node.event.confirm(member);
+				member.send(encoder
+					.setStatus(success ? Status.SUCCESS : Status.FAIL)
+					.setRequestID(message.request_id)
+				.response);
+
+				return success;
+
+			case RequestType.SONG_REQUEST:
+				var song_id = message.song_id;
+				if(song_id === null) {
+					member.send(encoder
+						.setStatus(Status.INVALID)
+						.setRequestID(message.request_id)
+					.response);
+					return false;
+				}
+	
+				sync_event.setMessageType(MessageType.ENQUEUE_SONG);
+				sync_event.setSongID(song_id);
+				sync_event.setMemberName(member.name);
+	
+				break;
+			case RequestType.PAUSE:
+				sync_event.setMessageType(MessageType.PAUSE);
+				sync_event.setMemberName(member.name);
+	
+				break;
+			case RequestType.PLAY:
+				sync_event.setMessageType(MessageType.PLAY);
+				sync_event.setMemberName(member.name);
+	
+				break;
+			case RequestType.SKIP:
+				sync_event.setMessageType(MessageType.SKIP);
+				sync_event.setMemberName(member.name);
+	
+				break;
+			case RequestType.REMOVE_MEMBER:
+				var other = message.other_member_name;		
+				if(member !== this.room.admin || other === null || !(this.room.members.has(other))) {
+					member.send(encoder
+						.setStatus(Status.INVALID)
+						.setRequestID(message.request_id)
+					.response);
+					return false;
+				}
+	
+				if(!this.room.remove(other)) {
+					member.send(encoder
+						.setStatus(Status.FAIL)
+						.setRequestID(message.request_id)
+					.response);
+					return false;
+				}
+	
+				// TODO : What do we do if we can't get consensus on this?
+				sync_event.setMessageType(MessageType.REMOVE_MEMBER);
+				sync_event.setMemberName(other);
+	
+				break;
+			default:
+				return false;
+		}
+
+		// Create a Song Request Sync Event
+		var sync_event_node = new SyncItem(sync_event);
+		var id = sync_event.getSyncEventID()
+		sync_event.on("phase-complete", () => { this.phaseComplete(id) });
+
+		// Enqueue
+		this.sync_events_queue.append(sync_event_node);
+		
+		// Map node for quick lookup
+		this.sync_events_map[id] = sync_event_node;
+
+		// Tell member that their status is pending
+		member.send(encoder
+			.setStatus(Status.PENDING)
+			.setRequestID(member.request_id)
+		.response);
+
+		if(this.sync_events_queue.tail === null) {
+			// This is the first item to be inserted in the queue, so we begin the first phase
+			sync_event.nextPhase();
+		}
+		
+		// Failure not determinable yet
+		return true;
+		
+	}
+
+	/*!
+		@param member_name		Name of the member who initiated the event (key to the unordered map)
+	*/
+	phaseComplete(event_id) {
+		var event_node = this.sync_events_map[event_id];
+		if(event_node.event.isComplete() || event_node.event.isAborted()) {
+			// Event is complete
+
+			// Delete event data (dequeue)
+			event_node.detach();
+
+			// Remove from map
+			delete this.sync_events_map[event_id];
+
+			// Now begin sync event at front of queue
+			if(this.sync_events_queue.head !== null)
+				this.sync_events_queue.head.event.nextPhase();
+
+			return;
+		}
+
+		// Not complete yet
+		if(!event_node.event.nextPhase()) {
+			event_node.event.abortCommit();
+		}
+	}
+
+}
+
+
+class SyncItem extends LinkedList.Item {
+	constructor(event) {
+		super();
+		this.event = event;
+		LinkedList.Item.apply(this, arguments);
+	}
+}
+
 
 class SyncEvent extends EventEmitter {
 
@@ -82,7 +247,7 @@ class SyncEvent extends EventEmitter {
 
 	sendAll(phase) {
 		var count = 0;
-		this.forEach((member) => {
+		this.members.forEach((member, _, __) => {
 			++count;
 			let _encoder = clone(member.encoder);
 			_encoder.setStatus(phase).setSyncEvent(this);
@@ -95,18 +260,12 @@ class SyncEvent extends EventEmitter {
 
 	resetPending() {
 		var count = 0;
-		this.forEach((member) => {
+		this.members.forEach((member, _, __) => {
 			++count;
 			this.pending.add(member);
 		});
 
 		return count;
-	}
-
-	forEach(func) {
-		for(let member in this.members)
-			if(this.members.hasOwnProperty(member))
-				func(this.members[member]);
 	}
 
 	toString() {
@@ -145,3 +304,4 @@ class SyncEvent extends EventEmitter {
 
 
 exports.SyncEvent = SyncEvent;
+exports.SyncEventProtocol = SyncEventProtocol;

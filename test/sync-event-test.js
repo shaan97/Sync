@@ -29,18 +29,15 @@ function getMembers() {
 		this.buffer = msg;
 	}
 
-	var members = new Object;
-	members[shaan.name] = shaan;
-	members[devan.name] = devan;
+	var members = new Map();
+	members.set(shaan.name, shaan);
+	members.set(devan.name, devan);
 
-	return members
+	return members;
 }
 
 function forEach(members, func) {
-	for(let member in members) {
-		if(members.hasOwnProperty(member))
-			func(members[member])
-	}
+	members.forEach(func);
 }
 describe("SyncEvent", function() {
 
@@ -52,12 +49,13 @@ describe("SyncEvent", function() {
 	forEach(members, () => {++size;});
 
 	it("should construct", () => {
-		var event = new sync_event.SyncEvent(members, message);
+		var event = new sync_event.SyncEvent(members);
 	});
 
 	it("should be able to send data to all members", () => {
-		var event = new sync_event.SyncEvent(members, message);
-		
+		var event = new sync_event.SyncEvent(members);
+		event.setMessageType(MessageType.PLAY);
+
 		event.sendAll('0');
 		forEach(members, (member) => {
 			expect(JSON.parse(member.buffer).status).to.equal('0');
@@ -71,7 +69,8 @@ describe("SyncEvent", function() {
 	});
 
 	it("should be able to add members to pending set", () => {
-		var event = new sync_event.SyncEvent(members, message);
+		var event = new sync_event.SyncEvent(members);
+		event.setMessageType(MessageType.PLAY);
 		
 		var x = event.resetPending();
 		expect(x).to.equal(size);
@@ -79,7 +78,8 @@ describe("SyncEvent", function() {
 	});
 
 	it("should be able to send out an abort to all clients", () => {
-		var event = new sync_event.SyncEvent(members, message);
+		var event = new sync_event.SyncEvent(members);
+		event.setMessageType(MessageType.PLAY);
 		
 		expect(event.abortCommit()).to.equal(true);
 		expect(event.pending.size).to.equal(size);
@@ -90,8 +90,9 @@ describe("SyncEvent", function() {
 	});
 
 	it("should be able to remove members from pending set", () => {
-		var event = new sync_event.SyncEvent(members, message);
-
+		var event = new sync_event.SyncEvent(members);
+		event.setMessageType(MessageType.PLAY);
+		
 		event.resetPending();
 		let num = 0
 		forEach(members, (member) => {
@@ -108,7 +109,9 @@ describe("SyncEvent", function() {
 	});
 
 	it("should be able to enter a phase and exit on timeout", sinonTest(() => {
-		var event = new sync_event.SyncEvent(members, message);
+		var event = new sync_event.SyncEvent(members);
+		event.setMessageType(MessageType.PLAY);
+		
 		var clock = sinon.useFakeTimers();
 
 		expect(event.phase(0)).to.equal(true);
@@ -127,7 +130,8 @@ describe("SyncEvent", function() {
 		var clock = sinon.useFakeTimers();
 		
 		var new_members = clone(members)
-		var event = new sync_event.SyncEvent(new_members, message);
+		var event = new sync_event.SyncEvent(new_members);
+		event.setMessageType(MessageType.PLAY);
 		
 		event.phase(0)
 		forEach(new_members, (member) => {
@@ -145,8 +149,9 @@ describe("SyncEvent", function() {
 
 	it("should be able to walk through all the phases", () => {
 		var new_members = clone(members)
-		var event = new sync_event.SyncEvent(new_members, message);
-
+		var event = new sync_event.SyncEvent(new_members);
+		event.setMessageType(MessageType.PLAY);
+		
 		var arr = [Status.CAN_COMMIT, Status.PRE_COMMIT, Status.COMMIT]
 		arr.forEach((stat) => {
 
