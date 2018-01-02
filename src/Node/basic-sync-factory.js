@@ -21,6 +21,7 @@ class BasicSyncFactory extends SyncFactory {
 		ws.decoder = message_formatters.decoder;
 		ws.encoder = message_formatters.encoder;
 		ws.name = name;
+		ws.latency = 0;
 		return ws;
 	}
 
