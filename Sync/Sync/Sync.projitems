@@ -11,9 +11,7 @@
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\App.xaml" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\MainPage.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SyncRoom.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SyncRoomDetail.xaml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\SyncRoomMaster.xaml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Pages\Room.xaml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Pages\App.xaml.cs">
@@ -24,20 +22,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Pages\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Spotify\SimplePlayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Sync Server\NTP.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sync Server\Request.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Sync Server\ResponseDecoder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Spotify\SpotifyPlayer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\SyncRoom.xaml.cs">
-      <DependentUpon>SyncRoom.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\SyncRoomDetail.xaml.cs">
-      <DependentUpon>SyncRoomDetail.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\SyncRoomMaster.xaml.cs">
-      <DependentUpon>SyncRoomMaster.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\SyncRoomMenuItem.cs">
-      <SubType>Code</SubType>
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\Room.xaml.cs">
+      <DependentUpon>Room.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Sync Server\SyncServer.cs" />
   </ItemGroup>
