@@ -31,13 +31,11 @@ namespace Sync
      */
     public class Request
     {
-        private string _RequestType = null;
-        public string RequestType {
+        private JToken _RequestType = null;
+        public JToken RequestType {
             get { return _RequestType; }
             set {
-                if (request_codes.ContainsKey(value)) {
-                    this._RequestType = request_codes[value];
-                }
+                _RequestType = request_codes[(string)value];
             }
         }
 
@@ -47,7 +45,7 @@ namespace Sync
         public string song_id           { get; set; } = null;
         public string sync_event_id     { get; set; } = null;
         public int request_id          { get; set; }
-        private static Dictionary<string, string> request_codes;
+        private static JObject request_codes;
 
         static Request() {
             var assembly = typeof(Request).GetTypeInfo().Assembly;
@@ -66,7 +64,7 @@ namespace Sync
                 text = reader.ReadToEnd();
             }
 
-            request_codes = JsonConvert.DeserializeObject<Dictionary<string, string>>(text);
+            request_codes = JObject.Parse(text);
         }
 
         public override string ToString() {
