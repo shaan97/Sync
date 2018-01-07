@@ -183,53 +183,65 @@ namespace Sync
 
             int message_type = (int)message["sync_message"]["message"];
             double utc_time = (double)message["utc_time"];
-            double current_time = DateTime.UtcNow.Subtract(NTP.epoch).TotalMilliseconds + NTP.utc_delta;
-            
+            double clock = DateTime.UtcNow.Subtract(NTP.epoch).TotalMilliseconds;
+            var delta = NTP.utc_delta;
+            double current_time = clock + delta;
             // Check if time already expired
             if (utc_time <= current_time) {
                 System.Diagnostics.Debug.WriteLine("Time already expired.");
                 return false;
             } else {
-                System.Diagnostics.Debug.WriteLine($"Executing in {utc_time - current_time} ms");
+                System.Diagnostics.Debug.WriteLine($"Clock: {clock}\nDrift: {NTP.utc_delta}\nExecuting in {utc_time - current_time}");
             }
 
-            Timer timer = new Timer(utc_time - current_time) {
-                AutoReset = false
-            };
+            // Get number of ticks since DateTime's epoch (not necessarily Unix time)
+            var epoch_conversion = NTP.epoch.Ticks;
             if (message_type == ResponseDecoder.MessageType["PLAY"]) {
-                timer.Elapsed += (s, e) => { this.player.Play(); };
+                {
+
+                    while ((DateTime.UtcNow.Ticks / 10000 + delta) < (utc_time + epoch_conversion / 10000)) ;
+                    System.Diagnostics.Debug.WriteLine($"Playing at UTC time {DateTime.UtcNow.Subtract(NTP.epoch).TotalMilliseconds + NTP.utc_delta} ms");
+                    this.player.Play();
+                    System.Diagnostics.Debug.WriteLine($"Played at UTC time {DateTime.UtcNow.Subtract(NTP.epoch).TotalMilliseconds + NTP.utc_delta} ms");
+
+                };
             }
             else if (message_type == ResponseDecoder.MessageType["ENQUEUE_SONG"]) {
                 if (message["sync_message"]["song_id"] == null)
                     return false;
-                timer.Elapsed += (s, e) => { this.player.EnqueueSong((string)message["sync_message"]["song_id"]); };
+                { this.player.EnqueueSong((string)message["sync_message"]["song_id"]); };
             }
             else if (message_type == ResponseDecoder.MessageType["PAUSE"]) {
-                timer.Elapsed += (s, e) => { this.player.Stop(); };
+                {
+                    while ((DateTime.UtcNow.Ticks / 10000 + delta) < (utc_time + epoch_conversion / 10000)) ;
+                    System.Diagnostics.Debug.WriteLine($"Pausing at UTC time {DateTime.UtcNow.Subtract(NTP.epoch).TotalMilliseconds + NTP.utc_delta} ms");
+                    this.player.Stop();
+                    System.Diagnostics.Debug.WriteLine($"Paused at UTC time {DateTime.UtcNow.Subtract(NTP.epoch).TotalMilliseconds + NTP.utc_delta} ms");
+                };
             }
             else if (message_type == ResponseDecoder.MessageType["SKIP"]) {
-                timer.Elapsed += (s, e) => { this.player.SkipSong(); };
+                { this.player.SkipSong(); };
             }
             else if (message_type == ResponseDecoder.MessageType["REMOVE_SONG"]) {
                 if (message["sync_message"]["song_id"] == null)
                     return false;
-                timer.Elapsed += (s, e) => { this.player.RemoveSong((string)message["sync_message"]["song_id"]); };
+                { this.player.RemoveSong((string)message["sync_message"]["song_id"]); };
             }
             else if (message_type == ResponseDecoder.MessageType["ADD_MEMBER"]) {
                 if (message["sync_message"]["member_name"] == null)
                     return false;
-                timer.Elapsed += (s, e) => { this.members.TryAdd((string)message["sync_message"]["member_name"], 0); };
+                { this.members.TryAdd((string)message["sync_message"]["member_name"], 0); };
             }
             else if (message_type == ResponseDecoder.MessageType["REMOVE_MEMBER"]) {
                 if (message["sync_message"]["member_name"] == null)
                     return false;
-                timer.Elapsed += (s, e) => { this.members.TryRemove((string)message["sync_message"]["member_name"], out byte _); };
+                { this.members.TryRemove((string)message["sync_message"]["member_name"], out byte _); };
             }
             else {
                 return false;
             }
 
-            timer.Start();
+            
             return true;
         }
     }
