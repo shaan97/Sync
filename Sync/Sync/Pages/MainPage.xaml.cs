@@ -32,7 +32,7 @@ namespace Sync
             Callback callback = new Callback(
                 (object s, ResponseDecoder response) => {
                     Device.BeginInvokeOnMainThread(() => {
-                        Application.Current.MainPage = new SyncRoom(this.sync, this.member_name, new SpotifyPlayer());
+                        Application.Current.MainPage = new Room(this.sync, this.member_name, new SpotifyPlayer());
                     });
                 },
                 (object s, ResponseDecoder response) => {
