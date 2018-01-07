@@ -45,6 +45,7 @@ namespace Sync
             var ntp_ms = ntp.ToUniversalTime().Subtract(epoch).TotalMilliseconds;
             var now_ms = now.Subtract(epoch).TotalMilliseconds;
             utc_delta = ntp_ms - now_ms;
+            System.Diagnostics.Debug.WriteLine($"utc_delta recalculated to {utc_delta} ms.");
         }
     }
 }
