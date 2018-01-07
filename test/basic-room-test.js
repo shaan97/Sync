@@ -6,7 +6,7 @@ var rewire = require("rewire")
 
 var BasicRoom = rewire("../src/Node/basic-room");
 var BasicSyncFactory = require("../src/Node/basic-sync-factory").BasicSyncFactory;
-var deepcopy = require("deepcopy");
+var clone = require("clone");
 var RequestType = require("../src/Node/globals").RequestType;
 var Status = require("../src/Node/globals").Status;
 
@@ -21,11 +21,11 @@ describe("BasicRoom", function() {
 
 		BasicRoom.__set__("util", {log: function(msg) {}});
 		
-		this.members = [sync_factory.makeMember("shaan", deepcopy(ws), 1.0),
-						sync_factory.makeMember("devan", deepcopy(ws), 1.0),
-						sync_factory.makeMember("saira", deepcopy(ws), 1.0),
-						sync_factory.makeMember("raj", deepcopy(ws), 1.0),
-						sync_factory.makeMember("mandy", deepcopy(ws), 1.0)];
+		this.members = [sync_factory.makeMember("shaan", clone(ws), 1.0),
+						sync_factory.makeMember("devan", clone(ws), 1.0),
+						sync_factory.makeMember("saira", clone(ws), 1.0),
+						sync_factory.makeMember("raj", clone(ws), 1.0),
+						sync_factory.makeMember("mandy", clone(ws), 1.0)];
 
 
 		this.room = new BasicRoom.BasicRoom("room", this.members[0]);

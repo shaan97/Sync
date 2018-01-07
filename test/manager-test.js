@@ -1,6 +1,6 @@
 var expect = require("chai").expect;
 var rewire = require("rewire")
-var deepcopy = require("deepcopy");
+var clone = require("clone");
 var sinon = require("sinon")
 
 var BasicRoom = rewire("../src/Node/basic-room");
@@ -20,7 +20,7 @@ function newRoom(sync_factory, owner)
     on: function(event, callback) {},
     close: function() {}
   }
-  admin = sync_factory.makeMember(owner, deepcopy(ws), 1.0)
+  admin = sync_factory.makeMember(owner, clone(ws), 1.0)
   room = sync_factory.makeRoom(owner, admin)
   return room
 }

@@ -3,7 +3,7 @@ var Status = require("./globals").Status;
 var EventEmitter = require("events").EventEmitter;
 var RequestType = require("./globals").RequestType;
 var requestTypeToString = require("./globals").requestTypeToString;
-var deepcopy = require("deepcopy");
+var clone = require("clone");
 var SyncEvent = require("./sync-event").SyncEvent;
 var LinkedList = require("linked-list");
 var MessageType = require("./globals").MessageType;
@@ -38,6 +38,15 @@ class BasicRoom extends EventEmitter {
 		// Queue of sync events 
 		this.sync_events_queue = new LinkedList();
 		this.sync_events_map = {};
+
+		// NTP Delta
+		this.delta = 0;
+
+		// Max latency among clients
+		this.max_latency = 0;
+
+		// Pings being waited upon
+		this.pending_pings = {};
 	}
 
 	/*!
@@ -46,8 +55,8 @@ class BasicRoom extends EventEmitter {
 							name, encoder/decoder.
 	*/
 	insert(member) {
-		var _encoder = deepcopy(member.encoder);
-		util.log("Attempting to add " + member.name);
+		var _encoder = clone(member.encoder);
+		util.log(`Attempting to add ${member.name}`);
 
 		// If member is already in here, we fail with Status.EXISTS
 		if(member.name in this.members) {
@@ -61,7 +70,7 @@ class BasicRoom extends EventEmitter {
 		
 		// Make the room handle all messages from the connection now
 		member.on("message", (message) => {
-			util.log("Received message from " + member.name + " in Room " + this.room_name);
+			util.log(`Received message from ${member.name} in Room ${this.room_name}.\nReceived: ${message}`);
 			this.handleMessage(member, message);
 		});
 
@@ -72,7 +81,7 @@ class BasicRoom extends EventEmitter {
 		});
 
 		// Send success
-		util.log(member.name + " added to " + this.room_name);
+		util.log(`${member.name} added to ${this.room_name}`);
 		return true;
 	}
 
@@ -80,7 +89,7 @@ class BasicRoom extends EventEmitter {
 		@param member_name		The name of the member we are removing
 	*/
 	remove(member_name) {
-		util.log("Attempting to remove " + member_name + " in Room " + this.room_name);
+		util.log(`Attempting to remove ${member_name} in Room ${this.room_name}`);
 
 		// We can't remove member if it doesn't exist in the group
 		if(!(member_name in this.members)){
@@ -99,7 +108,7 @@ class BasicRoom extends EventEmitter {
 		else {
 			// If the member is an admin, we have to find a new admin before removing
 
-			util.log(member_name + " is an admin. Attempting to get new admin in Room " + this.room_name);
+			util.log(`${member_name} is an admin. Attempting to get new admin in Room ${this.room_name}`);
 			this.getNewAdmin();
 
 			// If we still have the same admin, that means we must be effectively empty,
@@ -116,7 +125,7 @@ class BasicRoom extends EventEmitter {
 		}
 
 		--this.size;
-		util.log(member_name + " was removed in Room " + this.room_name);
+		util.log(`${member_name} was removed in Room ${this.room_name}`);
 		return true;
 	}
 
@@ -126,12 +135,11 @@ class BasicRoom extends EventEmitter {
 	*/
 	handleMessage(member, message) {
 		var log = `Room ${this.room_name} received message from ${member.name}:	`;
-		util.log(log + requestTypeToString(message));
-
-		var _decoder = deepcopy(member.decoder);
-		var _encoder = deepcopy(member.encoder);
+		var _decoder = clone(member.decoder);
+		var _encoder = clone(member.encoder);
 		_decoder.message = message;
 
+		util.log(log + requestTypeToString(_decoder.getRequestType()));
         if (_decoder.getRequestID() === null) {
             util.log(`${member.name} failed to label request ID, sending failure.`);
             member.send(_encoder.setStatus(Status.INVALID).setRequestID(-1).response)
@@ -271,7 +279,7 @@ class BasicRoom extends EventEmitter {
 		@param member		The new member that is an admin
 	*/
 	makeAdmin(member) {
-		util.log("Making " + member.name + " admin.");
+		util.log(`Making ${member.name} admin.`);
 
 		// We can only make admin if the member exists in the or we can insert the member
 		if(!(member.name in this.members) && !this.insert(member))
@@ -296,7 +304,7 @@ class BasicRoom extends EventEmitter {
 			}
 		}
 
-		util.log(this.admin.name + " is admin.");
+		util.log(`${this.admin.name} is admin.`);
 
 	}
 

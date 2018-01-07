@@ -58,9 +58,9 @@ deep-eql@^3.0.0:
   dependencies:
     type-detect "^4.0.0"
 
-deepcopy@^0.6.3:
+clone@^0.6.3:
   version "0.6.3"
-  resolved "https://registry.yarnpkg.com/deepcopy/-/deepcopy-0.6.3.tgz#634780f2f8656ab771af8fa8431ed1ccee55c7b0"
+  resolved "https://registry.yarnpkg.com/clone/-/clone-0.6.3.tgz#634780f2f8656ab771af8fa8431ed1ccee55c7b0"
 
 diff@3.2.0:
   version "3.2.0"

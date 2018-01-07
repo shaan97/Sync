@@ -18,6 +18,12 @@ function requestTypeToString(req) {
 		return "PAUSE";
 	case RequestType.SKIP:
 		return "SKIP";
+	case RequestType.CAN_COMMIT:
+		return "CAN_COMMIT";
+	case RequestType.PRE_COMMIT:
+		return "PRE_COMMIT";
+	case RequestType.COMMIT:
+		return "COMMIT";
 	default:
 		return "UNKNOWN";
 	}

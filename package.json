@@ -14,9 +14,10 @@
   "author": "Shaan Mathur",
   "license": "UNLICENSED",
   "dependencies": {
-    "deepcopy": "^0.6.3",
+    "clone": "^2.1.1",
     "linked-list": "^1.0.3",
     "ntp-client": "^0.5.3",
+    "ntpsync": "^0.2.3",
     "ws": "^3.1.0"
   },
   "devDependencies": {
