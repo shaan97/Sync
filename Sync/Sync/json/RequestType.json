@@ -9,5 +9,6 @@
 	"SKIP": 3,
 	"CAN_COMMIT": 4,
 	"PRE_COMMIT": 5,
-	"COMMIT": 6
+	"COMMIT": 6,
+	"PING": 7
 }
