@@ -11,7 +11,7 @@ var util = require("util");
 */
 class BasicRoomManager {
 	constructor() {
-		this.rooms = {};
+		this.rooms = new Map();
 	}
 
 	/*!
@@ -19,7 +19,7 @@ class BasicRoomManager {
 	*/
 	insert(room) {
 		// If room already exists, fail
-		if(room.room_name in this.rooms)
+		if(this.rooms.has(room.room_name))
 			return false;
 		
 		// On the empty event, we have to clean up by removing the room
@@ -28,7 +28,7 @@ class BasicRoomManager {
 		});
 
 		// Add the room
-		this.rooms[room.room_name] = room;
+		this.rooms.set(room.room_name, room);
 		return true;
 	}
 
@@ -36,12 +36,12 @@ class BasicRoomManager {
 		@param room			The room to be removed (@see BasicRoom)
 	*/
 	remove(room) {
-		util.log("Removing " + room.room_name);
+		util.log(`Removing ${room.room_name}`);
 
 		// Only remove the room if it is in our container
-		if(room.room_name in this.rooms) {
+		if(this.rooms.has(room.room_name)) {
 			room.close();
-			delete this.rooms[room.room_name];
+			this.rooms.delete(room.room_name);
 			return true;
 		}
 
@@ -50,17 +50,14 @@ class BasicRoomManager {
 
 	/// @param room_name 		The name of the room whose existance we are checking
 	contains(room_name) {
-		return room_name in this.rooms;
+		return this.rooms.has(room_name);
 	}
 
 	/// @param room_name		The naem of the room we would like to retrieve
 	///
 	/// @return null if the room doesn't exist
 	getRoom(room_name) {
-		if(room_name in this.rooms) {
-			return this.rooms[room_name];
-		}
-		return null;
+		return this.rooms.has(room_name) ? this.rooms.get(room_name) : null;
 	}
 
 }
