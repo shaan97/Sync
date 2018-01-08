@@ -7,6 +7,7 @@ var clone = require("clone");
 var SyncEvent = require("./sync-event").SyncEvent;
 var MessageType = require("./globals").MessageType;
 var SyncEventProtocol = require("./sync-event").SyncEventProtocol;
+var Encoder = require("./encoder").Encoder;
 
 /*!
 	@class BasicRoom
@@ -28,24 +29,20 @@ class BasicRoom extends EventEmitter {
 
 		// Room name
 		this.room_name = room_name;
-
+		
 		// Initialize set of members 
-		this.members = new Map();
+		this.members = new Map();		
 		this.size = 0;
+		
+		// Max latency among clients
+		this.max_latency = { latency: 0, member: admin };
+		
+		// All protocols this room uses
+		this.protocols = new Set();
+
 		this.insert(admin);
 		this.makeAdmin(admin);
 
-		// All message handlers for this room
-		this.protocols = new Set();
-
-		// NTP Delta
-		this.delta = 0;
-
-		// Max latency among clients
-		this.max_latency = 0;
-
-		// Pings being waited upon
-		this.pending_pings = {};
 	}
 
 
@@ -55,7 +52,6 @@ class BasicRoom extends EventEmitter {
 							name, encoder/decoder.
 	*/
 	insert(member) {
-		var _encoder = clone(member.encoder);
 		util.log(`Attempting to add ${member.name}`);
 
 		// If member is already in here, we fail with Status.EXISTS
@@ -74,8 +70,12 @@ class BasicRoom extends EventEmitter {
 		// On socket close, we remove the member from the room
 		member.on("close", () => {
 			util.log("Receiving close from " + member.name + " in Room " + this.room_name);
+			/* TODO : Add to protocol what happens when members are removed */
 			this.remove(member.name);
 		});
+
+		if(this.max_latency.latency < member.latency)
+			this.max_latency = {latency: member.latency, member: member};
 
 		// Send success
 		util.log(`${member.name} added to ${this.room_name}`);
