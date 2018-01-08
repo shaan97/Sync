@@ -1,5 +1,6 @@
 var RequestType = require("./globals").RequestType;
 var Status = require("./globals").Status;
+var Encoder = require("./encoder").Encoder;
 
 class PingProtocol {
 	
@@ -9,8 +10,8 @@ class PingProtocol {
 		this.pending_pings = new Map();
 
 		setInterval(() => {
+			var ping = new Encoder().setStatus(Status.PING).response;
 			this.room.members.forEach((member) => {
-				var ping = clone(member.encoder).setStatus(Status.PING).response;
 				this.pending_pings.set(member, Date.now());
 				member.send(ping);
 			});
@@ -21,8 +22,11 @@ class PingProtocol {
 		if(!("RequestType" in message) || message.RequestType !== RequestType.PING || !this.pending_pings.has(member))
 			return false;
 		
-		member.latency = Date.now() - this.pending_pings.get(member);
-		this.room.max_latency = max(this.room.max_latency, member.latency);
+		member.latency = Math.floor( (Date.now() - this.pending_pings.get(member)) / 2);
+		if(this.room.max_latency.latency > member.latency) {
+			this.room.max_latency.latency = member.latency;
+			this.room.max_latency.member = member;
+		}
 		
 		return true;
 	}
