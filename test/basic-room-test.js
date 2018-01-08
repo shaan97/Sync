@@ -8,6 +8,7 @@ var BasicRoom = rewire("../src/Node/basic-room");
 var BasicSyncFactory = require("../src/Node/basic-sync-factory").BasicSyncFactory;
 var clone = require("clone");
 var RequestType = require("../src/Node/globals").RequestType;
+var MessageType = require("../src/Node/globals").MessageType;
 var Status = require("../src/Node/globals").Status;
 var SyncEventProtocol = require("../src/Node/sync-event").SyncEventProtocol;
 var PingProtocol = require("../src/Node/ping").PingProtocol;
@@ -134,7 +135,7 @@ describe("BasicRoom", function() {
 					expect(JSON.parse(send_spies[member.name].getCall(0).args[0]).status).to.equal(Status.CAN_COMMIT);
 			})
 		});
-
+		/*
 		it("should only move to preCommit if all members confirm canCommit", () => {
 			var send_spy = sinon.spy(this.room.admin, "send");
 			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY, request_id : 0, request_id : 0}));
@@ -150,10 +151,10 @@ describe("BasicRoom", function() {
 
 			expect(JSON.parse(send_spy.getCall(send_spy.callCount - 1).args[0]).status).to.equal(Status.PRE_COMMIT);
 		});
-
-		it("should only move to commit if all members confirm preCommit", () => {
+		*/
+		it("should only move to commit if all members confirm canCommit", () => {
 			var send_spy = sinon.spy(this.room.admin, "send");
-			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY, request_id : 0, request_id : 0}));
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY, request_id : 0}));
 			this.members.forEach((member) => {
 				var id = (this.sync_event_protocol.sync_events_queue.head.event.getSyncEventID())
 				var msg = JSON.stringify({
@@ -164,15 +165,6 @@ describe("BasicRoom", function() {
 				this.room.handleMessage(member, msg)
 			});
 
-			this.members.forEach((member) => {
-				var id = (this.sync_event_protocol.sync_events_queue.head.event.getSyncEventID())
-				var msg = JSON.stringify({
-					RequestType: RequestType.PRE_COMMIT,
-					sync_event_id: id,
-					request_id : 0
-				});
-				this.room.handleMessage(member, msg);
-			});
 
 			expect(JSON.parse(send_spy.getCall(send_spy.callCount - 1).args[0]).status).to.equal(Status.COMMIT);
 
@@ -198,6 +190,42 @@ describe("BasicRoom", function() {
 			expect(JSON.parse(send_spy.getCall(send_spy.callCount - 1).args[0]).status).to.equal(Status.ABORT_COMMIT);
 
 		}));
+
+		it("should move onto the next sync event in a FIFO manner", () => {
+			var send_spy = sinon.spy(this.room.admin, "send");
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PLAY, request_id : 0}));
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.PAUSE, request_id : 1}));
+			this.room.handleMessage(this.room.admin, JSON.stringify({RequestType : RequestType.SONG_REQUEST, song_id : 1, request_id : 2}));
+			
+			expect(this.sync_event_protocol.sync_events_queue.head.event.message["message"]).to.equal(MessageType.PLAY);
+			expect(this.sync_event_protocol.sync_events_queue.head.next.event.message["message"]).to.equal(MessageType.PAUSE);
+			expect(this.sync_event_protocol.sync_events_queue.head.next.next.event.message["message"]).to.equal(MessageType.ENQUEUE_SONG);
+			
+
+			this.members.forEach((member) => {
+				var id = (this.sync_event_protocol.sync_events_queue.head.event.getSyncEventID())
+				var msg = JSON.stringify({
+					RequestType: RequestType.CAN_COMMIT,
+					sync_event_id: id,
+					request_id : 0
+				});
+				this.room.handleMessage(member, msg)
+			});
+
+			this.members.forEach((member) => {
+				var id = (this.sync_event_protocol.sync_events_queue.head.event.getSyncEventID())
+				var msg = JSON.stringify({
+					RequestType: RequestType.COMMIT,
+					sync_event_id: id,
+					request_id : 0
+				});
+				this.room.handleMessage(member, msg)
+			});
+			console.log(this.sync_event_protocol.sync_events_queue);
+			expect(this.sync_event_protocol.sync_events_queue.head.event.message["message"]).to.equal(MessageType.PAUSE);
+			expect(this.sync_event_protocol.sync_events_queue.head.next.event.message["message"]).to.equal(MessageType.ENQUEUE_SONG);
+			
+		});
 	});
 
 	describe("Administrative Privileges", () => {

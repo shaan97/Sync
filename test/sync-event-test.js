@@ -152,7 +152,7 @@ describe("SyncEvent", function() {
 		var event = new sync_event.SyncEvent(new_members);
 		event.setMessageType(MessageType.PLAY);
 		
-		var arr = [Status.CAN_COMMIT, Status.PRE_COMMIT, Status.COMMIT]
+		var arr = [Status.CAN_COMMIT, Status.COMMIT]
 		arr.forEach((stat) => {
 
 			expect(event.nextPhase()).is.equal(true);
