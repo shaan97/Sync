@@ -5,6 +5,9 @@ var LinkedList = require("linked-list");
 var EventEmitter = require("events").EventEmitter;
 var crypto = require("crypto");
 var clone = require("clone");
+var ntp = require("./ntp").ntp;
+var Encoder = require("./encoder").Encoder;
+var util = require("util");
 
 class SyncEventProtocol {
 	constructor(room) {
@@ -18,14 +21,13 @@ class SyncEventProtocol {
 	message(member, message) {
 		if(!('RequestType' in message))
 			return false;
-	
-		var encoder = clone(member.encoder);
-		var sync_event = new SyncEvent(this.room.members);
+
+		var encoder = new Encoder();
+		var sync_event = new SyncEvent(this.room.members, 2 * this.room.max_latency.latency);
 		switch(message.RequestType) {
 			case RequestType.CAN_COMMIT:
 			case RequestType.PRE_COMMIT:
 			case RequestType.COMMIT:
-				
 				// Check to see if event corresponds to the current active sync event
 				if(message.sync_event_id === null || !(message.sync_event_id in this.sync_events_map)) {
 					member.send(encoder
@@ -117,7 +119,7 @@ class SyncEventProtocol {
 		// Tell member that their status is pending
 		member.send(encoder
 			.setStatus(Status.PENDING)
-			.setRequestID(member.request_id)
+			.setRequestID(message.request_id)
 		.response);
 
 		if(this.sync_events_queue.tail === null) {
@@ -137,6 +139,7 @@ class SyncEventProtocol {
 		var event_node = this.sync_events_map[event_id];
 		if(event_node.event.isComplete() || event_node.event.isAborted()) {
 			// Event is complete
+			util.log("Event completed.");
 
 			// Delete event data (dequeue)
 			event_node.detach();
@@ -145,8 +148,12 @@ class SyncEventProtocol {
 			delete this.sync_events_map[event_id];
 
 			// Now begin sync event at front of queue
-			if(this.sync_events_queue.head !== null)
+			if(this.sync_events_queue.head !== null) {
+				util.log("Moving to next event.");
 				this.sync_events_queue.head.event.nextPhase();
+			} else {
+				util.log("No more pending events.");
+			}
 
 			return;
 		}
@@ -171,18 +178,20 @@ class SyncItem extends LinkedList.Item {
 
 class SyncEvent extends EventEmitter {
 
-	constructor(members) {
+	constructor(members, max_round_trip) {
 		super()
 		this.members = members;
 		this.message = {};
 		
 		this.pending = new Set();
 		
-		this.timeout = 5000;	// 5000 ms wait
+		this.timeout = 5000;//Math.floor(1.5 * max_round_trip);
 		this.timer = null;
 		
 		this.phase_num = 0;
 
+		this.utc_time = 0;
+		this.max_round_trip = max_round_trip;
 	}
 
 	confirm(member) {
@@ -196,7 +205,7 @@ class SyncEvent extends EventEmitter {
 	}
 
 	isComplete() {
-		return this.pending.size <= 0 && this.phase_num == 3;
+		return this.pending.size <= 0 && this.phase_num == 2;
 	}
 
 	isAborted() {
@@ -214,11 +223,12 @@ class SyncEvent extends EventEmitter {
 			success = this.phase(Status.CAN_COMMIT);
 			break;
 		case 2:
-			success = this.phase(Status.PRE_COMMIT);
-			break;
-		case 3:
 			success = this.phase(Status.COMMIT);
 			break;
+		/*
+		case 3:
+			success = this.phase(Status.COMMIT);
+			break;*/
 		default:
 			return false;
 		}
@@ -247,12 +257,16 @@ class SyncEvent extends EventEmitter {
 
 	sendAll(phase) {
 		var count = 0;
-		this.members.forEach((member, _, __) => {
+		var encoder = new Encoder().setStatus(phase).setSyncEvent(this);
+		if(phase === Status.COMMIT) {
+			util.log(`Delay time given for propagation delay: ${2 * this.max_round_trip + ntp.delta} ms`);
+			this.utc_time = 2 * this.max_round_trip + ntp.delta + Date.now();
+		}
+
+		encoder.setUTCTime(this.utc_time);
+		this.members.forEach((member) => {
 			++count;
-			let _encoder = clone(member.encoder);
-			_encoder.setStatus(phase).setSyncEvent(this);
-			
-			member.send(_encoder.response);
+			member.send(encoder.response);
 		});
 
 		return count;
@@ -260,7 +274,7 @@ class SyncEvent extends EventEmitter {
 
 	resetPending() {
 		var count = 0;
-		this.members.forEach((member, _, __) => {
+		this.members.forEach((member) => {
 			++count;
 			this.pending.add(member);
 		});
