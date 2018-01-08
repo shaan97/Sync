@@ -26,7 +26,12 @@ class Encoder {
     setRequestID(id) {
         this._response["request_id"] = id;
         return this;
-    }
+	}
+	
+	setUTCTime(utc_time) {
+		this._response["utc_time"] = utc_time;
+		return this;
+	}
 }
 
 exports.Encoder = Encoder;
