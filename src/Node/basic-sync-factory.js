@@ -4,6 +4,8 @@ var BasicRoom = require("./basic-room").BasicRoom;
 var Decoder = require("./decoder").Decoder;
 var Encoder = require("./encoder").Encoder;
 var deep_copy = require("./globals").deep_copy;
+var SyncEventProtocol = require("./sync-event").SyncEventProtocol;
+var PingProtocol = require("./ping").PingProtocol;
 
 /// Factory to instantiate basic implementations of objects in server hierarchy
 class BasicSyncFactory extends SyncFactory {
@@ -13,15 +15,15 @@ class BasicSyncFactory extends SyncFactory {
 	}
 	
 	makeRoom(room_name, member) {
-		return new BasicRoom(room_name, member);
+		var room = new BasicRoom(room_name, member);
+		room.protocols.add(new SyncEventProtocol(room));
+		//room.protocols.add(new PingProtocol(room));
+		return room;
 	}
 
-	makeMember(name, ws, version = 1.0) {
-		var message_formatters = this.getMessageFormatters(version)
-		ws.decoder = message_formatters.decoder;
-		ws.encoder = message_formatters.encoder;
+	makeMember(name, ws) {
 		ws.name = name;
-		ws.latency = 0;
+		ws.latency = 500;
 		return ws;
 	}
 
@@ -29,14 +31,6 @@ class BasicSyncFactory extends SyncFactory {
 		return new Decoder();
 	}
 
-	getMessageFormatters(version) {
-		switch(version) {
-		case 1.0:
-			return {"encoder" : new Encoder(), "decoder" : new Decoder()};
-		default:
-			return {"encoder" : new Encoder(), "decoder" : new Decoder()};
-		}
-	}
 
 }
 
