@@ -122,6 +122,8 @@ class SyncEventProtocol {
 			.setRequestID(message.request_id)
 		.response);
 
+        util.log(`Sending back to member: ${encoder.response}`);
+
 		if(this.sync_events_queue.tail === null) {
 			// This is the first item to be inserted in the queue, so we begin the first phase
 			sync_event.nextPhase();
@@ -251,7 +253,8 @@ class SyncEvent extends EventEmitter {
 		if(this.sendAll(Status.ABORT_COMMIT) <= 0)
 			return false;
 		this.resetPending()
-		this.phase_num = -1;	// Event is now invalid, we cannot restart	
+        this.phase_num = -1;	// Event is now invalid, we cannot restart	
+        this.emit("phase-complete");
 		return true;
 	}
 
