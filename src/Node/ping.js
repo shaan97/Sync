@@ -9,7 +9,8 @@ class PingProtocol {
 
 		this.pending_pings = new Map();
 
-		setInterval(() => {
+        setInterval(() => {
+            util.log(`Sending pings in ${this.room.name}...`);
 			var ping = new Encoder().setStatus(Status.PING).response;
 			this.room.members.forEach((member) => {
 				this.pending_pings.set(member, Date.now());
