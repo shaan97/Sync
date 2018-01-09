@@ -23,7 +23,7 @@ class BasicSyncFactory extends SyncFactory {
         room.protocols.add(logger);
 
         room.protocols.add(new SyncEventProtocol(room));
-		//room.protocols.add(new PingProtocol(room));
+		room.protocols.add(new PingProtocol(room));
 		return room;
 	}
 

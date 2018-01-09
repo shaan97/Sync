@@ -22,11 +22,13 @@ class PingProtocol {
 		if(!("RequestType" in message) || message.RequestType !== RequestType.PING || !this.pending_pings.has(member))
 			return false;
 		
-		member.latency = Math.floor( (Date.now() - this.pending_pings.get(member)) / 2);
-		if(this.room.max_latency.latency > member.latency) {
+        member.latency = Math.floor((Date.now() - this.pending_pings.get(member)) / 2);
+        util.log(`${member.name} latency is ${member.latency} ms.`);
+        if (this.room.max_latency.latency > member.latency) {
 			this.room.max_latency.latency = member.latency;
 			this.room.max_latency.member = member;
-		}
+        }
+        util.log(`Max latency in room is ${this.room.max_latency.member.name} with ${this.room.max_latency.latency} ms`)
 		
 		return true;
 	}
