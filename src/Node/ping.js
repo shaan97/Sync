@@ -1,6 +1,7 @@
 var RequestType = require("./globals").RequestType;
 var Status = require("./globals").Status;
 var Encoder = require("./encoder").Encoder;
+var util = require("util");
 
 class PingProtocol {
 	
