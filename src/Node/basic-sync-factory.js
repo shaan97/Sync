@@ -6,6 +6,7 @@ var Encoder = require("./encoder").Encoder;
 var deep_copy = require("./globals").deep_copy;
 var SyncEventProtocol = require("./sync-event").SyncEventProtocol;
 var PingProtocol = require("./ping").PingProtocol;
+var util = require("util");
 
 /// Factory to instantiate basic implementations of objects in server hierarchy
 class BasicSyncFactory extends SyncFactory {
@@ -16,7 +17,12 @@ class BasicSyncFactory extends SyncFactory {
 	
 	makeRoom(room_name, member) {
 		var room = new BasicRoom(room_name, member);
-		room.protocols.add(new SyncEventProtocol(room));
+
+        var logger = {};
+        logger.message = function (member, message) { util.log(`Data received: ${JSON.stringify(message)}`); };
+        room.protocols.add(logger);
+
+        room.protocols.add(new SyncEventProtocol(room));
 		//room.protocols.add(new PingProtocol(room));
 		return room;
 	}
